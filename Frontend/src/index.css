@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #FF5A1F;
+  --color-primary-hover: #E04D1A;
+  --color-primary-focus: #FFA07A; /* light tint for focus rings */
+  --color-danger: #EF4444; /* red-500 */
+  --color-danger-hover: #DC2626; /* red-600 */
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+}

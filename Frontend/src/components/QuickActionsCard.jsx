@@ -1,7 +1,19 @@
 import React from 'react';
-import { quickActions } from '../data/quickActions';
+import { useNavigate } from 'react-router-dom';
+import { Layers, Handshake, Upload, Globe, UserPlus, Eye } from 'lucide-react';
+
+const quickActions = [
+  { id: 1, title: 'Add Service', description: 'Publish a new service', icon: Layers, route: '/services' },
+  { id: 2, title: 'Add Partner', description: 'Register a new partner', icon: Handshake, route: null },
+  { id: 3, title: 'Upload Media', description: 'Add images, videos, files', icon: Upload, route: null },
+  { id: 4, title: 'Update Homepage', description: 'Edit hero, sections, stats', icon: Globe, route: '/content' },
+  { id: 5, title: 'Create User', description: 'Invite a new admin', icon: UserPlus, route: null },
+  { id: 6, title: 'View Inquiries', description: 'Review pending requests', icon: Eye, route: null },
+];
 
 const QuickActionsCard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col h-full">
       <div className="mb-5">
@@ -13,7 +25,13 @@ const QuickActionsCard = () => {
         {quickActions.map((action) => (
           <button 
             key={action.id} 
-            className="flex items-center p-3 border border-gray-100 rounded-xl hover:border-orange-200 hover:shadow-sm transition-all text-left bg-white group"
+            onClick={() => action.route && navigate(action.route)}
+            disabled={!action.route}
+            className={`flex items-center p-3 border border-gray-100 rounded-xl text-left bg-white group transition-all ${
+              action.route 
+                ? 'hover:border-orange-200 hover:shadow-sm cursor-pointer' 
+                : 'opacity-50 cursor-not-allowed grayscale'
+            }`}
           >
             <div className="p-2 bg-orange-50 text-orange-500 rounded-full mr-3 group-hover:bg-orange-100 transition-colors">
               <action.icon className="w-5 h-5" />

@@ -1,7 +1,13 @@
 import React from 'react';
-import { pendingTasks } from '../data/pendingTasks';
+import { MessageSquare, ShieldAlert, Layers, FolderHeart } from 'lucide-react';
 
-const PendingTasksCard = () => {
+const PendingTasksCard = ({ stats }) => {
+  const pendingTasks = [
+    { id: 1, title: 'Pending Inquiries', count: (stats?.newInquiries || 0) + (stats?.inProgressInquiries || 0), icon: MessageSquare, colorClass: 'text-orange-500', bgClass: 'bg-orange-50' },
+    { id: 2, title: 'Partner Requests Awaiting Approval', count: stats?.inactivePartners || 0, icon: ShieldAlert, colorClass: 'text-rose-500', bgClass: 'bg-rose-50' },
+    { id: 3, title: 'Draft Services Ready for Review', count: stats?.draftServices || 0, icon: Layers, colorClass: 'text-indigo-500', bgClass: 'bg-indigo-50' },
+    { id: 4, title: 'Media Files Pending Categorization', count: 0, icon: FolderHeart, colorClass: 'text-amber-500', bgClass: 'bg-amber-50' },
+  ];
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col h-full">
       <div className="mb-5">

@@ -1,7 +1,25 @@
 import React from 'react';
-import { contentHealthData, totalContentItems } from '../data/contentHealthData';
+const ContentHealthCard = ({ contentHealth }) => {
+  const { published = 0, draft = 0, archived = 0 } = contentHealth || {};
+  const totalContentItems = published + draft + archived;
 
-const ContentHealthCard = () => {
+  const contentHealthData = [
+    { 
+      id: 1, label: 'Published Content', shortLabel: 'Published', items: published, 
+      percentage: totalContentItems ? Math.round((published / totalContentItems) * 100) : 0, 
+      color: 'bg-emerald-500', text: 'text-emerald-500', bgLight: 'bg-emerald-100', textLight: 'text-emerald-600' 
+    },
+    { 
+      id: 2, label: 'Draft Content', shortLabel: 'Draft', items: draft, 
+      percentage: totalContentItems ? Math.round((draft / totalContentItems) * 100) : 0, 
+      color: 'bg-orange-500', text: 'text-orange-500', bgLight: 'bg-orange-50', textLight: 'text-orange-600' 
+    },
+    { 
+      id: 3, label: 'Archived Content', shortLabel: 'Archived', items: archived, 
+      percentage: totalContentItems ? Math.round((archived / totalContentItems) * 100) : 0, 
+      color: 'bg-gray-400', text: 'text-gray-500', bgLight: 'bg-gray-100', textLight: 'text-gray-600' 
+    }
+  ];
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col h-full">
       <div className="mb-6">
@@ -10,7 +28,12 @@ const ContentHealthCard = () => {
       </div>
 
       <div className="space-y-5 flex-grow">
-        {contentHealthData.map((item) => (
+        {totalContentItems === 0 ? (
+          <div className="flex items-center justify-center h-full min-h-[160px]">
+            <p className="text-[14px] text-gray-500 font-medium">No content available.</p>
+          </div>
+        ) : (
+          contentHealthData.map((item) => (
           <div key={item.id} className="flex flex-col">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center">
@@ -24,17 +47,21 @@ const ContentHealthCard = () => {
                 <span className="text-[13px] text-gray-500 w-8 text-right">{item.percentage}%</span>
               </div>
             </div>
-            <div className="w-full bg-gray-100 rounded-full h-2">
+            <div 
+              className="w-full bg-gray-100 rounded-full h-2 cursor-pointer"
+              title={`${item.label}\n${item.items} items\n${item.percentage}%`}
+            >
               <div 
                 className={`h-2 rounded-full ${item.color}`} 
                 style={{ width: `${item.percentage}%` }}
               ></div>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
 
-      <div className="grid grid-cols-4 gap-3 mt-8 pt-6 border-t border-gray-50">
+      <div className="grid grid-cols-3 gap-3 mt-8 pt-6 border-t border-gray-50">
         {contentHealthData.map((item) => (
           <div key={`summary-${item.id}`} className={`p-3 rounded-xl flex flex-col items-center justify-center ${item.bgLight}`}>
             <span className={`text-xl font-bold ${item.textLight}`}>{item.items}</span>

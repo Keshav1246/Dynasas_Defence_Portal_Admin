@@ -15,7 +15,7 @@ const AdminLayout = () => {
         <TopNavbar />
 
         {/* Scrollable Page Content */}
-        <main className="flex-1 p-8 overflow-y-auto">
+        <main id="main-content" className="flex-1 p-8 overflow-y-auto">
           {/* React Router will inject the current page component here */}
           <Outlet />
         </main>

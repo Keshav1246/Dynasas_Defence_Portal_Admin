@@ -20,6 +20,3 @@ coverage/
 dist/
 build/
 /src/generated/prisma
-
-#notes
-Later Implement Notes.txt

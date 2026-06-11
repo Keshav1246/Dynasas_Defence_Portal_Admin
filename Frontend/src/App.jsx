@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop'
 import AdminLayout from './components/AdminLayout'
 import Dashboard from './pages/Dashboard'
 import ServicesPage from './pages/ServicesPage'
@@ -10,6 +11,7 @@ import SettingsPage from './pages/SettingsPage'
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* All routes inside this block will share the AdminLayout (Sidebar + TopNavbar) */}
         <Route path="/" element={<AdminLayout />}>

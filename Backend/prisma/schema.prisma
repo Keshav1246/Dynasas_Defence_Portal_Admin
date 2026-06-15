@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Media {
@@ -44,30 +43,55 @@ enum InquiryStatus {
   CLOSED
 }
 
+enum InquiryType {
+  CONTACT
+  DEMO_REQUEST
+  QUOTE
+}
+
 model Inquiry {
-  id           Int           @id @default(autoincrement())
-  fullName     String
-  email        String
-  phone        String?
-  organization String?
-  subject      String
-  message      String
-  status       InquiryStatus @default(NEW)
-  assignedTo   String?
-  isDeleted    Boolean       @default(false)
-  deletedAt    DateTime?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              Int           @id @default(autoincrement())
+  fullName        String
+  email           String
+  phone           String?
+  organization    String?
+  subject         String
+  message         String
+  inquiryType     InquiryType   @default(CONTACT)
+  status          InquiryStatus @default(NEW)
+  assignedAdminId String?
+  assignedAdmin   User?         @relation(fields: [assignedAdminId], references: [id])
+  isDeleted       Boolean       @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  CONTENT_MANAGER
+  VIEWER
+}
+
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      String   @default("admin")
-  createdAt DateTime @default(now())
+  id                String    @id @default(uuid())
+  name              String
+  email             String    @unique
+  password          String
+  role              AdminRole @default(ADMIN)
+  status            UserStatus @default(ACTIVE)
+  lastLogin         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
+  assignedInquiries Inquiry[]
+  invitationsSent   UserInvitation[] @relation("InvitedBy")
 }
 
 model CompanyProfile {
@@ -107,3 +131,47 @@ model Service {
   createdAt    DateTime @default(now())
 }
 
+model WebsiteAnalytics {
+  id              Int      @id @default(autoincrement())
+  sessionId       String
+  visitorId       String
+  pagePath        String
+  durationSeconds Int      @default(0)
+  bounced         Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model UserInvitation {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  name            String
+  role            AdminRole @default(ADMIN)
+  invitationToken String    @unique
+  expiresAt       DateTime
+  status          String    @default("PENDING") // PENDING, ACCEPTED, CANCELLED
+  invitedById     String
+  invitedBy       User      @relation("InvitedBy", fields: [invitedById], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model RolePermissions {
+  id            String    @id @default(uuid())
+  role          AdminRole @unique
+  
+  // Permissions boolean fields
+  dashboardAccess     Boolean @default(false)
+  homepageManage      Boolean @default(false)
+  servicesView        Boolean @default(false)
+  servicesEdit        Boolean @default(false)
+  servicesDelete      Boolean @default(false)
+  mediaUpload         Boolean @default(false)
+  mediaDelete         Boolean @default(false)
+  inquiriesView       Boolean @default(false)
+  inquiriesManage     Boolean @default(false)
+  partnersManage      Boolean @default(false)
+  analyticsView       Boolean @default(false)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}

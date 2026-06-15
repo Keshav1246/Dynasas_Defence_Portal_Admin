@@ -5,7 +5,8 @@ import DateBadge from './DateBadge';
 const PageHeader = ({
   title,
   subtitle,
-  date
+  date,
+  action
 }) => {
   return (
     <div className="flex items-center justify-between w-full">
@@ -19,9 +20,9 @@ const PageHeader = ({
         </p>
       </div>
 
-      {/* Right side: Date Badge */}
+      {/* Right side: Action or Date Badge */}
       <div className="shrink-0">
-        <DateBadge date={date} icon={Clock} />
+        {action ? action : date ? <DateBadge date={date} icon={Clock} /> : null}
       </div>
     </div>
   );

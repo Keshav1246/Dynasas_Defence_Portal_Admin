@@ -7,10 +7,11 @@ const {
   loginSchema,
 } = require("../validations/auth.validation");
 
-const { registerAdmin, loginAdmin } = require("../controllers/auth.controller");
+const { registerAdmin, loginAdmin, getAllAdmins } = require("../controllers/auth.controller");
 
 const router = express.Router();
 
+router.get("/users", getAllAdmins);
 router.post("/register", validate(registerSchema), registerAdmin);
 
 router.post("/login", validate(loginSchema), loginAdmin);

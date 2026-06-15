@@ -27,18 +27,18 @@ const success = (data, message = 'Success') => {
  * @returns {object}
  */
 const paginated = (data, { page, limit, total }, message = 'Success') => {
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / limit) || 1;
   return {
     success: true,
     message,
     data,
     pagination: {
-      page,
-      limit,
-      total,
+      currentPage: page,
       totalPages,
-      hasNext: page < totalPages,
-      hasPrev: page > 1,
+      totalRecords: total,
+      limit,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
     },
   };
 };

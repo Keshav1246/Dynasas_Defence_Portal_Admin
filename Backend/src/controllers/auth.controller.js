@@ -76,7 +76,29 @@ const loginAdmin = async (req, res, next) => {
   }
 };
 
+const getAllAdmins = async (req, res, next) => {
+  try {
+    const admins = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      data: admins,
+    });
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
 module.exports = {
   registerAdmin,
   loginAdmin,
+  getAllAdmins,
 };

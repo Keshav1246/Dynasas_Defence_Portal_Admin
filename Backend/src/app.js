@@ -9,12 +9,16 @@ const authRoutes = require("./routes/auth.routes");
 const companyRoutes = require("./routes/company.routes");
 const cmsRoutes = require("./routes/cms.routes");
 const serviceRoutes = require("./routes/service.routes");
+
 const mediaRouter = require('./routes/mediaRoutes');
 const partnerRouter = require('./routes/partnerRoutes');
 const { contactRouter, inquiryRouter } = require('./routes/inquiryRoutes');
 const dashboardRoutes = require("./routes/dashboard.routes");
 const activityLogRoutes = require("./routes/activityLogRoutes");
 const settingsRoutes = require("./routes/settings.routes");
+const analyticsRoutes = require('./routes/analyticsRoutes');
+const adminUsersRoutes = require('./routes/adminUsers.routes');
+
 
 // Import global error middleware
 const errorMiddleware = require('./middlewares/errorMiddleware');
@@ -32,6 +36,14 @@ app.use(cors({
 // Parsers for incoming request payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request logger
+app.use((req, res, next) => {
+  if (process.env.LOG_REQUESTS === 'true') {
+    logger.info(`${req.method} ${req.originalUrl} - IP: ${req.ip}`);
+  }
+  next();
+});
 
 // Health Check Route
 app.get("/health", (req, res) => {
@@ -63,6 +75,8 @@ app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/activity-logs", activityLogRoutes);
 app.use("/api/v1/settings", settingsRoutes);
+app.use('/api/v1/analytics', analyticsRoutes);
+app.use('/api/v1/admin-users', adminUsersRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {

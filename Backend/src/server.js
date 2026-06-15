@@ -4,14 +4,20 @@ const logger = require('./config/logger');
 
 const app = require('./app');
 
-// Boot server
+// =========================
+// Start Server
+// =========================
+
 const server = app.listen(env.PORT, () => {
   logger.info(
     `🚀 Server running in ${env.NODE_ENV} mode on port ${env.PORT}`
   );
 });
 
-// Handle unhandled promise rejections outside Express
+// =========================
+// Process Error Handlers
+// =========================
+
 process.on('unhandledRejection', (err) => {
   logger.error('UNHANDLED REJECTION! 💥 Shutting down...', err);
 
@@ -20,7 +26,6 @@ process.on('unhandledRejection', (err) => {
   });
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   logger.error('UNCAUGHT EXCEPTION! 💥 Shutting down...', err);
 

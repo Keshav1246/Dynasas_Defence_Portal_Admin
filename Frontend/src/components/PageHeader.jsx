@@ -5,7 +5,8 @@ import DateBadge from './DateBadge';
 const PageHeader = ({
   title,
   subtitle,
-  date
+  date,
+  action
 }) => {
   return (
     <div className="flex items-center justify-between w-full">

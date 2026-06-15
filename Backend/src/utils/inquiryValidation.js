@@ -9,6 +9,7 @@ const createContactSchema = z.object({
     organization: z.string().max(255).optional().nullable(),
     subject: z.string().min(1, 'Subject is required').max(255),
     message: z.string().min(1, 'Message is required').max(5000),
+    inquiryType: z.enum(['CONTACT', 'DEMO_REQUEST', 'QUOTE']).optional(),
   }),
 });
 
@@ -18,7 +19,8 @@ const listInquiriesSchema = z.object({
     page: z.string().optional().transform((val) => (val ? Math.max(1, parseInt(val, 10)) : 1)),
     limit: z.string().optional().transform((val) => (val ? Math.min(100, Math.max(1, parseInt(val, 10))) : 10)),
     search: z.string().max(100).optional(),
-    status: z.enum(['NEW', 'IN_PROGRESS', 'CLOSED']).optional(),
+    status: z.enum(['All', 'New', 'In Review', 'Assigned', 'Resolved']).optional(),
+    type: z.enum(['All Types', 'Contact', 'Demo Request', 'Quote']).optional(),
     assignedTo: z.string().max(255).optional(),
   }),
 });
@@ -48,8 +50,9 @@ const updateInquirySchema = z.object({
     organization: z.string().max(255).optional().nullable(),
     subject: z.string().min(1, 'Subject cannot be empty').max(255).optional(),
     message: z.string().min(1, 'Message cannot be empty').max(5000).optional(),
+    inquiryType: z.enum(['CONTACT', 'DEMO_REQUEST', 'QUOTE']).optional(),
     status: z.enum(['NEW', 'IN_PROGRESS', 'CLOSED']).optional(),
-    assignedTo: z.string().max(255).optional().nullable(),
+    assignedAdminId: z.string().uuid('Invalid user ID').optional().nullable(),
   }),
 });
 
@@ -69,7 +72,7 @@ const inquiryAssignSchema = z.object({
     id: z.string().transform((val) => parseInt(val, 10)),
   }),
   body: z.object({
-    assignedTo: z.string().min(1, 'Assigned admin name/email is required').max(255),
+    assignedAdminId: z.string().uuid('Invalid user ID'),
   }),
 });
 

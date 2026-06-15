@@ -23,30 +23,55 @@ class InquiryController {
    * List all inquiries with search, status filtering, assignment filtering, and pagination (Admin endpoint)
    */
   getAllInquiries = async (req, res, next) => {
-  try {
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const { search, status, assignedTo } = req.query;
+    try {
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 10;
+      const { search, status, type, assignedTo } = req.query;
 
-    const { data, total } = await inquiryService.getAllInquiries({
-      page,
-      limit,
-      search,
-      status,
-      assignedTo,
-    });
+      const { data, total } = await inquiryService.getAllInquiries({
+        page,
+        limit,
+        search,
+        status,
+        type,
+        assignedTo,
+      });
 
-    res.status(200).json(
-      apiResponse.paginated(
-        data,
-        { page, limit, total },
-        'Inquiries list retrieved successfully'
-      )
-    );
-  } catch (error) {
-    next(error);
-  }
-};
+      res.status(200).json(
+        apiResponse.paginated(
+          data,
+          { page, limit, total },
+          'Inquiries list retrieved successfully'
+        )
+      );
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   * Get stats for KPI cards
+   */
+  getStats = async (req, res, next) => {
+    try {
+      const stats = await inquiryService.getStats();
+      res.status(200).json(apiResponse.success(stats, 'Stats retrieved successfully'));
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   * Get unread count for sidebar
+   */
+  getUnreadCount = async (req, res, next) => {
+    try {
+      const count = await inquiryService.getUnreadCount();
+      res.status(200).json(apiResponse.success({ count }, 'Unread count retrieved successfully'));
+    } catch (error) {
+      next(error);
+    }
+  };
 
   /**
    * Get detail of a single inquiry (Admin endpoint)
@@ -137,7 +162,7 @@ class InquiryController {
   assignInquiry = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const { assignedTo } = req.body;
+      const { assignedAdminId } = req.body;
 
       const inquiry = await inquiryService.getInquiryById(id);
 

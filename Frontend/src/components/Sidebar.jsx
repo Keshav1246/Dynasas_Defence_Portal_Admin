@@ -1,11 +1,21 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+
 import { Zap, LogOut } from 'lucide-react';
 import { sidebarConfig } from './sidebarConfig';
+import { fetchUnreadCount } from '../api/inquiryApi';
 
 const Sidebar = () => {
+    const [unreadInquiries, setUnreadInquiries] = useState(0);
     const location = useLocation();
 
+    useEffect(() => {
+        fetchUnreadCount().then(res => {
+            if (res.data?.count !== undefined) {
+                setUnreadInquiries(res.data.count);
+            }
+        }).catch(console.error);
+    }, []);
     return (
         <aside className="w-[240px] h-screen bg-[#111216] flex flex-col p-4">
             {/* Logo Section */}
@@ -14,8 +24,12 @@ const Sidebar = () => {
                     <Zap className="text-white w-4 h-4 fill-white" strokeWidth={1.5} />
                 </div>
                 <div>
-                    <h1 className="text-white font-extrabold text-[17px] tracking-wide leading-tight">DYNASOFT</h1>
-                    <p className="text-slate-500 text-[9px] tracking-[0.2em] font-bold mt-0.5">ADMIN PORTAL</p>
+                    <h1 className="text-white font-extrabold text-[17px] tracking-wide leading-tight">
+                        DYNASOFT
+                    </h1>
+                    <p className="text-slate-500 text-[9px] tracking-[0.2em] font-bold mt-0.5">
+                        ADMIN PORTAL
+                    </p>
                 </div>
             </div>
 
@@ -23,7 +37,9 @@ const Sidebar = () => {
 
             {/* Main Menu Label */}
             <div className="mb-2 px-2">
-                <p className="text-slate-500 text-[11px] font-bold tracking-[0.08em]">MAIN MENU</p>
+                <p className="text-slate-500 text-[11px] font-bold tracking-[0.08em]">
+                    MAIN MENU
+                </p>
             </div>
 
             {/* Navigation */}
@@ -32,35 +48,55 @@ const Sidebar = () => {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
                 {sidebarConfig.map((item) => {
-                    const isActive = location.pathname.startsWith(item.path);
                     const Icon = item.icon;
 
                     return (
-                        <Link
+                        <NavLink
                             key={item.title}
                             to={item.path}
-                            className={`flex items-center gap-3 px-3 py-[9px] rounded-xl transition-all duration-200 w-full text-left
-                ${isActive
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-3 py-[9px] rounded-xl transition-all duration-200 w-full text-left
+                                ${isActive
                                     ? 'bg-[#ff5a36]/[0.15] text-white border border-[#ff6b3d]/50 shadow-[0_0_12px_rgba(255,90,54,0.15)]'
                                     : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
-                                }
-              `}
+                                }`
+                            }
                         >
-                            <Icon
-                                className={`w-[18px] h-[18px] shrink-0 transition-colors ${isActive ? 'text-[#ff6b3d]' : 'text-slate-500'
-                                    }`}
-                                strokeWidth={1.5}
-                            />
-                            <span className={`text-[13.5px] tracking-[0.01em] ${isActive ? 'font-semibold' : 'font-[400]'}`}>
-                                {item.title}
-                            </span>
+                            {({ isActive }) => (
+                                <>
+                                    <Icon
+                                        className={`w-[18px] h-[18px] shrink-0 transition-colors ${isActive
+                                                ? 'text-[#ff6b3d]'
+                                                : 'text-slate-500'
+                                            }`}
+                                        strokeWidth={1.5}
+                                    />
 
-                            {item.badge && (
-                                <span className="ml-auto bg-[#ea333e] text-white text-[10px] font-bold px-1.5 py-[1px] rounded-full min-w-[20px] text-center">
-                                    {item.badge}
-                                </span>
+                                    <span
+                                        className={`text-[13.5px] tracking-[0.01em] ${isActive
+                                                ? 'font-semibold'
+                                                : 'font-[400]'
+                                            }`}
+                                    >
+                                        {item.title}
+                                    </span>
+
+                                    {item.path === '/contact-inquiries' ? (
+                                        unreadInquiries > 0 && (
+                                            <span className="ml-auto bg-[#ea333e] text-white text-[10px] font-bold px-1.5 py-[1px] rounded-full min-w-[20px] text-center">
+                                                {unreadInquiries}
+                                            </span>
+                                        )
+                                    ) : (
+                                        item.badge && (
+                                            <span className="ml-auto bg-[#ea333e] text-white text-[10px] font-bold px-1.5 py-[1px] rounded-full min-w-[20px] text-center">
+                                                {item.badge}
+                                            </span>
+                                        )
+                                    )}
+                                </>
                             )}
-                        </Link>
+                        </NavLink>
                     );
                 })}
             </nav>

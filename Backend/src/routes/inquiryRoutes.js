@@ -17,6 +17,12 @@ const inquiryRouter = express.Router();
 contactRouter.post('/', validate(createContactSchema), inquiryController.submitContact);
 
 // 2. ADMIN INQUIRY ROUTES
+// Get inquiries stats
+inquiryRouter.get('/stats', inquiryController.getStats);
+
+// Get unread count
+inquiryRouter.get('/unread-count', inquiryController.getUnreadCount);
+
 // List inquiries with query filters and pagination
 inquiryRouter.get('/', validate(listInquiriesSchema), inquiryController.getAllInquiries);
 

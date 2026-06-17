@@ -1,6 +1,6 @@
 import { DEFAULT_CONTENT } from '../defaultContent';
 import { ABOUT_PAGE_DEFAULTS } from '../../data/aboutPageDefaults';
-
+import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 export const mapSiteData = (settings) => {
   if (!settings) return null;
   return {
@@ -144,5 +144,18 @@ export const mapFooterData = (siteData, footerContent, companyProfile) => {
       legal: Array.isArray(safeFooter.legalLinks) ? safeFooter.legalLinks : [],
     },
     copyright: `${DEFAULT_CONTENT.COPYRIGHT_PREFIX} ${new Date().getFullYear()} ${siteData?.siteName || DEFAULT_CONTENT.SITE_NAME}. All rights reserved.`
+  };
+};
+
+export const mapContactData = (profile) => {
+  if (!profile) return null;
+  return {
+    generalEmail: profile.generalEmail || CONTACT_PAGE_DEFAULTS.info.generalEmail,
+    securityEmail: profile.securityEmail || CONTACT_PAGE_DEFAULTS.info.securityEmail,
+    mainPhone: profile.mainPhone || CONTACT_PAGE_DEFAULTS.info.mainPhone,
+    defenseContractsPhone: profile.defenseContractsPhone || CONTACT_PAGE_DEFAULTS.info.defenseContractsPhone,
+    headquarters: profile.headquarters || CONTACT_PAGE_DEFAULTS.info.headquarters,
+    mailingAddress: profile.mailingAddress || CONTACT_PAGE_DEFAULTS.hq.mailingAddress,
+    website: profile.website || CONTACT_PAGE_DEFAULTS.hq.website
   };
 };

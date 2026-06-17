@@ -6,7 +6,8 @@ import {
   mapAboutData,
   mapStatisticsData,
   mapPartnersData,
-  mapFooterData
+  mapFooterData,
+  mapContactData
 } from './mappers';
 import {
   validateHeroData,
@@ -85,6 +86,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       aboutData: validateAboutData(mapAboutData(rawCompany, rawPillars)),
       statisticsData: validateStatisticsData(mapStatisticsData(rawHomepage, rawStats)),
       partnersData: validatePartnersData(mapPartnersData(rawPartners)),
+      contactData: mapContactData(rawCompany),
       footerData: validateFooterData(mapFooterData(siteData, rawFooter, rawCompany)),
     };
 

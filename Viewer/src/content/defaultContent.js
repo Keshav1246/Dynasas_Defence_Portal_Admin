@@ -1,0 +1,18 @@
+export const DEFAULT_CONTENT = {
+  SITE_NAME: 'Dynasas',
+  SITE_DESCRIPTION: 'Advanced Defense & Aerospace Solutions',
+  BADGE_TEXT: 'DEFENSE & AEROSPACE TECHNOLOGY',
+  HERO_TITLE: 'Advanced Defense Solutions',
+  HERO_SUBTITLE: 'Pioneering next-generation technologies for a safer future.',
+  HERO_CTA_PRIMARY: 'Explore Our Solutions',
+  HERO_CTA_SECONDARY: 'Contact Us',
+  SERVICES_LABEL: 'OUR SERVICES',
+  SERVICES_TITLE: 'Core Capabilities',
+  ABOUT_LABEL: 'ABOUT DYNASAS',
+  ABOUT_TITLE: 'Leading Innovation in Defense & Aerospace',
+  MISSION_TITLE: 'Our Mission',
+  VISION_TITLE: 'Our Vision',
+  PARTNERS_LABEL: 'OUR ALLIANCES',
+  PARTNERS_TITLE: 'Strategic Partners',
+  COPYRIGHT_PREFIX: '©',
+};

@@ -1,0 +1,47 @@
+/* Dynasas Defense & Aerospace Theme Tokens */
+
+@theme {
+  /* Colors */
+  --color-brand-primary: var(--color-brand-primary, #FF6A00);
+  --color-brand-primary-hover: var(--color-brand-primary-hover, #FF7A45);
+  
+  --color-brand-black: var(--color-brand-black, #050505);
+  --color-brand-dark: var(--color-brand-dark, #0A0A0A);
+  --color-brand-dark-secondary: var(--color-brand-dark-secondary, #111111);
+  
+  --color-brand-white: var(--color-brand-white, #FFFFFF);
+  --color-brand-light-gray: var(--color-brand-light-gray, #D9D9D9);
+  --color-brand-gray: var(--color-brand-gray, #A0A0A0);
+  
+  --color-brand-border: var(--color-brand-border, rgba(255, 255, 255, 0.06));
+
+  /* Typography */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --spacing-section-py: 8rem;
+  --spacing-component-gap: 2rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-black, #050505);
+    color: var(--color-brand-white, #FFFFFF);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Base typography utilities */
+@layer utilities {
+  .text-label {
+    @apply text-xs uppercase tracking-[0.25em] font-heading font-semibold;
+  }
+}

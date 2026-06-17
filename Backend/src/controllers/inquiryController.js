@@ -157,12 +157,12 @@ class InquiryController {
   };
 
   /**
-   * Assign inquiry to an admin (Admin endpoint)
+   * Assign inquiry to a team (Admin endpoint)
    */
   assignInquiry = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const { assignedAdminId } = req.body;
+      const { assignedTeam } = req.body;
 
       const inquiry = await inquiryService.getInquiryById(id);
 
@@ -170,11 +170,57 @@ class InquiryController {
         throw new AppError('Inquiry not found', 404);
       }
 
-      const updatedInquiry = await inquiryService.assignInquiry(id, assignedTo);
-      res.status(200).json(apiResponse.success(updatedInquiry, `Inquiry assigned to ${assignedTo} successfully`));
+      const updatedInquiry = await inquiryService.assignInquiry(id, assignedTeam);
+
+      // Email Delivery Verification Logging (Option B)
+      const recipientEmail = "kushal.arora77@gmail.com";
+      const prisma = require('../config/prisma');
+
+      // Set initial pending state
+      await prisma.inquiry.update({
+        where: { id: parseInt(id, 10) },
+        data: {
+          emailStatus: 'PENDING',
+          emailError: null,
+          emailSent: false
+        }
+      });
+
+      try {
+        const emailService = require('../utils/emailService');
+        await emailService.sendEmail({
+          to: recipientEmail,
+          subject: `New Inquiry Assigned: ${updatedInquiry.subject}`,
+          html: `<p>A new inquiry has been assigned to your team.</p><p><strong>From:</strong> ${updatedInquiry.fullName} (${updatedInquiry.email})</p><p><strong>Subject:</strong> ${updatedInquiry.subject}</p>`
+        });
+
+        await prisma.inquiry.update({
+          where: { id: parseInt(id, 10) },
+          data: {
+            emailStatus: 'SENT',
+            emailSent: true,
+            sentAt: new Date()
+          }
+        });
+      } catch (err) {
+        console.error("Failed to send email notification", err);
+        await prisma.inquiry.update({
+          where: { id: parseInt(id, 10) },
+          data: {
+            emailStatus: 'FAILED',
+            emailSent: false,
+            emailError: err.message || 'Unknown error'
+          }
+        });
+      }
+
+      // Re-fetch inquiry for the frontend
+      const updatedInquiryWithDelivery = await inquiryService.getInquiryById(id);
+
+      res.status(200).json(apiResponse.success(updatedInquiryWithDelivery, `Inquiry assigned to ${assignedTeam} successfully`));
 
       activityLogService.logActivity({
-        action: `Assigned inquiry to ${assignedTo}: ${updatedInquiry.subject}`,
+        action: `Assigned inquiry to ${assignedTeam}: ${updatedInquiry.subject}`,
         entityType: "Inquiry",
         entityId: updatedInquiry.id,
       });

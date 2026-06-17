@@ -49,6 +49,42 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
     }
   };
 
+  const [errors, setErrors] = useState({});
+
+  const handleSave = () => {
+    const newErrors = {};
+    const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+    if (!formData.heroTitle?.trim()) newErrors.heroTitle = 'Hero title is required';
+    if (!formData.heroSubtitle?.trim()) newErrors.heroSubtitle = 'Hero subtitle is required';
+    if (!formData.ctaText?.trim()) newErrors.ctaText = 'CTA button text is required';
+    
+    if (!formData.ctaLink?.trim()) {
+      newErrors.ctaLink = 'CTA URL is required';
+    } else if (!urlRegex.test(formData.ctaLink.trim())) {
+      newErrors.ctaLink = 'Must be a valid URL (e.g. https://example.com)';
+    }
+
+    if (formData.secondaryCtaLink?.trim() && !urlRegex.test(formData.secondaryCtaLink.trim())) {
+      newErrors.secondaryCtaLink = 'Must be a valid URL (e.g. https://example.com)';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      const firstErrorField = Object.keys(newErrors)[0];
+      const element = document.getElementsByName(firstErrorField)[0];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      }
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    onSave('hero', formData);
+  };
+
   return (
     <div className="flex-1 bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-6 md:p-8 flex flex-col min-w-0">
       
@@ -64,7 +100,7 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
             Preview
           </button>
           <button 
-            onClick={() => onSave('hero', formData)}
+            onClick={handleSave}
             disabled={isSaving || isUploading}
             className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-[#E1432E] rounded-xl shadow-sm hover:bg-[#C92A22] transition-colors disabled:opacity-70"
           >
@@ -78,20 +114,29 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
       <div className="w-full bg-[#111318] rounded-2xl flex flex-col items-center justify-center py-10 px-6 text-center mb-8 relative overflow-hidden shadow-md"
            style={formData.heroImage ? { backgroundImage: `url(${formData.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
-        <div className="relative z-10 flex flex-col items-center">
+        <div className="relative z-10 flex flex-col items-center w-full">
           <span className="text-[9px] font-bold text-[#F97316] uppercase tracking-widest mb-3">
             DYNASOFT • DEFENSE TECHNOLOGY
           </span>
-          <h2 className="text-[26px] font-bold text-white leading-tight max-w-xl">
-            {formData.heroTitle || "Defending the Future with Intelligent Systems"}
-          </h2>
-          <p className="mt-4 text-sm text-gray-300 font-medium max-w-lg leading-relaxed line-clamp-3">
-            {formData.heroSubtitle || "DYNASOFT delivers cutting-edge defense technology, autonomous systems, and intelligence solutions for government and allied organizations worldwide."}
-          </p>
+          {formData.heroTitle ? (
+            <h2 className="text-[26px] font-bold text-white leading-tight max-w-xl text-center">
+              {formData.heroTitle}
+            </h2>
+          ) : null}
+          {formData.heroSubtitle ? (
+            <p className="mt-4 text-sm text-gray-300 font-medium max-w-lg leading-relaxed line-clamp-3 text-center">
+              {formData.heroSubtitle}
+            </p>
+          ) : null}
+          {!formData.heroTitle && !formData.heroSubtitle && (
+            <div className="py-8 text-gray-400 italic text-sm">No hero content provided</div>
+          )}
           <div className="flex gap-4 mt-6">
-            <button className="px-5 py-2 bg-[#F97316] text-white text-sm font-bold rounded-lg hover:bg-[#EA580C] transition-colors shrink-0">
-              {formData.ctaText || "Explore Technologies"}
-            </button>
+            {formData.ctaText && (
+              <button className="px-5 py-2 bg-[#F97316] text-white text-sm font-bold rounded-lg hover:bg-[#EA580C] transition-colors shrink-0">
+                {formData.ctaText}
+              </button>
+            )}
             {formData.secondaryCtaText && (
               <button className="px-5 py-2 bg-transparent border border-white text-white text-sm font-bold rounded-lg hover:bg-white/10 transition-colors shrink-0">
                 {formData.secondaryCtaText}
@@ -104,25 +149,27 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
 
       <div className="space-y-6">
         <div>
-          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Title</label>
+          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Title <span className="text-rose-500">*</span></label>
           <input 
             type="text" 
             name="heroTitle"
             value={formData.heroTitle}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-sm"
+            className={`w-full px-4 py-2.5 bg-white border ${errors.heroTitle ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm`}
           />
+          {errors.heroTitle && <p className="mt-1.5 text-sm text-rose-500">{errors.heroTitle}</p>}
         </div>
 
         <div>
-          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Subtitle</label>
+          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Subtitle <span className="text-rose-500">*</span></label>
           <textarea 
             name="heroSubtitle"
             value={formData.heroSubtitle}
             onChange={handleChange}
             rows={2}
-            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed"
+            className={`w-full px-4 py-3 bg-white border ${errors.heroSubtitle ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed`}
           />
+          {errors.heroSubtitle && <p className="mt-1.5 text-sm text-rose-500">{errors.heroSubtitle}</p>}
         </div>
 
         <div>
@@ -142,32 +189,34 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
             <input type="file" className="hidden" accept="image/*,video/mp4" onChange={handleFileUpload} disabled={isUploading} />
           </label>
           {formData.heroImage && (
-            <div className="mt-2 text-xs text-green-600 font-medium break-all">
-              Current Media: {formData.heroImage}
+            <div className="mt-2 inline-flex px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
+              Media uploaded successfully
             </div>
           )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block mb-2 text-[13px] font-semibold text-gray-700">CTA Button Text</label>
+            <label className="block mb-2 text-[13px] font-semibold text-gray-700">CTA Button Text <span className="text-rose-500">*</span></label>
             <input 
               type="text" 
               name="ctaText"
               value={formData.ctaText}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-sm text-gray-700"
+              className={`w-full px-4 py-2.5 bg-white border ${errors.ctaText ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm text-gray-700`}
             />
+            {errors.ctaText && <p className="mt-1.5 text-sm text-rose-500">{errors.ctaText}</p>}
           </div>
           <div>
-            <label className="block mb-2 text-[13px] font-semibold text-gray-700">CTA URL</label>
+            <label className="block mb-2 text-[13px] font-semibold text-gray-700">CTA URL <span className="text-rose-500">*</span></label>
             <input 
               type="text" 
               name="ctaLink"
               value={formData.ctaLink}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-sm text-gray-700"
+              className={`w-full px-4 py-2.5 bg-white border ${errors.ctaLink ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm text-gray-700`}
             />
+            {errors.ctaLink && <p className="mt-1.5 text-sm text-rose-500">{errors.ctaLink}</p>}
           </div>
         </div>
 
@@ -189,8 +238,9 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
               name="secondaryCtaLink"
               value={formData.secondaryCtaLink}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-sm text-gray-700"
+              className={`w-full px-4 py-2.5 bg-white border ${errors.secondaryCtaLink ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm text-gray-700`}
             />
+            {errors.secondaryCtaLink && <p className="mt-1.5 text-sm text-rose-500">{errors.secondaryCtaLink}</p>}
           </div>
         </div>
 

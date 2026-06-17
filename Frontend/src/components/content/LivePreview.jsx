@@ -17,12 +17,19 @@ const LivePreview = ({ heroData }) => {
         <div className="w-full p-4 mt-2">
           <div className="w-full bg-[#1A1C23] rounded-xl flex flex-col items-center justify-center p-4 min-h-[100px] text-center shadow-md">
             <span className="text-[9px] font-bold text-orange-500 uppercase tracking-widest mb-1.5">DYNASOFT</span>
-            <span className="text-xs font-bold text-white leading-snug line-clamp-2">
-              {heroData?.heroTitle || 'Hero Section'}
-            </span>
-            <span className="text-[9px] font-medium text-gray-400 leading-tight line-clamp-2 mt-1.5">
-              {heroData?.heroSubtitle || 'Hero Subtitle'}
-            </span>
+            {heroData?.heroTitle ? (
+              <span className="text-xs font-bold text-white leading-snug line-clamp-2">
+                {heroData.heroTitle}
+              </span>
+            ) : null}
+            {heroData?.heroSubtitle ? (
+              <span className="text-[9px] font-medium text-gray-400 leading-tight line-clamp-2 mt-1.5">
+                {heroData.heroSubtitle}
+              </span>
+            ) : null}
+            {!heroData?.heroTitle && !heroData?.heroSubtitle && (
+              <span className="text-xs text-gray-500 font-medium italic mt-2">No hero content</span>
+            )}
           </div>
         </div>
 

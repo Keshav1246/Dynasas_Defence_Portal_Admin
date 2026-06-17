@@ -41,15 +41,7 @@ const updateUserStatus = async (req, res, next) => {
   }
 };
 
-const updateUserRole = async (req, res, next) => {
-  try {
-    const { role } = req.body;
-    const user = await adminUsersService.updateUserRole(req.params.id, role);
-    res.status(200).json(apiResponse.success(user, 'User role updated'));
-  } catch (error) {
-    next(error);
-  }
-};
+
 
 const deleteUser = async (req, res, next) => {
   try {
@@ -62,7 +54,7 @@ const deleteUser = async (req, res, next) => {
 
 const inviteUser = async (req, res, next) => {
   try {
-    const { name, email, role } = req.body;
+    const { name, email } = req.body;
     let invitedById = req.user?.id;
 
     if (!invitedById) {
@@ -72,7 +64,7 @@ const inviteUser = async (req, res, next) => {
       invitedById = defaultUser.id;
     }
     
-    const invite = await adminUsersService.inviteUser(name, email, role, invitedById);
+    const invite = await adminUsersService.inviteUser(name, email, invitedById);
     res.status(201).json(apiResponse.success(invite, 'Invitation sent'));
   } catch (error) {
     next(error);
@@ -97,34 +89,14 @@ const resendInvitation = async (req, res, next) => {
   }
 };
 
-const getPermissions = async (req, res, next) => {
-  try {
-    const permissions = await adminUsersService.getPermissions();
-    res.status(200).json(apiResponse.success(permissions, 'Permissions fetched'));
-  } catch (error) {
-    next(error);
-  }
-};
 
-const updatePermissions = async (req, res, next) => {
-  try {
-    const { role, permissions } = req.body;
-    const updated = await adminUsersService.updatePermissions(role, permissions);
-    res.status(200).json(apiResponse.success(updated, 'Permissions updated'));
-  } catch (error) {
-    next(error);
-  }
-};
 
 module.exports = {
   getAllUsers,
   getStats,
   updateUserStatus,
-  updateUserRole,
   deleteUser,
   inviteUser,
   cancelInvitation,
-  resendInvitation,
-  getPermissions,
-  updatePermissions
+  resendInvitation
 };

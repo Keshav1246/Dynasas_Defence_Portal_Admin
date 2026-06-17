@@ -16,7 +16,7 @@ const TYPE_CONFIG = {
  * item shape (from Prisma Media model):
  *   id, fileName, originalName, fileUrl, fileType (MIME), size (bytes), createdAt
  */
-export const FileDetailsSidebar = ({ item, onDelete, onClose }) => {
+export const FileDetailsSidebar = ({ item, onDelete, onClose, onDownload }) => {
   if (!item) return null;
 
   const type = getMediaType(item.fileType);
@@ -29,12 +29,8 @@ export const FileDetailsSidebar = ({ item, onDelete, onClose }) => {
     : '—';
 
   const handleDownload = () => {
-    if (item.fileUrl) {
-      const a = document.createElement('a');
-      a.href = item.fileUrl;
-      a.download = displayName;
-      a.target = '_blank';
-      a.click();
+    if (onDownload) {
+      onDownload(item.id, displayName);
     }
   };
 

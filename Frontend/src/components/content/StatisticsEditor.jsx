@@ -58,6 +58,27 @@ const StatisticsEditor = ({ data, onSave, isSaving }) => {
     });
   };
 
+  const [errors, setErrors] = useState({});
+
+  const handleSave = () => {
+    const newErrors = {};
+    if (!formData.sectionTitle?.trim()) newErrors.sectionTitle = 'Section title is required';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      const firstErrorField = Object.keys(newErrors)[0];
+      const element = document.getElementsByName(firstErrorField)[0];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      }
+      return;
+    }
+
+    onSave('statistics', formData);
+  };
+
   const isDirty = JSON.stringify(data) !== JSON.stringify(formData);
 
   return (
@@ -75,7 +96,7 @@ const StatisticsEditor = ({ data, onSave, isSaving }) => {
             Preview
           </button>
           <button 
-            onClick={() => onSave('statistics', formData)}
+            onClick={handleSave}
             disabled={isSaving || !isDirty}
             className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-[#E1432E] rounded-xl shadow-sm hover:bg-[#C92A22] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -87,14 +108,15 @@ const StatisticsEditor = ({ data, onSave, isSaving }) => {
 
       <div className="space-y-6">
         <div>
-          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Section Title</label>
+          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Section Title <span className="text-rose-500">*</span></label>
           <input 
             type="text" 
             name="sectionTitle"
             value={formData.sectionTitle}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all text-sm"
+            className={`w-full px-4 py-2.5 bg-white border ${errors.sectionTitle ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm`}
           />
+          {errors.sectionTitle && <p className="mt-1.5 text-sm text-rose-500">{errors.sectionTitle}</p>}
         </div>
 
         <div>

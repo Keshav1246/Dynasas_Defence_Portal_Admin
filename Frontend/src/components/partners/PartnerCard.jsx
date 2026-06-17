@@ -20,8 +20,12 @@ export const PartnerCard = ({ partner, onEdit, onDelete }) => {
     <div className="bg-white rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col h-[280px] group transition-all hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:border-gray-200">
       {/* Header */}
       <div className="flex justify-between items-start mb-3">
-        <div className="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center shadow-sm">
-          {getIcon(partner.name)}
+        <div className="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center shadow-sm overflow-hidden">
+          {partner.logo ? (
+            <img src={partner.logo} alt={partner.name} className="w-full h-full object-cover" />
+          ) : (
+            getIcon(partner.name)
+          )}
         </div>
         <span className={`px-2.5 py-1 text-[10px] font-bold uppercase rounded-full tracking-wide ${partner.status === 'ACTIVE' || partner.status === 'Active' ? 'bg-[#eefcf3] text-[#10b981]' : 'bg-gray-100 text-gray-500'}`}>
           {partner.status}
@@ -31,9 +35,6 @@ export const PartnerCard = ({ partner, onEdit, onDelete }) => {
       {/* Content */}
       <div className="flex-1 flex flex-col">
         <h3 className="font-extrabold text-gray-900 text-base leading-tight">{partner.name}</h3>
-        <div className="mt-1">
-          <span className="px-2 py-0.5 bg-[#fff2ee] text-[#f95724] text-[10px] font-bold rounded">{partner.category}</span>
-        </div>
         <p className="text-sm text-gray-500 mt-4 line-clamp-3 leading-relaxed">
           {partner.description}
         </p>

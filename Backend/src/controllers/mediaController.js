@@ -2,6 +2,7 @@ const mediaService = require('../services/mediaService');
 const apiResponse = require('../utils/apiResponse');
 const AppError = require('../utils/AppError');
 const activityLogService = require('../services/ActivityLogService');
+const https = require('https');
 
 /**
  * Controller to handle Media Library HTTP requests
@@ -118,6 +119,62 @@ class MediaController {
         entityType: "Media",
         entityId: id,
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   * Download a file
+   */
+  downloadFile = async (req, res, next) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const media = await mediaService.getFileById(id);
+
+      if (!media) {
+        throw new AppError('File not found', 404);
+      }
+
+      // Check if URL is cloudinary
+      const fileUrl = media.fileUrl;
+      const fileName = media.originalName || media.fileName;
+
+      // Ensure appropriate headers are set for download
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      if (media.fileType) {
+        res.setHeader('Content-Type', media.fileType);
+      }
+
+      if (fileUrl.startsWith('http')) {
+        https.get(fileUrl, (stream) => {
+          stream.pipe(res);
+        }).on('error', (err) => {
+          next(new AppError('Failed to download file stream', 500));
+        });
+      } else {
+        // Local file
+        const fs = require('fs');
+        const path = require('path');
+        const localPath = path.resolve(fileUrl);
+        if (fs.existsSync(localPath)) {
+          fs.createReadStream(localPath).pipe(res);
+        } else {
+          throw new AppError('Local file not found', 404);
+        }
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  /**
+   * Get media stats
+   */
+  getStats = async (req, res, next) => {
+    try {
+      const stats = await mediaService.getMediaStats();
+      res.status(200).json(apiResponse.success(stats, 'Media stats retrieved successfully'));
     } catch (error) {
       next(error);
     }

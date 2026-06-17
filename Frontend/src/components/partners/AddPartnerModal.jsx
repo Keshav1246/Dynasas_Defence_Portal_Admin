@@ -6,11 +6,12 @@ import { Select } from '../ui/Select';
 import { Label } from '../ui/Label';
 import { FileUpload } from '../ui/FileUpload';
 import { Button } from '../ui/Button';
+import { uploadFile } from '../../api/mediaApi';
+import toast from 'react-hot-toast';
 
 export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => {
   const [formData, setFormData] = useState({
     name: '',
-    category: 'Aerospace',
     status: 'ACTIVE',
     description: '',
     website: '',
@@ -23,7 +24,6 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
       if (editingPartner) {
         setFormData({
           name: editingPartner.name || '',
-          category: editingPartner.category || 'Aerospace',
           status: (editingPartner.status && editingPartner.status.toUpperCase() === 'INACTIVE') ? 'INACTIVE' : 'ACTIVE',
           description: editingPartner.description || '',
           website: editingPartner.website || editingPartner.url || '',
@@ -32,7 +32,6 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
       } else {
         setFormData({
           name: '',
-          category: 'Aerospace',
           status: 'ACTIVE',
           description: '',
           website: '',
@@ -47,6 +46,25 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingLogo(true);
+      const uploaded = await uploadFile(file);
+      const url = uploaded.fileUrl || '';
+      setFormData(prev => ({ ...prev, logo: url }));
+      toast.success('Logo uploaded successfully');
+    } catch (err) {
+      toast.error('Failed to upload logo: ' + err.message);
+    } finally {
+      setIsUploadingLogo(false);
+    }
+  };
+
   const handleSave = async () => {
     setIsSubmitting(true);
     try {
@@ -54,7 +72,7 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
       onClose();
     } catch (err) {
       console.error(err);
-      alert('Failed to save partner: ' + err.message);
+      toast.error('Failed to save partner: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -68,10 +86,17 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
           <div>
             <Label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Partner Logo</Label>
             <FileUpload 
-              label="Upload partner logo" 
+              label={isUploadingLogo ? 'Uploading...' : 'Upload partner logo'}
               helperText="SVG, PNG — transparent background"
               className="mt-1"
+              onChange={handleLogoUpload}
+              disabled={isUploadingLogo}
             />
+            {formData.logo && (
+              <div className="mt-2 text-xs text-green-600 font-medium bg-green-50 px-2 py-1 inline-block rounded">
+                Logo uploaded
+              </div>
+            )}
           </div>
 
           <div>
@@ -84,17 +109,7 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Category</Label>
-              <Select name="category" value={formData.category} onChange={handleChange}>
-                <option value="Aerospace">Aerospace</option>
-                <option value="Defense">Defense</option>
-                <option value="Security">Security</option>
-                <option value="Technology">Technology</option>
-                <option value="Space">Space</option>
-              </Select>
-            </div>
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Label>Status</Label>
               <Select name="status" value={formData.status} onChange={handleChange}>

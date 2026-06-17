@@ -72,10 +72,10 @@ export const updateInquiryStatus = async (id, status) => {
   return res.data;
 };
 
-export const assignInquiry = async (id, assignedAdminId) => {
+export const assignInquiry = async (id, assignedTeam) => {
   const res = await axios.patch(
     `${API_URL}/inquiries/${id}/assign`,
-    { assignedAdminId },
+    { assignedTeam },
     {
       headers: getAuthHeaders(),
     }

@@ -74,7 +74,6 @@ const loginAdmin = async (req, res, next) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
       },
     });
   } catch (error) {
@@ -90,7 +89,6 @@ const getAllAdmins = async (req, res, next) => {
         id: true,
         name: true,
         email: true,
-        role: true,
       }
     });
 

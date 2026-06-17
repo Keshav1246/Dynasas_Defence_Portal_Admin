@@ -16,9 +16,9 @@ const storage = new CloudinaryStorage({
     
     // Cloudinary resource types: 'image', 'video', 'raw'
     let resourceType = 'image';
-    if (extension === 'pdf') {
+    if (extension === 'pdf' || extension === 'glb' || extension === 'gltf') {
       resourceType = 'raw';
-    } else if (extension === 'mp4') {
+    } else if (['mp4', 'mov', 'webm'].includes(extension)) {
       resourceType = 'video';
     } else if (extension === 'svg') {
       // SVG can be treated as image

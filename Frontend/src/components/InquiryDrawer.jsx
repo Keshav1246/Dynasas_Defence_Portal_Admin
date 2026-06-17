@@ -1,41 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, User, Phone, Mail, Building, FileText, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui/Button';
-import { updateInquiryStatus, assignInquiry, fetchAdmins } from '../api/inquiryApi';
+import { updateInquiryStatus, assignInquiry, updateInquiry } from '../api/inquiryApi';
 
 const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
   const [status, setStatus] = useState('');
-  const [assignedAdminId, setAssignedAdminId] = useState('');
+  const [assignedTeam, setAssignedTeam] = useState('');
   const [note, setNote] = useState('');
-  const [admins, setAdmins] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
+
+  const TEAMS = ['Sales', 'Technical', 'Support'];
 
   useEffect(() => {
     if (inquiry) {
       setStatus(inquiry.status);
-      setAssignedAdminId(inquiry.assignedAdminId || '');
-      setNote(''); // Assume notes are not saved in this minimal version, or add to schema if needed
+      setAssignedTeam(inquiry.assignedTeam || '');
+      setNote(inquiry.internalNote || '');
     }
   }, [inquiry]);
-
-  useEffect(() => {
-    if (isOpen) {
-      fetchAdmins().then(res => {
-        if (res.data) setAdmins(res.data);
-      }).catch(console.error);
-    }
-  }, [isOpen]);
 
   if (!isOpen || !inquiry) return null;
 
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      if (assignedAdminId && assignedAdminId !== inquiry.assignedAdminId) {
-        await assignInquiry(inquiry.id, assignedAdminId);
+      if (assignedTeam && assignedTeam !== inquiry.assignedTeam) {
+        await assignInquiry(inquiry.id, assignedTeam);
       } else if (status !== inquiry.status) {
         await updateInquiryStatus(inquiry.id, status);
       }
+
+      if (note !== inquiry.internalNote) {
+        await updateInquiry(inquiry.id, { internalNote: note });
+      }
+
       onUpdate();
     } catch (error) {
       console.error('Failed to update inquiry:', error);
@@ -83,7 +81,7 @@ const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
         className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity" 
         onClick={onClose}
       />
-      <div className="fixed top-0 right-0 h-screen w-[420px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col">
+      <div className="fixed top-0 right-0 h-screen w-[420px] max-lg:w-full bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-[17px] font-bold text-gray-900 tracking-tight">Inquiry Detail</h2>
@@ -134,6 +132,36 @@ const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
             </div>
           </div>
 
+          {/* Email Delivery Status (If assigned) */}
+          {inquiry.assignedTeam && inquiry.emailStatus && (
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100/50">
+              <div className="text-[10px] font-bold text-gray-400 tracking-wider mb-2 uppercase">Email Delivery Status</div>
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-[13px] font-semibold text-gray-800">To: {inquiry.assignedTeam.toLowerCase()}@dynasoft.com</div>
+                  <div className="text-[11px] text-gray-500 mt-0.5">Team: {inquiry.assignedTeam}</div>
+                  {inquiry.emailError && (
+                    <div className="text-[11px] text-red-500 mt-1 font-medium bg-red-50 p-1.5 rounded">{inquiry.emailError}</div>
+                  )}
+                </div>
+                <div className="text-right">
+                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full tracking-wide ${
+                    inquiry.emailStatus === 'SENT' ? 'bg-[#eefcf3] text-[#10b981]' : 
+                    inquiry.emailStatus === 'FAILED' ? 'bg-[#ffe4e6] text-red-600' : 
+                    'bg-amber-50 text-amber-600'
+                  }`}>
+                    {inquiry.emailStatus}
+                  </span>
+                  {(inquiry.sentAt || inquiry.updatedAt) && (
+                    <div className="text-[10px] text-gray-400 mt-1">
+                      {new Date(inquiry.sentAt || inquiry.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="h-px bg-gray-100 w-full" />
 
           {/* Update Forms */}
@@ -152,17 +180,15 @@ const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
             </div>
 
             <div>
-              <label className="text-[10px] font-bold text-gray-400 tracking-wider mb-2 block uppercase">Assign To</label>
+              <label className="text-[10px] font-bold text-gray-400 tracking-wider mb-2 block uppercase">Assign To Team</label>
               <select 
-                value={assignedAdminId}
-                onChange={(e) => setAssignedAdminId(e.target.value)}
+                value={assignedTeam}
+                onChange={(e) => setAssignedTeam(e.target.value)}
                 className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:border-gray-300 outline-none transition-colors"
               >
                 <option value="">— Unassigned —</option>
-                {admins.map(admin => (
-                  <option key={admin.id} value={admin.id}>
-                    {admin.name} ({admin.role})
-                  </option>
+                {TEAMS.map(team => (
+                  <option key={team} value={team}>{team} Team</option>
                 ))}
               </select>
             </div>

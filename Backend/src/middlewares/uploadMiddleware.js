@@ -3,13 +3,17 @@ const { storage } = require('../config/cloudinary');
 const AppError = require('../utils/AppError');
 
 // Allowed file formats and corresponding MIME types
-const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'svg', 'pdf', 'mp4'];
+const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'svg', 'pdf', 'mp4', 'mov', 'webm', 'glb', 'gltf'];
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
   'image/svg+xml',
   'application/pdf',
   'video/mp4',
+  'video/quicktime',
+  'video/webm',
+  'model/gltf-binary',
+  'model/gltf+json'
 ];
 
 /**

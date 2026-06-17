@@ -19,6 +19,7 @@ const activityLogRoutes = require("./routes/activityLogRoutes");
 const settingsRoutes = require("./routes/settings.routes");
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const adminUsersRoutes = require('./routes/adminUsers.routes');
+const searchRoutes = require('./routes/search.routes');
 
 
 // Import global error middleware
@@ -78,6 +79,7 @@ app.use("/api/v1/activity-logs", activityLogRoutes);
 app.use("/api/v1/settings", settingsRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/admin-users', adminUsersRoutes);
+app.use('/api/v1/search', searchRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {

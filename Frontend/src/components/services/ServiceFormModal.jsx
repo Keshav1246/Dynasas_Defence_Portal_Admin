@@ -190,18 +190,16 @@ const ServiceFormModal = ({ isOpen, onClose, onSave, service }) => {
                     </button>
                     <button 
                       type="button" 
-                      disabled
-                      className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-medium text-sm transition-all border border-gray-100 bg-gray-50 text-gray-400 opacity-60 cursor-not-allowed"
-                      title="Coming Soon"
+                      onClick={() => setVisualType('video')}
+                      className={`flex items-center justify-center gap-2 py-2.5 rounded-xl font-medium text-sm transition-all ${visualType === 'video' ? 'border border-orange-200 bg-orange-50 text-orange-600 shadow-sm' : 'border border-gray-200 bg-white text-gray-500 hover:bg-gray-50'}`}
                     >
                       <Video className="w-4 h-4" />
                       Video
                     </button>
                     <button 
                       type="button" 
-                      disabled
-                      className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-medium text-sm transition-all border border-gray-100 bg-gray-50 text-gray-400 opacity-60 cursor-not-allowed"
-                      title="Coming Soon"
+                      onClick={() => setVisualType('3d')}
+                      className={`flex items-center justify-center gap-2 py-2.5 rounded-xl font-medium text-sm transition-all ${visualType === '3d' ? 'border border-orange-200 bg-orange-50 text-orange-600 shadow-sm' : 'border border-gray-200 bg-white text-gray-500 hover:bg-gray-50'}`}
                     >
                       <Box className="w-4 h-4" />
                       3D Model
@@ -217,9 +215,19 @@ const ServiceFormModal = ({ isOpen, onClose, onSave, service }) => {
                       <div className="flex text-sm text-gray-700 justify-center font-medium">
                         <span>Drop file or click to upload</span>
                       </div>
-                      <p className="text-xs text-gray-400 font-medium tracking-wide uppercase mt-1">PNG, JPG, MP4, GLB — max 200MB</p>
+                      <p className="text-xs text-gray-400 font-medium tracking-wide uppercase mt-1">
+                        {visualType === 'image' && 'PNG, JPG — max 50MB'}
+                        {visualType === 'video' && 'MP4, MOV, WEBM — max 50MB'}
+                        {visualType === '3d' && 'GLB, GLTF — max 50MB'}
+                      </p>
                     </div>
-                    <input type="file" className="hidden" accept="image/*" onChange={(e) => {
+                    <input type="file" className="hidden" 
+                      accept={
+                        visualType === 'image' ? 'image/*' :
+                        visualType === 'video' ? 'video/mp4,video/quicktime,video/webm' :
+                        '.glb,.gltf'
+                      } 
+                      onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         setSelectedFile(e.target.files[0]);
                         setPreviewUrl(URL.createObjectURL(e.target.files[0]));
@@ -228,7 +236,16 @@ const ServiceFormModal = ({ isOpen, onClose, onSave, service }) => {
                   </label>
                   {previewUrl && (
                     <div className="mt-4 relative rounded-xl overflow-hidden border border-gray-200">
-                      <img src={previewUrl} alt="Preview" className="w-full h-48 object-cover" />
+                      {visualType === 'video' ? (
+                        <video src={previewUrl} controls className="w-full h-48 object-cover bg-black" />
+                      ) : visualType === '3d' ? (
+                        <div className="w-full h-48 bg-gray-100 flex items-center justify-center flex-col gap-2">
+                           <Box className="w-8 h-8 text-gray-400" />
+                           <span className="text-sm font-medium text-gray-500">3D Model Selected</span>
+                        </div>
+                      ) : (
+                        <img src={previewUrl} alt="Preview" className="w-full h-48 object-cover" />
+                      )}
                       <button
                         type="button"
                         onClick={() => {

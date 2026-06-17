@@ -51,8 +51,26 @@ const AboutSection = ({ data, onSave }) => {
     }
   };
 
+  const [errors, setErrors] = useState({});
+
+  const handleSave = () => {
+    const newErrors = {};
+    if (formData.foundedYear && !/^\d{4}$/.test(formData.foundedYear)) {
+      newErrors.foundedYear = 'Year must be a 4-digit number';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      onSave('about', formData);
+    } else {
+      toast.error('Please fix the errors before saving');
+    }
+  };
+
   const handleDiscard = () => {
     setFormData(data);
+    setErrors({});
   };
 
   return (
@@ -60,7 +78,7 @@ const AboutSection = ({ data, onSave }) => {
       <SectionHeader 
         title="About Us" 
         subtitle="Edit this section of the company profile" 
-        onSave={() => onSave('about', formData)} 
+        onSave={handleSave} 
         onDiscard={handleDiscard} 
       />
 
@@ -83,8 +101,12 @@ const AboutSection = ({ data, onSave }) => {
               name="foundedYear"
               value={formData.foundedYear}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
+              pattern="\d*"
+              maxLength={4}
+              onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
+              className={`w-full px-4 py-2.5 bg-white border ${errors.foundedYear ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
             />
+            {errors.foundedYear && <p className="mt-1.5 text-sm text-rose-500">{errors.foundedYear}</p>}
           </div>
         </div>
 

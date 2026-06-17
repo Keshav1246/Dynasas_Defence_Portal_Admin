@@ -5,8 +5,7 @@ import { Button } from '../ui/Button';
 export const InviteUserModal = ({ isOpen, onClose, onInvite }) => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    role: 'ADMIN'
+    email: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -25,7 +24,7 @@ export const InviteUserModal = ({ isOpen, onClose, onInvite }) => {
     setIsSubmitting(true);
     try {
       await onInvite(formData);
-      setFormData({ name: '', email: '', role: 'ADMIN' });
+      setFormData({ name: '', email: '' });
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to send invitation.');
@@ -88,22 +87,7 @@ export const InviteUserModal = ({ isOpen, onClose, onInvite }) => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">Role</label>
-              <div className="relative">
-                <Shield className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                <select
-                  value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                  className="w-full h-10 pl-9 pr-4 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-gray-300 outline-none transition-colors appearance-none"
-                >
-                  <option value="SUPER_ADMIN">Super Admin</option>
-                  <option value="ADMIN">Admin</option>
-                  <option value="CONTENT_MANAGER">Content Manager</option>
-                  <option value="VIEWER">Viewer</option>
-                </select>
-              </div>
-            </div>
+
           </div>
 
           <div className="mt-8 flex items-center justify-end gap-3">

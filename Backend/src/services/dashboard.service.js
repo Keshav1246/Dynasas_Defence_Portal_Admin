@@ -57,8 +57,7 @@ class DashboardService {
       }
     });
 
-    // 5. ADMIN USERS
-    const totalAdminUsers = await prisma.user.count({ where: { role: 'ADMIN' } });
+    // 5. ADMIN USERS (Removed)
 
     // 6. SERVICE PUBLISHING TREND (Monthly grouping in JS)
     const allServices = await prisma.service.findMany({
@@ -176,8 +175,7 @@ class DashboardService {
         inProgressInquiries,
         closedInquiries,
         totalMediaFiles,
-        totalStorageUsed,
-        totalAdminUsers
+        totalStorageUsed
       },
       serviceTrend,
       inquiryOverview,

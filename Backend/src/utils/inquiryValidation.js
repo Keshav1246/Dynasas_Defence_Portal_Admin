@@ -52,7 +52,8 @@ const updateInquirySchema = z.object({
     message: z.string().min(1, 'Message cannot be empty').max(5000).optional(),
     inquiryType: z.enum(['CONTACT', 'DEMO_REQUEST', 'QUOTE']).optional(),
     status: z.enum(['NEW', 'IN_PROGRESS', 'CLOSED']).optional(),
-    assignedAdminId: z.string().uuid('Invalid user ID').optional().nullable(),
+    assignedTeam: z.string().max(255).optional().nullable(),
+    internalNote: z.string().max(5000).optional().nullable(),
   }),
 });
 
@@ -72,7 +73,7 @@ const inquiryAssignSchema = z.object({
     id: z.string().transform((val) => parseInt(val, 10)),
   }),
   body: z.object({
-    assignedAdminId: z.string().uuid('Invalid user ID'),
+    assignedTeam: z.string().min(1, 'Team name is required').max(255),
   }),
 });
 

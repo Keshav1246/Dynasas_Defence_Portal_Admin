@@ -12,8 +12,14 @@ router.post('/upload', upload.single('file'), mediaController.uploadFile);
 // Get all files with query validation for pagination, filtering, and searching
 router.get('/', validate(listMediaSchema), mediaController.getAllFiles);
 
+// Get media stats
+router.get('/stats', mediaController.getStats);
+
 // Get single file detail
 router.get('/:id', validate(mediaIdParamSchema), mediaController.getFileById);
+
+// Download file
+router.get('/:id/download', validate(mediaIdParamSchema), mediaController.downloadFile);
 
 // Delete file (soft-delete)
 router.delete('/:id', validate(mediaIdParamSchema), mediaController.deleteFile);

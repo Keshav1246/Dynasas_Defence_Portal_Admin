@@ -18,10 +18,10 @@ const StatCard = ({ value, label, countColor = 'text-[#f95724]', bgShape = 'bg-[
   </div>
 );
 
-const StatusBadge = ({ status, assignedAdminId }) => {
+const StatusBadge = ({ status, assignedTeam }) => {
   if (status === 'NEW') return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#ffe4e6] text-[#e11d48]"><AlertCircle className="w-3 h-3" /> New</span>;
-  if (status === 'IN_PROGRESS' && !assignedAdminId) return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#ede9fe] text-[#7c3aed]"><Clock className="w-3 h-3" /> In Review</span>;
-  if (status === 'IN_PROGRESS' && assignedAdminId) return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#ffedd5] text-[#ea580c]"><User className="w-3 h-3" /> Assigned</span>;
+  if (status === 'IN_PROGRESS' && !assignedTeam) return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#ede9fe] text-[#7c3aed]"><Clock className="w-3 h-3" /> In Review</span>;
+  if (status === 'IN_PROGRESS' && assignedTeam) return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#ffedd5] text-[#ea580c]"><User className="w-3 h-3" /> Assigned</span>;
   if (status === 'CLOSED') return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold rounded-full bg-[#dcfce7] text-[#16a34a]"><CheckCircle2 className="w-3 h-3" /> Resolved</span>;
   return null;
 };
@@ -119,7 +119,7 @@ const ContactInquiries = () => {
 
       <div className="mt-8 flex-1 flex flex-col pb-8">
         {/* KPI Cards */}
-        <div className="grid grid-cols-4 gap-5 mb-8">
+        <div className="grid grid-cols-4 gap-5 mb-8 max-lg:grid-cols-2 max-md:grid-cols-1 max-lg:gap-3">
           <StatCard value={stats.new} label="New" countColor="text-[#e11d48]" bgShape="bg-[#ffe4e6]" />
           <StatCard value={stats.inReview} label="In Review" countColor="text-[#7c3aed]" bgShape="bg-[#ede9fe]" />
           <StatCard value={stats.assigned} label="Assigned" countColor="text-[#ea580c]" bgShape="bg-[#ffedd5]" />
@@ -130,8 +130,8 @@ const ContactInquiries = () => {
         <div className="bg-white rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 p-6 flex-1 flex flex-col min-h-0">
           
           {/* Filters Toolbar */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative w-[320px]">
+          <div className="flex items-center gap-4 mb-6 max-lg:flex-col max-lg:items-start">
+            <div className="relative w-[320px] max-lg:w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
               <input
                 type="text"
@@ -142,13 +142,13 @@ const ContactInquiries = () => {
               />
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 max-lg:w-full max-lg:overflow-x-auto max-lg:pb-1 no-scrollbar">
               <FilterPills options={STATUS_FILTERS} selected={statusFilter} onChange={handleStatusFilterChange} />
             </div>
 
-            <div className="w-px h-6 bg-gray-200 mx-2" />
+            <div className="w-px h-6 bg-gray-200 mx-2 max-lg:hidden" />
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 max-lg:w-full max-lg:overflow-x-auto max-lg:pb-1 no-scrollbar">
               <FilterPills options={TYPE_FILTERS} selected={typeFilter} onChange={handleTypeFilterChange} />
             </div>
           </div>
@@ -159,7 +159,7 @@ const ContactInquiries = () => {
           ) : inquiries.length === 0 ? (
              <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">No inquiries found.</div>
           ) : (
-            <div className="overflow-y-auto pb-4 -mx-6 px-6">
+            <div className="overflow-y-auto overflow-x-auto pb-4 -mx-6 px-6">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-gray-100">
@@ -202,7 +202,7 @@ const ContactInquiries = () => {
                         </span>
                       </td>
                       <td className="py-4">
-                        <StatusBadge status={inquiry.status} assignedAdminId={inquiry.assignedAdminId} />
+                        <StatusBadge status={inquiry.status} assignedTeam={inquiry.assignedTeam} />
                       </td>
                       <td className="py-4 pr-2 text-right">
                         <ChevronRight className="w-4 h-4 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />

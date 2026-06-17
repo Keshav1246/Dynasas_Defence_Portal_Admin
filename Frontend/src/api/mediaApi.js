@@ -18,6 +18,17 @@ export async function fetchFiles({ page = 1, limit = 50, search = '', fileType =
 }
 
 /**
+ * Fetch media stats
+ * GET /api/v1/media/stats
+ */
+export async function fetchMediaStats() {
+  const res = await fetch(`${BASE_URL}/media/stats`);
+  if (!res.ok) throw new Error(`Failed to fetch stats: ${res.status}`);
+  const json = await res.json();
+  return json.data;
+}
+
+/**
  * Upload a file to the media library.
  * POST /api/v1/media/upload  (multipart/form-data, field name: 'file')
  */

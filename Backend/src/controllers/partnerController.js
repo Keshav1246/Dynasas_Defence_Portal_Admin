@@ -32,23 +32,23 @@ class PartnerController {
   try {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
-    const { search, status, category } = req.query;
+    const { search, status } = req.query;
 
-    const { data, total } = await partnerService.getAllPartners({
+    const { data, total, stats } = await partnerService.getAllPartners({
       page,
       limit,
       search,
       status,
-      category,
     });
 
-    res.status(200).json(
-      apiResponse.paginated(
-        data,
-        { page, limit, total },
-        'Partners list retrieved successfully'
-      )
+    const responsePayload = apiResponse.paginated(
+      data,
+      { page, limit, total },
+      'Partners list retrieved successfully'
     );
+    responsePayload.stats = stats;
+
+    res.status(200).json(responsePayload);
   } catch (error) {
     next(error);
   }

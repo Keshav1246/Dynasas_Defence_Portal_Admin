@@ -7,16 +7,11 @@ const adminUsersController = require('../controllers/adminUsers.controller');
 router.get('/', adminUsersController.getAllUsers);
 router.get('/stats', adminUsersController.getStats);
 router.patch('/:id/status', adminUsersController.updateUserStatus);
-router.patch('/:id/role', adminUsersController.updateUserRole);
 router.delete('/:id', adminUsersController.deleteUser);
 
 // Invitations
 router.post('/invite', adminUsersController.inviteUser);
 router.post('/invite/resend/:id', adminUsersController.resendInvitation);
 router.post('/invite/cancel/:id', adminUsersController.cancelInvitation);
-
-// Permissions
-router.get('/permissions', adminUsersController.getPermissions);
-router.put('/permissions', adminUsersController.updatePermissions);
 
 module.exports = router;

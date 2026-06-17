@@ -30,7 +30,6 @@ class PartnerService {
   limit = 10,
   search,
   status,
-  category,
 }) {
   const skip = (page - 1) * limit;
 
@@ -40,13 +39,6 @@ class PartnerService {
 
   if (status) {
     where.status = status;
-  }
-
-  if (category) {
-    where.category = {
-      equals: category,
-      mode: 'insensitive',
-    };
   }
 
   if (search) {
@@ -66,7 +58,7 @@ class PartnerService {
     ];
   }
 
-  const [data, total] = await Promise.all([
+  const [data, total, totalPartners, activePartners, newPartners] = await Promise.all([
     prisma.partner.findMany({
       where,
       skip,
@@ -76,9 +68,25 @@ class PartnerService {
       },
     }),
     prisma.partner.count({ where }),
+    prisma.partner.count({ where: { isDeleted: false } }),
+    prisma.partner.count({ where: { isDeleted: false, status: 'ACTIVE' } }),
+    prisma.partner.count({ 
+      where: { 
+        isDeleted: false, 
+        createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } 
+      } 
+    }),
   ]);
 
-  return { data, total };
+  return { 
+    data, 
+    total, 
+    stats: { 
+      totalPartners, 
+      activePartners, 
+      newThisMonth: newPartners 
+    } 
+  };
 }
 
   /**

@@ -5,16 +5,21 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
  * GET /api/v1/partners
  * Query params: page, limit, search, category, status (ACTIVE | INACTIVE)
  */
-export async function fetchPartners({ page = 1, limit = 50, search = '', category = '', status = '' } = {}) {
-  const params = new URLSearchParams({ page, limit });
-  if (search) params.append('search', search);
-  if (category) params.append('category', category);
-  if (status) params.append('status', status);
+export async function fetchPartners(params = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.append('page', params.page);
+  if (params.limit) query.append('limit', params.limit);
+  if (params.search) query.append('search', params.search);
+  if (params.status) query.append('status', params.status);
 
-  const res = await fetch(`${BASE_URL}/partners?${params.toString()}`);
-  if (!res.ok) throw new Error(`Failed to fetch partners: ${res.status}`);
-  return res.json();
-  // Shape: { success, message, data: [...], pagination: {...} }
+  const res = await fetch(`${BASE_URL}/partners?${query.toString()}`);
+  if (!res.ok) throw new Error('Failed to fetch partners');
+  const json = await res.json();
+  return {
+    data: json.data,
+    pagination: json.pagination,
+    stats: json.stats,
+  };
 }
 
 /**

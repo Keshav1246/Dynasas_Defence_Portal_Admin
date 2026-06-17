@@ -99,6 +99,47 @@ class MediaService {
       },
     });
   }
+
+  /**
+   * Get total storage and media breakdown
+   */
+  async getMediaStats() {
+    const allMediaFiles = await prisma.media.findMany({
+      where: { isDeleted: false },
+      select: { fileType: true, size: true }
+    });
+
+    const totalMediaFiles = allMediaFiles.length;
+    let totalStorageUsed = 0;
+    const mediaBreakdown = {
+      images: 0,
+      videos: 0,
+      documents: 0,
+      models: 0
+    };
+
+    allMediaFiles.forEach(file => {
+      totalStorageUsed += file.size;
+      const type = file.fileType.toLowerCase();
+      if (type.startsWith('image/')) {
+        mediaBreakdown.images += file.size;
+      } else if (type.startsWith('video/')) {
+        mediaBreakdown.videos += file.size;
+      } else if (type.startsWith('application/') || type.startsWith('text/')) {
+        mediaBreakdown.documents += file.size;
+      } else if (type.startsWith('model/')) {
+        mediaBreakdown.models += file.size;
+      } else {
+        mediaBreakdown.documents += file.size;
+      }
+    });
+
+    return {
+      totalMediaFiles,
+      totalStorageUsed,
+      mediaBreakdown
+    };
+  }
 }
 
 module.exports = new MediaService();

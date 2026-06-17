@@ -8,11 +8,7 @@ const getAllUsers = async (filter, search, page, limit) => {
   const userWhere = {};
   const inviteWhere = { status: 'PENDING' }; // Only show pending invites in the user list
 
-  if (filter && filter !== 'All') {
-    const roleVal = filter.toUpperCase().replace(' ', '_');
-    userWhere.role = roleVal;
-    inviteWhere.role = roleVal;
-  }
+
   
   if (search) {
     userWhere.OR = [
@@ -33,7 +29,7 @@ const getAllUsers = async (filter, search, page, limit) => {
         id: true,
         name: true,
         email: true,
-        role: true,
+
         status: true,
         lastLogin: true,
         createdAt: true,
@@ -46,7 +42,7 @@ const getAllUsers = async (filter, search, page, limit) => {
         id: true,
         name: true,
         email: true,
-        role: true,
+
         status: true,
         createdAt: true,
       }
@@ -63,31 +59,11 @@ const getAllUsers = async (filter, search, page, limit) => {
   return { users: paginatedUsers, total };
 };
 
-const getStats = async () => {
-  const users = await prisma.user.findMany({ select: { role: true } });
-  
-  const stats = {
-    superAdmin: users.filter(u => u.role === 'SUPER_ADMIN').length,
-    admin: users.filter(u => u.role === 'ADMIN').length,
-    contentManager: users.filter(u => u.role === 'CONTENT_MANAGER').length,
-    viewer: users.filter(u => u.role === 'VIEWER').length,
-  };
-  return stats;
-};
-
 const updateUserStatus = async (id, status) => {
   return prisma.user.update({
     where: { id },
     data: { status },
     select: { id: true, status: true }
-  });
-};
-
-const updateUserRole = async (id, role) => {
-  return prisma.user.update({
-    where: { id },
-    data: { role },
-    select: { id: true, role: true }
   });
 };
 
@@ -97,7 +73,7 @@ const deleteUser = async (id) => {
   });
 };
 
-const inviteUser = async (name, email, role, invitedById) => {
+const inviteUser = async (name, email, invitedById) => {
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) throw new AppError('User already exists', 400);
@@ -116,7 +92,7 @@ const inviteUser = async (name, email, role, invitedById) => {
     data: {
       name,
       email,
-      role,
+
       invitationToken: token,
       expiresAt,
       invitedById
@@ -130,7 +106,7 @@ const inviteUser = async (name, email, role, invitedById) => {
     subject: 'You have been invited to Dynasoft Admin Portal',
     html: `
       <h2>Welcome ${name}!</h2>
-      <p>You have been invited to join the Dynasoft Admin Portal as a <strong>${role.replace('_', ' ')}</strong>.</p>
+      <p>You have been invited to join the Dynasoft Admin Portal.</p>
       <p>Click the link below to set up your password and access the portal:</p>
       <a href="${inviteLink}" style="display:inline-block;padding:10px 20px;background:#ff5a36;color:#fff;text-decoration:none;border-radius:5px;">Set up your account</a>
       <p>This link expires in 7 days.</p>
@@ -158,7 +134,7 @@ const resendInvitation = async (id) => {
     subject: 'Reminder: You have been invited to Dynasoft Admin Portal',
     html: `
       <h2>Welcome ${invite.name}!</h2>
-      <p>This is a reminder that you have been invited to join the Dynasoft Admin Portal as a <strong>${invite.role.replace('_', ' ')}</strong>.</p>
+      <p>This is a reminder that you have been invited to join the Dynasoft Admin Portal.</p>
       <p>Click the link below to set up your password and access the portal:</p>
       <a href="${inviteLink}" style="display:inline-block;padding:10px 20px;background:#ff5a36;color:#fff;text-decoration:none;border-radius:5px;">Set up your account</a>
       <p>This link expires soon.</p>
@@ -168,28 +144,13 @@ const resendInvitation = async (id) => {
   return invite;
 };
 
-const getPermissions = async () => {
-  return prisma.rolePermissions.findMany({
-    orderBy: { role: 'asc' }
-  });
-};
 
-const updatePermissions = async (role, permissions) => {
-  return prisma.rolePermissions.update({
-    where: { role },
-    data: permissions
-  });
-};
 
 module.exports = {
   getAllUsers,
-  getStats,
   updateUserStatus,
-  updateUserRole,
   deleteUser,
   inviteUser,
   cancelInvitation,
-  resendInvitation,
-  getPermissions,
-  updatePermissions
+  resendInvitation
 };

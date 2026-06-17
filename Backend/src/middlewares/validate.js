@@ -21,10 +21,12 @@ const validate = (schema) => (req, res, next) => {
   } catch (error) {
     // If Zod validation error, parse the specific fields and formatting
     if (error.name === 'ZodError') {
-      const details = error.errors.map((err) => ({
-        field: err.path.join('.'),
-        message: err.message,
-      }));
+      const details = Array.isArray(error.errors)
+        ? error.errors.map((err) => ({
+            field: err.path.join('.'),
+            message: err.message,
+          }))
+        : [{ field: 'unknown', message: error.message || 'Validation failed' }];
       return next(new AppError('Validation failed', 400, details));
     }
     next(error);

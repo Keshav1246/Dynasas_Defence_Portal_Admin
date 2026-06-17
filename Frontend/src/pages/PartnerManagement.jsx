@@ -10,7 +10,7 @@ import { AddPartnerModal } from '../components/partners/AddPartnerModal';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { fetchPartners, createPartner, updatePartner, deletePartner } from '../api/partnerApi';
 
-const FILTERS = ['All', 'Aerospace', 'Defense', 'Security', 'Technology', 'Space'];
+const FILTERS = ['All', 'Active', 'Inactive'];
 
 const PartnerManagement = () => {
   const [partners, setPartners] = useState([]);
@@ -20,6 +20,7 @@ const PartnerManagement = () => {
   const [view, setView] = useState('grid');
   const [page, setPage] = useState(1);
   const [paginationData, setPaginationData] = useState(null);
+  const [stats, setStats] = useState(null);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPartner, setEditingPartner] = useState(null);
@@ -31,10 +32,11 @@ const PartnerManagement = () => {
   const loadData = useCallback(async (searchVal = search, filterVal = filter, pageNum = page) => {
     setLoading(true);
     try {
-      const category = filterVal === 'All' ? '' : filterVal;
-      const json = await fetchPartners({ search: searchVal, category, page: pageNum, limit: 10 });
+      const status = filterVal === 'All' ? '' : filterVal.toUpperCase();
+      const json = await fetchPartners({ search: searchVal, status, page: pageNum, limit: 10 });
       setPartners(json.data || []);
       setPaginationData(json.pagination || null);
+      setStats(json.stats || null);
     } catch (err) {
       console.error('Failed to load partners:', err);
       setPartners([]);
@@ -98,15 +100,9 @@ const PartnerManagement = () => {
   };
 
   // Stats calculation
-  const totalPartners = partners.length;
-  const activePartners = partners.filter(p => p.status === 'ACTIVE').length;
-  const categoriesCount = new Set(partners.filter(p => p.category).map(p => p.category)).size;
-  const newThisMonth = partners.filter(p => {
-    if (!p.createdAt) return false;
-    const d = new Date(p.createdAt);
-    const now = new Date();
-    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-  }).length;
+  const totalPartners = stats?.totalPartners || 0;
+  const activePartners = stats?.activePartners || 0;
+  const newThisMonth = stats?.newThisMonth || 0;
 
   return (
     <div className="flex-1 flex flex-col h-full relative w-full">
@@ -117,10 +113,9 @@ const PartnerManagement = () => {
 
       <div className="mt-8 flex-1 flex flex-col pb-8">
         {/* Stats Row */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-6 max-lg:grid-cols-1 max-lg:gap-3">
           <StatCard value={loading ? '-' : totalPartners} label="Total Partners" />
           <StatCard value={loading ? '-' : activePartners} label="Active" valueColor="text-green-500" />
-          <StatCard value={loading ? '-' : categoriesCount} label="Categories" valueColor="text-indigo-500" />
           <StatCard value={loading ? '-' : newThisMonth} label="New This Month" valueColor="text-amber-500" />
         </div>
 
@@ -128,9 +123,9 @@ const PartnerManagement = () => {
         <div className="bg-white rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 p-6 flex-1 flex flex-col min-h-0">
           
           {/* Toolbar */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-5 flex-1">
-              <div className="relative w-64">
+          <div className="flex items-center justify-between mb-8 max-lg:flex-col max-lg:items-start max-lg:gap-4">
+            <div className="flex items-center gap-5 flex-1 max-lg:flex-col max-lg:items-start max-lg:w-full max-lg:gap-3">
+              <div className="relative w-64 max-lg:w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
@@ -140,9 +135,11 @@ const PartnerManagement = () => {
                   className="w-full h-9 pl-9 pr-4 bg-white border border-gray-200 rounded-full text-sm text-gray-700 placeholder-gray-400 shadow-sm outline-none focus:border-gray-300 transition-colors"
                 />
               </div>
-              <FilterPills options={FILTERS} selected={filter} onChange={handleFilterChange} />
+              <div className="max-lg:w-full max-lg:overflow-x-auto max-lg:pb-1 no-scrollbar">
+                <FilterPills options={FILTERS} selected={filter} onChange={handleFilterChange} />
+              </div>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 max-lg:w-full max-lg:justify-between">
               <div className="flex bg-white rounded-full border border-gray-100 p-1 shadow-sm">
                 <button 
                   onClick={() => setView('grid')}
@@ -169,7 +166,7 @@ const PartnerManagement = () => {
           ) : partners.length === 0 ? (
              <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">No partners found.</div>
           ) : view === 'grid' ? (
-            <div className="grid grid-cols-4 gap-5 overflow-y-auto pb-4">
+            <div className="grid grid-cols-4 gap-5 overflow-y-auto pb-4 max-lg:grid-cols-2 max-md:grid-cols-1">
               {partners.map(partner => (
                 <PartnerCard 
                   key={partner.id} 
@@ -180,12 +177,11 @@ const PartnerManagement = () => {
               ))}
             </div>
           ) : (
-            <div className="overflow-y-auto pb-4">
+            <div className="overflow-y-auto overflow-x-auto pb-4">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-100">
                     <th className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider pb-3 pl-2">Partner</th>
-                    <th className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider pb-3">Category</th>
                     <th className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider pb-3">Website</th>
                     <th className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider pb-3">Status</th>
                     <th className="text-right text-xs font-bold text-gray-400 uppercase tracking-wider pb-3 pr-2">Actions</th>
@@ -195,13 +191,19 @@ const PartnerManagement = () => {
                   {partners.map(partner => (
                     <tr key={partner.id} className="border-b border-gray-50 hover:bg-gray-50/60 transition-colors group">
                       <td className="py-4 pl-2">
-                        <div>
-                          <p className="font-bold text-gray-900 text-sm">{partner.name}</p>
-                          <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{partner.description}</p>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                            {partner.logo ? (
+                              <img src={partner.logo} alt={partner.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-gray-400 font-bold text-xs bg-gray-100">{partner.name.charAt(0)}</div>
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-bold text-gray-900 text-sm">{partner.name}</p>
+                            <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{partner.description}</p>
+                          </div>
                         </div>
-                      </td>
-                      <td className="py-4">
-                        <span className="px-2.5 py-1 bg-[#fff2ee] text-[#f95724] text-[10px] font-bold rounded">{partner.category}</span>
                       </td>
                       <td className="py-4">
                         <span className="text-sm text-gray-500">{partner.website || partner.url}</span>

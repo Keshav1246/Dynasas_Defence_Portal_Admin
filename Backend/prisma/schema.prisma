@@ -29,7 +29,6 @@ model Partner {
   description String?
   logo        String?
   website     String?
-  category    String?
   status      PartnerStatus @default(ACTIVE)
   isDeleted   Boolean       @default(false)
   deletedAt   DateTime?
@@ -59,12 +58,16 @@ model Inquiry {
   message         String
   inquiryType     InquiryType   @default(CONTACT)
   status          InquiryStatus @default(NEW)
-  assignedAdminId String?
-  assignedAdmin   User?         @relation(fields: [assignedAdminId], references: [id])
+  assignedTeam    String?
+  internalNote    String?
   isDeleted       Boolean       @default(false)
   deletedAt       DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  emailSent       Boolean       @default(false)
+  sentAt          DateTime?
+  emailStatus     String?       @default("PENDING") // PENDING, SENT, FAILED
+  emailError      String?
 }
 
 
@@ -73,12 +76,7 @@ enum UserStatus {
   INACTIVE
 }
 
-enum AdminRole {
-  SUPER_ADMIN
-  ADMIN
-  CONTENT_MANAGER
-  VIEWER
-}
+
 
 model ActivityLog {
   id         Int      @id @default(autoincrement())
@@ -94,12 +92,10 @@ model User {
   name              String
   email             String    @unique
   password          String
-  role              AdminRole @default(ADMIN)
   status            UserStatus @default(ACTIVE)
   lastLogin         DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
-  assignedInquiries Inquiry[]
   invitationsSent   UserInvitation[] @relation("InvitedBy")
 }
 
@@ -209,7 +205,6 @@ model UserInvitation {
   id              String    @id @default(uuid())
   email           String    @unique
   name            String
-  role            AdminRole @default(ADMIN)
   invitationToken String    @unique
   expiresAt       DateTime
   status          String    @default("PENDING") // PENDING, ACCEPTED, CANCELLED
@@ -219,26 +214,7 @@ model UserInvitation {
   updatedAt       DateTime  @updatedAt
 }
 
-model RolePermissions {
-  id            String    @id @default(uuid())
-  role          AdminRole @unique
-  
-  // Permissions boolean fields
-  dashboardAccess     Boolean @default(false)
-  homepageManage      Boolean @default(false)
-  servicesView        Boolean @default(false)
-  servicesEdit        Boolean @default(false)
-  servicesDelete      Boolean @default(false)
-  mediaUpload         Boolean @default(false)
-  mediaDelete         Boolean @default(false)
-  inquiriesView       Boolean @default(false)
-  inquiriesManage     Boolean @default(false)
-  partnersManage      Boolean @default(false)
-  analyticsView       Boolean @default(false)
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
+
 
 model Settings {
   id String @id @default(uuid())

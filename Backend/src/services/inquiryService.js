@@ -12,7 +12,7 @@ class InquiryService {
       data: {
         ...data,
         status: 'NEW',
-        assignedAdminId: null,
+        assignedTeam: null,
       },
     });
   }
@@ -38,11 +38,11 @@ class InquiryService {
       if (status === 'New') where.status = 'NEW';
       if (status === 'In Review') {
         where.status = 'IN_PROGRESS';
-        where.assignedAdminId = null;
+        where.assignedTeam = null;
       }
       if (status === 'Assigned') {
         where.status = 'IN_PROGRESS';
-        where.assignedAdminId = { not: null };
+        where.assignedTeam = { not: null };
       }
       if (status === 'Resolved') where.status = 'CLOSED';
     }
@@ -95,15 +95,6 @@ class InquiryService {
         take: limit,
         orderBy: {
           createdAt: 'desc',
-        },
-        include: {
-          assignedAdmin: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-            }
-          }
         }
       }),
       prisma.inquiry.count({
@@ -122,15 +113,6 @@ class InquiryService {
       where: {
         id,
         isDeleted: false,
-      },
-      include: {
-        assignedAdmin: {
-          select: {
-            id: true,
-            name: true,
-            role: true,
-          }
-        }
       }
     });
   }
@@ -169,13 +151,13 @@ class InquiryService {
   }
 
   /**
-   * Assign an inquiry to an admin
+   * Assign an inquiry to a team
    */
-  async assignInquiry(id, assignedAdminId) {
+  async assignInquiry(id, assignedTeam) {
     return prisma.inquiry.update({
       where: { id },
       data: { 
-        assignedAdminId,
+        assignedTeam,
         status: 'IN_PROGRESS'
       },
     });
@@ -187,8 +169,8 @@ class InquiryService {
   async getStats() {
     const [newCount, inReviewCount, assignedCount, resolvedCount] = await Promise.all([
       prisma.inquiry.count({ where: { isDeleted: false, status: 'NEW' } }),
-      prisma.inquiry.count({ where: { isDeleted: false, status: 'IN_PROGRESS', assignedAdminId: null } }),
-      prisma.inquiry.count({ where: { isDeleted: false, status: 'IN_PROGRESS', assignedAdminId: { not: null } } }),
+      prisma.inquiry.count({ where: { isDeleted: false, status: 'IN_PROGRESS', assignedTeam: null } }),
+      prisma.inquiry.count({ where: { isDeleted: false, status: 'IN_PROGRESS', assignedTeam: { not: null } } }),
       prisma.inquiry.count({ where: { isDeleted: false, status: 'CLOSED' } })
     ]);
 

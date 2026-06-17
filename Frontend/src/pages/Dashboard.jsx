@@ -45,8 +45,8 @@ const Dashboard = () => {
         </div>
         
         {/* Row 1: Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mt-6">
-          {[...Array(6)].map((_, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-6">
+          {[...Array(5)].map((_, i) => (
             <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 h-[116px]">
                <div className="flex justify-between items-start mb-4">
                  <div className="w-10 h-10 rounded-lg bg-gray-100"></div>
@@ -101,7 +101,6 @@ const Dashboard = () => {
     { title: 'Pending Inquiries', value: (data.stats.newInquiries + data.stats.inProgressInquiries).toString(), icon: MessageSquare, growth: '', growthType: 'neutral', iconColor: 'red' },
     { title: 'Media Assets', value: data.stats.totalMediaFiles.toString(), icon: ImageIcon, growth: '', growthType: 'neutral', iconColor: 'indigo' },
     { title: 'Partners', value: data.stats.totalPartners.toString(), icon: Handshake, growth: '', growthType: 'neutral', iconColor: 'yellow' },
-    { title: 'Active Admin Users', value: data.stats.totalAdminUsers.toString(), icon: Users, growth: '', growthType: 'neutral', iconColor: 'purple' },
   ];
 
   return (
@@ -113,7 +112,7 @@ const Dashboard = () => {
       />
 
       {/* Row 1: Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-6">
         {dashboardStats.map((stat, index) => (
           <StatsCard key={index} {...stat} />
         ))}

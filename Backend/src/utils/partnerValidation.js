@@ -7,7 +7,6 @@ const listPartnersSchema = z.object({
     limit: z.string().optional().transform((val) => (val ? Math.min(100, Math.max(1, parseInt(val, 10))) : 10)),
     search: z.string().max(100).optional(),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
-    category: z.string().max(100).optional(),
   }),
 });
 
@@ -29,9 +28,8 @@ const createPartnerSchema = z.object({
   body: z.object({
     name: z.string().min(1, 'Name is required').max(255),
     description: z.string().max(1000).optional().nullable(),
-    logo: z.string().url('Logo must be a valid URL').or(z.literal('')).optional().nullable(),
+    logo: z.string().or(z.literal('')).optional().nullable(),
     website: z.string().url('Website must be a valid URL').or(z.literal('')).optional().nullable(),
-    category: z.string().max(100).optional().nullable(),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional().default('ACTIVE'),
   }),
 });
@@ -44,9 +42,8 @@ const updatePartnerSchema = z.object({
   body: z.object({
     name: z.string().min(1, 'Name cannot be empty').max(255).optional(),
     description: z.string().max(1000).optional().nullable(),
-    logo: z.string().url('Logo must be a valid URL').or(z.literal('')).optional().nullable(),
+    logo: z.string().or(z.literal('')).optional().nullable(),
     website: z.string().url('Website must be a valid URL').or(z.literal('')).optional().nullable(),
-    category: z.string().max(100).optional().nullable(),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
   }),
 });

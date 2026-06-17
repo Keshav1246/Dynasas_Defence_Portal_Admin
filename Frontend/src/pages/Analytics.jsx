@@ -142,13 +142,13 @@ const Analytics = () => {
 
   return (
     <div className="flex-1 flex flex-col h-full relative w-full">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 max-lg:flex-col max-lg:items-start max-lg:gap-4">
         <PageHeader 
           title="Analytics" 
           subtitle="Monitor portal performance and user engagement."
         />
         
-        <div className="flex items-center gap-4 flex-nowrap shrink-0">
+        <div className="flex items-center gap-4 flex-nowrap shrink-0 max-lg:w-full max-lg:justify-between max-lg:overflow-x-auto max-lg:pb-1 no-scrollbar">
           <FilterPills options={TIME_FILTERS} selected={filter} onChange={setFilter} nowrap={true} />
           
           <div className="relative shrink-0">
@@ -197,7 +197,7 @@ const Analytics = () => {
         <div className="flex-1 flex flex-col gap-6 pb-8 overflow-y-auto pr-2">
           {/* Row 1: Overview Cards */}
           {overview && (
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
               <StatCard 
                 title="Total Sessions" 
                 value={formatNumber(overview.current.sessions)}

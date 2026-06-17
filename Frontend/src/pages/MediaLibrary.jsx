@@ -6,7 +6,8 @@ import { UploadCloud, Search, LayoutGrid, List, Image as ImageIcon, Video, FileT
 import { MediaCard, getMediaType, formatBytes } from '../components/media/MediaCard';
 import { FileDetailsSidebar } from '../components/media/FileDetailsSidebar';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
-import { fetchFiles, uploadFile, deleteFile } from '../api/mediaApi';
+import { fetchFiles, uploadFile, deleteFile, fetchMediaStats } from '../api/mediaApi';
+import toast from 'react-hot-toast';
 
 // ─── Filter pill labels → fileType query param ───────────────────────────────
 const FILTER_MAP = {
@@ -56,7 +57,10 @@ const MediaListRow = ({ item, isSelected, onClick, onDelete }) => {
       <div className="flex items-center gap-2 shrink-0">
         <button
           className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-primary hover:bg-[#fff2ee] transition-colors"
-          onClick={(e) => { e.stopPropagation(); if (item.fileUrl) window.open(item.fileUrl, '_blank'); }}
+          onClick={(e) => { 
+            e.stopPropagation(); 
+            handleDownload(item.id, item.originalName || item.fileName); 
+          }}
         >
           <Download className="w-4 h-4" />
         </button>
@@ -85,9 +89,35 @@ const MediaLibrary = () => {
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [deleteTarget, setDeleteTarget]   = useState(null); // id to delete
   const [isDeleting, setIsDeleting]       = useState(false);
+  const [stats, setStats]                 = useState(null);
 
   const fileInputRef = useRef(null);
   const searchTimer  = useRef(null);
+
+  const handleDownload = async (id, filename) => {
+    try {
+      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${BASE_URL}/media/${id}/download`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!response.ok) throw new Error('Download failed');
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename || 'download';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      toast.error('Failed to download file');
+    }
+  };
 
   // ── Load files from API ──────────────────────────────────────────────────
   const loadFiles = useCallback(async (searchVal = search, filterVal = filter, pageNum = page) => {
@@ -105,7 +135,19 @@ const MediaLibrary = () => {
     }
   }, [search, filter, page]);
 
-  useEffect(() => { loadFiles(); }, []); // eslint-disable-line
+  const loadStats = async () => {
+    try {
+      const data = await fetchMediaStats();
+      setStats(data);
+    } catch (err) {
+      console.error('Failed to load stats:', err);
+    }
+  };
+
+  useEffect(() => { 
+    loadFiles(); 
+    loadStats();
+  }, []); // eslint-disable-line
 
   // ── Debounced search ─────────────────────────────────────────────────────
   const handleSearchChange = (val) => {
@@ -133,10 +175,12 @@ const MediaLibrary = () => {
     setUploading(true);
     try {
       await Promise.all(Array.from(selectedFiles).map((f) => uploadFile(f)));
+      toast.success('Files uploaded successfully');
       await loadFiles();
+      await loadStats();
     } catch (err) {
       console.error('Upload error:', err);
-      alert(`Upload failed: ${err.message}`);
+      toast.error(`Upload failed: ${err.message}`);
     } finally {
       setUploading(false);
     }
@@ -160,10 +204,12 @@ const MediaLibrary = () => {
       await deleteFile(deleteTarget);
       if (selectedFileId === deleteTarget) setSelectedFileId(null);
       setDeleteTarget(null);
+      toast.success('File deleted successfully');
       await loadFiles();
+      await loadStats();
     } catch (err) {
       console.error('Delete error:', err);
-      alert(`Delete failed: ${err.message}`);
+      toast.error(`Delete failed: ${err.message}`);
     } finally {
       setIsDeleting(false);
     }
@@ -193,11 +239,11 @@ const MediaLibrary = () => {
         <div className="mt-8 flex flex-col gap-6 pb-8 pr-6">
           {/* Storage Bar */}
           <div className="bg-white p-6 rounded-[20px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 max-lg:flex-col max-lg:items-start max-lg:gap-3">
               <span className="text-sm font-bold text-gray-800 tracking-wide">Storage Used</span>
-              <div className="flex items-center gap-8">
-                <span className="font-bold text-[#f95724] text-[13px] tracking-wide">24.3 GB / 100 GB</span>
-                <div className="flex items-center gap-5 text-xs font-semibold text-gray-400">
+              <div className="flex items-center gap-8 max-lg:flex-col max-lg:items-start max-lg:gap-3">
+                <span className="font-bold text-[#f95724] text-[13px] tracking-wide">{stats ? formatBytes(stats.totalStorageUsed) : '0 Bytes'} / 100 GB</span>
+                <div className="flex items-center gap-5 text-xs font-semibold text-gray-400 max-lg:flex-wrap">
                   <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-[#6366f1] mr-2" />Images</span>
                   <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-[#ef4444] mr-2" />Videos</span>
                   <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b] mr-2" />Documents</span>
@@ -206,18 +252,18 @@ const MediaLibrary = () => {
               </div>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden flex gap-0.5">
-              <div className="bg-[#6366f1] h-full" style={{ width: '11%' }} />
-              <div className="bg-[#ef4444] h-full" style={{ width: '9%' }} />
-              <div className="bg-[#f59e0b] h-full" style={{ width: '2.5%' }} />
-              <div className="bg-[#10b981] h-full" style={{ width: '1.8%' }} />
+              <div className="bg-[#6366f1] h-full" style={{ width: `${(stats?.mediaBreakdown?.images || 0) / 1073741824}%` }} />
+              <div className="bg-[#ef4444] h-full" style={{ width: `${(stats?.mediaBreakdown?.videos || 0) / 1073741824}%` }} />
+              <div className="bg-[#f59e0b] h-full" style={{ width: `${(stats?.mediaBreakdown?.documents || 0) / 1073741824}%` }} />
+              <div className="bg-[#10b981] h-full" style={{ width: `${(stats?.mediaBreakdown?.models || 0) / 1073741824}%` }} />
             </div>
           </div>
 
           {/* Toolbar */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between max-lg:flex-col max-lg:items-start max-lg:gap-4">
             {/* Search — pill shaped, white bg matching reference */}
-            <div className="flex items-center gap-3 flex-1">
-              <div className="relative w-64">
+            <div className="flex items-center gap-3 flex-1 max-lg:flex-col max-lg:items-start max-lg:w-full">
+              <div className="relative w-64 max-lg:w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
@@ -229,7 +275,7 @@ const MediaLibrary = () => {
               </div>
 
               {/* Filter Pills */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 max-lg:overflow-x-auto max-lg:pb-1 max-lg:w-full no-scrollbar">
                 {FILTERS.map((f) => (
                   <button
                     key={f}
@@ -247,7 +293,7 @@ const MediaLibrary = () => {
             </div>
 
             {/* View Toggle */}
-            <div className="flex bg-white rounded-full border border-gray-100 p-1 shadow-sm ml-3 shrink-0">
+            <div className="flex bg-white rounded-full border border-gray-100 p-1 shadow-sm ml-3 shrink-0 max-lg:ml-0">
               <button
                 onClick={() => setView('grid')}
                 className={`p-1.5 rounded-full transition-colors ${view === 'grid' ? 'bg-[#fff2ee] text-[#f95724]' : 'text-gray-400 hover:text-gray-600'}`}
@@ -300,7 +346,7 @@ const MediaLibrary = () => {
           ) : files.length === 0 ? (
             <div className="flex items-center justify-center py-16 text-gray-400 text-sm">No files found.</div>
           ) : view === 'grid' ? (
-            <div className={`grid gap-4 ${selectedFileId ? 'grid-cols-3' : 'grid-cols-4'}`}>
+            <div className={`grid gap-4 max-lg:grid-cols-2 max-md:grid-cols-1 ${selectedFileId ? 'grid-cols-3' : 'grid-cols-4'}`}>
               {files.map((item) => (
                 <MediaCard
                   key={item.id}
@@ -341,11 +387,14 @@ const MediaLibrary = () => {
 
       {/* Right: File Details Sidebar — fixed width, no distortion */}
       {selectedFileId && selectedFile && (
-        <FileDetailsSidebar
-          item={selectedFile}
-          onClose={() => setSelectedFileId(null)}
-          onDelete={(id) => setDeleteTarget(id)}
-        />
+        <div className="max-lg:fixed max-lg:inset-0 max-lg:z-[60] max-lg:flex max-lg:bg-black/20">
+          <FileDetailsSidebar
+            item={selectedFile}
+            onClose={() => setSelectedFileId(null)}
+            onDelete={(id) => setDeleteTarget(id)}
+            onDownload={handleDownload}
+          />
+        </div>
       )}
 
       {/* Delete Confirmation */}

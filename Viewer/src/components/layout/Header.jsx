@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MobileMenu from './MobileMenu';
 import { motion } from 'framer-motion';
 import { navigation } from '../../config/navigation';
@@ -9,6 +9,7 @@ import { getLogo } from '../../utils/assetResolver';
 const Header = ({ siteData }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,11 +40,14 @@ const Header = ({ siteData }) => {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-medium text-brand-white/80">
-            {navigation.filter(item => item.label !== "Contact").map((item) => (
-              <Link key={item.label} to={item.href} className="hover:text-brand-primary transition-colors">
-                {item.label}
-              </Link>
-            ))}
+            {navigation.filter(item => item.label !== "Contact").map((item) => {
+              const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
+              return (
+                <Link key={item.label} to={item.href} className={`transition-colors py-1 ${isActive ? 'text-brand-primary border-b border-brand-primary' : 'hover:text-brand-primary'}`}>
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="hidden md:block">

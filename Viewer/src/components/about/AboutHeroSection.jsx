@@ -1,0 +1,130 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight, MapPin, Calendar } from 'lucide-react';
+import { ABOUT_PAGE_DEFAULTS } from '../../data/aboutPageDefaults';
+
+const AboutHeroSection = ({ data }) => {
+  const overview = data?.overview || ABOUT_PAGE_DEFAULTS.overview;
+  const foundedYear = data?.details?.foundedYear || ABOUT_PAGE_DEFAULTS.foundedYear;
+  const headquarters = data?.details?.headquarters || ABOUT_PAGE_DEFAULTS.headquarters;
+  
+  // Tactical defense placeholder image
+  const bgImage = "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80";
+
+  return (
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#050505]">
+      
+      {/* Background Subtle Grid - Extremely faint as requested */}
+      <div className="absolute inset-0 opacity-100 pointer-events-none" 
+           style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
+      </div>
+
+      {/* Cinematic Right-Side Image Composition */}
+      <div className="absolute top-0 right-0 w-full lg:w-[65%] h-full z-0">
+        <div className="w-full h-full relative">
+          {/* Main Image */}
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${bgImage})` }}></div>
+          
+          {/* Dark Blue-Black Overlay for Tactical Aesthetic */}
+          <div className="absolute inset-0 bg-[#050505]/70 mix-blend-multiply"></div>
+          
+          {/* Left-to-Right Fade to blend smoothly into the black background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/90 to-transparent"></div>
+          
+          {/* Orange Network Glow */}
+          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-primary/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none"></div>
+          
+          {/* Subtle Tactical HUD Elements / Connection Lines overlay */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none" 
+               style={{ backgroundImage: 'linear-gradient(rgba(255, 106, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 106, 0, 0.1) 1px, transparent 1px)', backgroundSize: '100px 100px' }}>
+          </div>
+
+          {/* Floating Connected Systems Panel */}
+          <motion.div 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="absolute top-32 right-12 lg:right-24 bg-[#050505]/80 border border-brand-primary/30 p-6 shadow-[0_0_30px_rgba(255,106,0,0.1)] backdrop-blur-md z-30 hidden md:block"
+          >
+            <div className="flex items-center gap-3 mb-4 border-b border-[rgba(255,255,255,0.06)] pb-3">
+              <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></div>
+              <h4 className="text-xs font-heading text-brand-primary tracking-widest uppercase font-bold">Connected Systems</h4>
+            </div>
+            <ul className="space-y-3">
+              {['Integrated Operations', 'Secure Networks', 'Real-time Intelligence'].map((item, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <span className="text-brand-primary text-xs opacity-50 font-mono">0{i+1}</span>
+                  <span className="text-sm font-body text-brand-white/80">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Main Content Area (Overlaying left side) */}
+      <div className="container mx-auto px-6 relative z-10 py-32 mt-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-2xl"
+        >
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-[1px] w-8 bg-brand-primary"></div>
+            <span className="text-sm text-brand-primary tracking-widest font-heading uppercase font-bold">
+              ABOUT DYNASAS
+            </span>
+          </div>
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-brand-white leading-[1.1] mb-8">
+            Engineering the Future of <br className="hidden md:block" />
+            <span className="text-brand-primary">Defense Technology</span>
+          </h1>
+
+          <p className="text-xl text-brand-white/70 font-body leading-relaxed mb-12 max-w-xl">
+            {overview}
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-16">
+            <Link to="#mission" className="inline-flex items-center justify-center gap-3 bg-brand-primary text-[#050505] px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white hover:text-[#050505] transition-colors duration-300">
+              Our Mission
+              <ArrowRight size={18} />
+            </Link>
+            <Link to="/contact" className="inline-flex items-center justify-center gap-3 border border-[rgba(255,255,255,0.15)] text-brand-white px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white/5 transition-colors duration-300">
+              Contact Us
+            </Link>
+          </div>
+
+          {/* Compact Inline Info Cards */}
+          <div className="flex flex-wrap items-center gap-8 lg:gap-12 pt-8 border-t border-[rgba(255,255,255,0.06)]">
+            <div className="flex items-center gap-4 group">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-brand-primary/30 bg-brand-primary/5 text-brand-primary group-hover:bg-brand-primary/20 transition-colors">
+                <Calendar size={18} />
+              </div>
+              <div>
+                <h4 className="text-brand-white/40 text-[10px] font-heading tracking-widest uppercase mb-0.5">Founded</h4>
+                <p className="text-brand-white font-mono font-bold text-lg">{foundedYear}</p>
+              </div>
+            </div>
+            
+            <div className="hidden sm:block h-8 w-px bg-[rgba(255,255,255,0.06)]"></div>
+
+            <div className="flex items-center gap-4 group">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-brand-primary/30 bg-brand-primary/5 text-brand-primary group-hover:bg-brand-primary/20 transition-colors">
+                <MapPin size={18} />
+              </div>
+              <div>
+                <h4 className="text-brand-white/40 text-[10px] font-heading tracking-widest uppercase mb-0.5">Headquarters</h4>
+                <p className="text-brand-white font-mono font-bold text-lg">{headquarters}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default AboutHeroSection;

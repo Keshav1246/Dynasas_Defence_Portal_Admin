@@ -1,4 +1,5 @@
 import { DEFAULT_CONTENT } from '../defaultContent';
+import { ABOUT_PAGE_DEFAULTS } from '../../data/aboutPageDefaults';
 
 export const mapSiteData = (settings) => {
   if (!settings) return null;
@@ -67,10 +68,17 @@ export const mapServicesData = (homepage, services) => {
 
 export const mapAboutData = (profile, pillars) => {
   if (!profile) return null;
+  
+  const foundedYear = profile.foundedYear || ABOUT_PAGE_DEFAULTS.foundedYear;
+  const currentYear = new Date().getFullYear();
+  const calculatedYears = currentYear - parseInt(foundedYear, 10);
+  const yearsOfLegacy = isNaN(calculatedYears) ? "25+" : `${calculatedYears}+`;
+
   return {
     sectionLabel: DEFAULT_CONTENT.ABOUT_LABEL, // Missing field fallback
     sectionTitle: profile.companyName || DEFAULT_CONTENT.ABOUT_TITLE,
     introduction: profile.overview || '',
+    overview: profile.overview || ABOUT_PAGE_DEFAULTS.overview,
     mission: {
       title: profile.missionTitle || DEFAULT_CONTENT.MISSION_TITLE,
       statement: profile.missionStatement || '',
@@ -81,8 +89,9 @@ export const mapAboutData = (profile, pillars) => {
       statement: profile.visionStatement || '',
     },
     details: {
-      foundedYear: profile.foundedYear,
-      headquarters: profile.headquarters,
+      foundedYear: foundedYear,
+      headquarters: profile.headquarters || ABOUT_PAGE_DEFAULTS.headquarters,
+      yearsOfLegacy: yearsOfLegacy
     },
     media: null, // Missing field fallback
   };

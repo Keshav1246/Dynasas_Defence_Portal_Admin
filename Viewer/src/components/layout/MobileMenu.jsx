@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { navigation } from '../../config/navigation';
 import { getLogo } from '../../utils/assetResolver';
 
 const MobileMenu = ({ isOpen, onClose, siteData }) => {
   const logoUrl = getLogo(siteData, true);
+  const location = useLocation();
 
   return (
     <AnimatePresence>
@@ -30,12 +31,15 @@ const MobileMenu = ({ isOpen, onClose, siteData }) => {
           </div>
           
           <nav className="flex flex-col gap-6 text-2xl font-light text-brand-white/80">
-            <Link to="/" onClick={onClose} className="hover:text-brand-primary transition-colors">Home</Link>
-            {navigation.map((item) => (
-              <Link key={item.label} to={item.href} onClick={onClose} className="hover:text-brand-primary transition-colors">
-                {item.label}
-              </Link>
-            ))}
+            <Link to="/" onClick={onClose} className={`transition-colors w-fit ${location.pathname === '/' ? 'text-brand-primary border-b border-brand-primary' : 'hover:text-brand-primary'}`}>Home</Link>
+            {navigation.map((item) => {
+              const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
+              return (
+                <Link key={item.label} to={item.href} onClick={onClose} className={`transition-colors w-fit ${isActive ? 'text-brand-primary border-b border-brand-primary' : 'hover:text-brand-primary'}`}>
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         </motion.div>
       )}

@@ -15,7 +15,8 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
     status: 'ACTIVE',
     description: '',
     website: '',
-    logo: ''
+    logo: '',
+    displayOrder: 0
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,7 +28,8 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
           status: (editingPartner.status && editingPartner.status.toUpperCase() === 'INACTIVE') ? 'INACTIVE' : 'ACTIVE',
           description: editingPartner.description || '',
           website: editingPartner.website || editingPartner.url || '',
-          logo: editingPartner.logo || ''
+          logo: editingPartner.logo || '',
+          displayOrder: editingPartner.displayOrder || 0
         });
       } else {
         setFormData({
@@ -35,7 +37,8 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
           status: 'ACTIVE',
           description: '',
           website: '',
-          logo: ''
+          logo: '',
+          displayOrder: 0
         });
       }
     }
@@ -116,6 +119,15 @@ export const AddPartnerModal = ({ isOpen, onClose, onSave, editingPartner }) => 
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </Select>
+            </div>
+            <div>
+              <Label>Display Order</Label>
+              <Input 
+                name="displayOrder" 
+                type="number"
+                value={formData.displayOrder} 
+                onChange={(e) => setFormData(prev => ({ ...prev, displayOrder: parseInt(e.target.value) || 0 }))} 
+              />
             </div>
           </div>
 

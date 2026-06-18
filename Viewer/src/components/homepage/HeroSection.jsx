@@ -48,9 +48,13 @@ const HeroSection = ({ data }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-6 inline-block"
         >
-          <span className="px-4 py-1 border border-brand-border rounded-full text-xs uppercase tracking-[0.2em] font-medium backdrop-blur-sm bg-brand-black/20">
-            Intelligent Defense Systems
-          </span>
+
+          {data.heroTitle && (
+            <span className="px-4 py-1 border border-brand-border rounded-full text-xs uppercase tracking-[0.2em] font-medium backdrop-blur-sm bg-brand-black/20">
+              {data.heroTitle}
+            </span>
+          )}
+
         </motion.div>
 
         <motion.h1
@@ -59,7 +63,7 @@ const HeroSection = ({ data }) => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 tracking-tight max-w-4xl leading-tight text-brand-white"
         >
-          {data.title}
+          {data.heroSubtitle}
         </motion.h1>
 
         <motion.p
@@ -68,7 +72,7 @@ const HeroSection = ({ data }) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg md:text-xl text-brand-white/80 max-w-2xl mb-12 font-body font-light"
         >
-          {data.subtitle}
+          {data.heroDescription}
         </motion.p>
 
         <motion.div
@@ -79,7 +83,7 @@ const HeroSection = ({ data }) => {
         >
           {data.primaryCTA?.text && (
             <Link
-              to={data.primaryCTA.link || '#'}
+              to={data.primaryCTA.link}
               className="group bg-brand-primary text-brand-white px-8 py-4 font-semibold uppercase tracking-wider text-sm flex items-center justify-center gap-3 hover:bg-brand-primary-hover hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
             >
               {data.primaryCTA.text}
@@ -88,7 +92,7 @@ const HeroSection = ({ data }) => {
           )}
           {data.secondaryCTA?.text && (
             <Link
-              to={data.secondaryCTA.link || '#'}
+              to={data.secondaryCTA.link}
               className="px-8 py-4 font-semibold uppercase tracking-wider text-sm border border-brand-primary text-brand-white hover:bg-brand-primary hover:text-brand-white hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center w-full sm:w-auto"
             >
               {data.secondaryCTA.text}

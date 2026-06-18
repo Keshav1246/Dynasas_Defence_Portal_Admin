@@ -1,20 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const TrustBar = () => {
-  // Using generic placeholders as requested, this should eventually be CMS driven
-  const placeholders = [
-    "TRUSTED BY GLOBAL ALLIES",
-    "ISO 9001 CERTIFIED",
-    "DEFENSE COMPLIANT",
-    "MIL-SPEC APPROVED"
-  ];
+const TrustBar = ({ data }) => {
+  const items = data && data.length > 0 ? data : [];
+
+  if (items.length === 0) return null;
 
   return (
     <div className="w-full py-8 border-y border-brand-border relative z-10 backdrop-blur-sm bg-brand-dark/30">
       <div className="container mx-auto px-6">
         <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60">
-          {placeholders.map((text, idx) => (
+          {items.map((text, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0 }}

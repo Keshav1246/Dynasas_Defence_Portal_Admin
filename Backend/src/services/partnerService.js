@@ -63,9 +63,10 @@ class PartnerService {
       where,
       skip,
       take: limit,
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: [
+        { displayOrder: 'asc' },
+        { createdAt: 'desc' }
+      ],
     }),
     prisma.partner.count({ where }),
     prisma.partner.count({ where: { isDeleted: false } }),

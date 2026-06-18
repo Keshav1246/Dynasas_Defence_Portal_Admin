@@ -1,10 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy } from 'lucide-react';
-import { PHASE_2_DUMMY_DATA } from '../../data/aboutPagePhase2Dummy';
+import { Trophy, Calendar, Award, Target, Crosshair, Globe, Shield } from 'lucide-react';
 
-const CompanyJourneySection = () => {
-  const { label, heading, description, achievement, milestones, values } = PHASE_2_DUMMY_DATA.journey;
+const ICON_MAP = {
+  'Calendar': Calendar,
+  'Award': Award,
+  'Target': Target,
+  'Crosshair': Crosshair,
+  'Globe': Globe
+};
+
+const CompanyJourneySection = ({ data }) => {
+  const { label, heading, description, achievement, milestones, values } = data?.journey || {};
 
   return (
     <section className="relative py-24 lg:py-32 bg-[#050505] overflow-hidden border-t border-[rgba(255,255,255,0.06)]">
@@ -62,7 +69,7 @@ const CompanyJourneySection = () => {
                 </div>
                 <div className="relative z-10">
                   <p className="text-brand-white font-body font-medium leading-snug">
-                    <span className="text-brand-primary font-bold">25+</span> Years of excellence in delivering mission-critical defense solutions worldwide.
+                    {achievement}
                   </p>
                 </div>
               </div>
@@ -79,8 +86,8 @@ const CompanyJourneySection = () => {
             <div className="lg:hidden absolute left-6 top-0 bottom-0 w-[2px] bg-gradient-to-b from-brand-primary/10 via-brand-primary to-brand-primary/10 shadow-[0_0_20px_rgba(255,106,0,0.5)]"></div>
 
             <div className="w-full flex flex-col lg:flex-row justify-between items-start lg:items-center relative gap-8 lg:gap-4 pl-12 lg:pl-0">
-              {milestones.map((milestone, idx) => {
-                const Icon = milestone.icon;
+              {(milestones || []).map((milestone, idx) => {
+                const Icon = ICON_MAP[milestone.iconName] || Shield;
                 const isEven = idx % 2 === 0;
                 
                 return (
@@ -148,12 +155,12 @@ const CompanyJourneySection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-20 lg:mt-32 pt-8 border-t border-[rgba(255,255,255,0.06)] flex flex-wrap justify-center items-center gap-4 lg:gap-8"
         >
-          {values.map((val, idx) => (
+          {(values || []).map((val, idx) => (
             <React.Fragment key={idx}>
               <span className="text-xs lg:text-sm font-heading tracking-[0.2em] text-brand-white/70 uppercase">
                 {val}
               </span>
-              {idx < values.length - 1 && (
+              {idx < (values || []).length - 1 && (
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-primary shadow-[0_0_8px_rgba(255,106,0,0.6)]"></div>
               )}
             </React.Fragment>

@@ -449,6 +449,9 @@ async function main() {
         'Defending Tomorrow. Securing Today.',
 
       heroSubtitle:
+        'DYNASAS • DEFENSE TECHNOLOGY',
+
+      heroDescription:
         'Advanced defence technologies, cybersecurity platforms, aerospace systems and strategic solutions engineered for modern security challenges.',
 
       ctaText:
@@ -466,14 +469,15 @@ async function main() {
       secondaryCtaLink:
         '/contact',
 
-      servicesSectionTitle:
-        'Our Defence Capabilities',
-
-      servicesSectionDescription:
-        'Comprehensive solutions spanning aerospace, cybersecurity, surveillance, tactical communications and advanced defence engineering.',
-
-      statisticsSectionTitle:
-        'Trusted Worldwide',
+      servicesSectionTitle: "Core Capabilities",
+      servicesSectionDescription: "Delivering unmatched operational advantage through integrated defense technologies, AI-driven analytics, and secure communication networks.",
+      statisticsSectionTitle: "By the Numbers",
+      trustBarItems: [
+        "TRUSTED BY GLOBAL ALLIES",
+        "ISO 9001 CERTIFIED",
+        "DEFENSE COMPLIANT",
+        "MIL-SPEC APPROVED"
+      ],
 
       sectionOrder: [
         'hero',

@@ -2,8 +2,10 @@ import React from 'react';
 
 const tabs = [
   { id: "hero", title: "Hero Section", subtitle: "Main banner & CTA" },
+  { id: "trustBar", title: "Trust Bar Section", subtitle: "Compliance & trust items" },
   { id: "services", title: "Services Section", subtitle: "Core capabilities list" },
-  { id: "statistics", title: "Statistics Section", subtitle: "Key numbers display" }
+  { id: "statistics", title: "Statistics Section", subtitle: "Key numbers display" },
+  { id: "partners", title: "Partners Section", subtitle: "Trusted by leaders" }
 ];
 
 const ModuleSidebar = ({ activeTab, onTabChange }) => {
@@ -46,11 +48,19 @@ const ModuleSidebar = ({ activeTab, onTabChange }) => {
             </li>
             <li className="flex items-center gap-3 text-sm text-gray-500 px-2 py-1">
               <span className="text-gray-300 font-medium">2.</span>
-              <span className="font-medium">Services Section</span>
+              <span className="font-medium">Trust Bar Section</span>
             </li>
             <li className="flex items-center gap-3 text-sm text-gray-500 px-2 py-1">
               <span className="text-gray-300 font-medium">3.</span>
+              <span className="font-medium">Services Section</span>
+            </li>
+            <li className="flex items-center gap-3 text-sm text-gray-500 px-2 py-1">
+              <span className="text-gray-300 font-medium">4.</span>
               <span className="font-medium">Statistics Section</span>
+            </li>
+            <li className="flex items-center gap-3 text-sm text-gray-500 px-2 py-1">
+              <span className="text-gray-300 font-medium">5.</span>
+              <span className="font-medium">Partners Section</span>
             </li>
           </ul>
         </div>

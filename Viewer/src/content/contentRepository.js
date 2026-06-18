@@ -21,7 +21,7 @@ import {
 // Basic in-memory cache to prevent redundant fetching during route transitions
 let contentCache = null;
 let lastFetchTime = null;
-const CACHE_DURATION_MS = 1000 * 60 * 5; // 5 minutes
+const CACHE_DURATION_MS = 0; // Disabled cache to allow instant updates from admin
 
 export const fetchAllWebsiteContent = async (forceRefresh = false) => {
   const now = Date.now();
@@ -72,9 +72,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       rawServices = servicesRes.services;
     }
     
-    // TEMPORARY DEBUGGING LOGS
-    console.log("Services API response:", servicesRes);
-    console.log("Extracted rawServices:", rawServices);
+
     const rawPartners = partnersRes.data || [];
     const rawServicesPage = servicesPageRes.data || {};
 
@@ -95,19 +93,36 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
 
     // Validate and build final structure
     const mappedContent = {
-      seoData,
-      siteStructure,
-      siteData,
-      heroData: validateHeroData(mapHeroData(rawHomepage)),
-      servicesData: validateServicesData(mapServicesData(rawHomepage, rawServices)),
-      aboutData: validateAboutData(mapAboutData(rawCompany, rawPillars)),
-      statisticsData: validateStatisticsData(mapStatisticsData(rawHomepage, rawStats)),
-      partnersData: validatePartnersData(mapPartnersData(rawPartners)),
-      servicesPageData: rawServicesPage,
-      contactData: mapContactData(rawCompany),
-      footerData: validateFooterData(mapFooterData(siteData, rawFooter, rawCompany)),
-    };
+  seoData,
+  siteStructure,
+  siteData,
 
+  heroData: validateHeroData(mapHeroData(rawHomepage)),
+
+  servicesData: validateServicesData(
+    mapServicesData(rawHomepage, rawServices)
+  ),
+
+  aboutData: validateAboutData(
+    mapAboutData(rawCompany, rawPillars)
+  ),
+
+  statisticsData: validateStatisticsData(
+    mapStatisticsData(rawHomepage, rawStats)
+  ),
+
+  partnersData: validatePartnersData(
+    mapPartnersData(rawHomepage, rawPartners)
+  ),
+
+  servicesPageData: rawServicesPage,
+
+  contactData: mapContactData(rawCompany),
+
+  footerData: validateFooterData(
+    mapFooterData(siteData, rawFooter, rawCompany)
+  ),
+};
     contentCache = mappedContent;
     lastFetchTime = now;
 
@@ -118,3 +133,5 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
     throw error;
   }
 };
+
+// Force HMR cache flush

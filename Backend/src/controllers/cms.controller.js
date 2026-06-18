@@ -4,12 +4,19 @@ const activityLogService = require("../services/ActivityLogService");
 
 const getHomepageContent = async (req, res, next) => {
   try {
-    const homepageContent =
-      await prisma.homepageContent.findFirst();
+    const homepageContent = await prisma.homepageContent.findFirst();
+
+    const activePartners = await prisma.partner.findMany({
+      where: { status: 'ACTIVE', isDeleted: false },
+      orderBy: { displayOrder: 'asc' }
+    });
 
     res.status(200).json({
       success: true,
-      data: homepageContent,
+      data: {
+        ...homepageContent,
+        partners: activePartners
+      },
     });
   } catch (error) {
     logger.error(error.message);
@@ -248,6 +255,8 @@ module.exports = {
   getFooterContent,
   createFooterContent,
   updateFooterContent,
+};
+// Trigger reload
   getServicesPageContent,
   createServicesPageContent,
   updateServicesPageContent,

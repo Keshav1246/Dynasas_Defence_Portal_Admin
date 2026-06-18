@@ -3,12 +3,21 @@ const { z } = require("zod");
 const createHomepageSchema = z.object({
   heroTitle: z.string().min(2),
   heroSubtitle: z.string().min(5),
+  heroDescription: z.string().min(5),
   ctaText: z.string().min(2),
-  ctaLink: z.string().url("Must be a valid URL"),
-  heroImage: z.string().min(1),
+  ctaLink: z.string().min(1, "URL is required"),
+  heroImage: z.string(),
 
   secondaryCtaText: z.string().optional(),
-  secondaryCtaLink: z.string().url("Must be a valid URL").optional(),
+  secondaryCtaLink: z.string().optional(),
+
+  trustBarItems: z.array(z.string().min(3).max(100)).optional(),
+
+  partnersSectionLabel: z.string().optional(),
+  partnersSectionTitle: z.string().optional(),
+  partnersSectionDescription: z.string().optional(),
+  partnersButtonText: z.string().optional(),
+  partnersButtonLink: z.string().optional(),
 
   servicesSectionTitle: z.string().optional(),
   servicesSectionDescription: z.string().optional(),

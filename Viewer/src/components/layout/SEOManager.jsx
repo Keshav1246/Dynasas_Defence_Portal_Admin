@@ -25,7 +25,7 @@ const SEOManager = ({ seoData }) => {
         linkFavicon.rel = 'icon';
         document.head.appendChild(linkFavicon);
       }
-      linkFavicon.href = seoData.favicon;
+      linkFavicon.href = `${seoData.favicon}?v=${new Date().getTime()}`;
     }
   }, [seoData]);
 

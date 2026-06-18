@@ -55,7 +55,7 @@ const HomePage = () => {
       <main>
         {/* Enforced Order per Blueprint */}
         <HeroSection data={heroData} />
-        <TrustBar />
+        <TrustBar data={heroData?.trustBarItems || []} />
 
         {/* Top Spacer for Services Section */}
         <div className="h-24 md:h-24 w-full bg-brand-black relative z-10"></div>
@@ -67,6 +67,9 @@ const HomePage = () => {
 
         <AboutSection data={aboutData} />
         <MissionVisionSection data={aboutData} />
+        
+        {/* Partners Section mapping from CMS */}
+        <PartnersSection data={partnersData} />
       </main>
 
       <FooterSection data={footerData} siteData={siteData} />

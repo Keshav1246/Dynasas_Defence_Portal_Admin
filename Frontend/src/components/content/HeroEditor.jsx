@@ -57,6 +57,7 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
 
     if (!formData.heroTitle?.trim()) newErrors.heroTitle = 'Hero title is required';
     if (!formData.heroSubtitle?.trim()) newErrors.heroSubtitle = 'Hero subtitle is required';
+    if (!formData.heroDescription?.trim()) newErrors.heroDescription = 'Hero description is required';
     if (!formData.ctaText?.trim()) newErrors.ctaText = 'CTA button text is required';
     
     if (!formData.ctaLink?.trim()) {
@@ -115,20 +116,22 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
            style={formData.heroImage ? { backgroundImage: `url(${formData.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="relative z-10 flex flex-col items-center w-full">
-          <span className="text-[9px] font-bold text-[#F97316] uppercase tracking-widest mb-3">
-            DYNASOFT • DEFENSE TECHNOLOGY
-          </span>
           {formData.heroTitle ? (
-            <h2 className="text-[26px] font-bold text-white leading-tight max-w-xl text-center">
+            <span className="text-[9px] font-bold text-[#F97316] uppercase tracking-widest mb-3">
               {formData.heroTitle}
-            </h2>
+            </span>
           ) : null}
           {formData.heroSubtitle ? (
-            <p className="mt-4 text-sm text-gray-300 font-medium max-w-lg leading-relaxed line-clamp-3 text-center">
+            <h2 className="text-[26px] font-bold text-white leading-tight max-w-xl text-center">
               {formData.heroSubtitle}
+            </h2>
+          ) : null}
+          {formData.heroDescription ? (
+            <p className="mt-4 text-sm text-gray-300 font-medium max-w-lg leading-relaxed line-clamp-3 text-center">
+              {formData.heroDescription}
             </p>
           ) : null}
-          {!formData.heroTitle && !formData.heroSubtitle && (
+          {!formData.heroTitle && !formData.heroSubtitle && !formData.heroDescription && (
             <div className="py-8 text-gray-400 italic text-sm">No hero content provided</div>
           )}
           <div className="flex gap-4 mt-6">
@@ -162,14 +165,26 @@ const HeroEditor = ({ data, onSave, isSaving }) => {
 
         <div>
           <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Subtitle <span className="text-rose-500">*</span></label>
-          <textarea 
+          <input 
+            type="text"
             name="heroSubtitle"
             value={formData.heroSubtitle}
             onChange={handleChange}
-            rows={2}
-            className={`w-full px-4 py-3 bg-white border ${errors.heroSubtitle ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed`}
+            className={`w-full px-4 py-2.5 bg-white border ${errors.heroSubtitle ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed`}
           />
           {errors.heroSubtitle && <p className="mt-1.5 text-sm text-rose-500">{errors.heroSubtitle}</p>}
+        </div>
+
+        <div>
+          <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Description <span className="text-rose-500">*</span></label>
+          <textarea 
+            name="heroDescription"
+            value={formData.heroDescription}
+            onChange={handleChange}
+            rows={3}
+            className={`w-full px-4 py-3 bg-white border ${errors.heroDescription ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-[#F97316]'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed`}
+          />
+          {errors.heroDescription && <p className="mt-1.5 text-sm text-rose-500">{errors.heroDescription}</p>}
         </div>
 
         <div>

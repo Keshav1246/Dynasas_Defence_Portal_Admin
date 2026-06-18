@@ -14,6 +14,7 @@ const createCompanySchema = z.object({
   visionTitle: z.string().optional().nullable(),
   visionStatement: z.string().optional().nullable(),
   longTermGoals: z.string().optional().nullable(),
+  visionFuturePriorities: z.array(z.string()).optional(),
   generalEmail: z.string().optional().nullable(),
   securityEmail: z.string().optional().nullable(),
   mainPhone: z.string().optional().nullable(),

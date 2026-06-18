@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ServicesStickyMedia from './services/ServicesStickyMedia';
 import ServiceCard from './services/ServiceCard';
-import { enrichCmsServices, DUMMY_SERVICES } from '../../data/dummyServices';
 
 const SCROLL_THRESHOLD = 100;
 const ANIMATION_DURATION = 800; // ms
@@ -25,8 +24,7 @@ const ServicesSection = ({ data }) => {
   const scrollAccumulator = useRef(0);
   const isHoveringCards = useRef(false);
 
-  const cmsServices = data?.items || [];
-  const services = cmsServices.length ? enrichCmsServices(cmsServices) : DUMMY_SERVICES;
+  const services = data?.items || [];
 
   useEffect(() => {
     const measureLayout = () => {
@@ -255,7 +253,7 @@ const ServicesSection = ({ data }) => {
   return (
     <section
       ref={sectionRef}
-      className={`w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black ${!isDesktop && 'py-32'}`}
+      className={`w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black ${!isDesktop ? 'py-16 md:py-20' : ''}`}
       style={isDesktop ? { height: `calc(100vh - ${navbarHeight}px)` } : {}}
     >
       <div className="container mx-auto px-6 h-full flex flex-col py-6 md:py-8">
@@ -268,12 +266,17 @@ const ServicesSection = ({ data }) => {
           <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
             <div className="h-[1px] w-8 bg-brand-primary/50"></div>
             <span className="text-label text-brand-primary uppercase tracking-wider">
-              {data?.sectionLabel || 'OUR CAPABILITIES'}
+              {data?.sectionLabel}
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading">
-            {data?.sectionTitle || 'Core Defense Systems'}
+            {data?.sectionTitle}
           </h2>
+          {data?.sectionDescription && (
+            <p className="mt-6 text-brand-white/70 max-w-2xl mx-auto md:mx-0 text-lg font-body leading-relaxed">
+              {data.sectionDescription}
+            </p>
+          )}
         </div>
 
         {/* Layout Structure (Perfectly centered in remaining space) */}
@@ -288,7 +291,7 @@ const ServicesSection = ({ data }) => {
 
           {/* Right Panel: Vertical Carousel */}
           <div
-            className={`w-full lg:w-7/12 flex flex-col justify-center gap-6 ${!isDesktop ? 'pb-32' : 'relative'}`}
+            className={`w-full lg:w-7/12 flex flex-col justify-center gap-6 relative`}
             onMouseEnter={() => isHoveringCards.current = true}
             onMouseLeave={() => isHoveringCards.current = false}
           >

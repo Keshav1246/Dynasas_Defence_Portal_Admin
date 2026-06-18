@@ -47,6 +47,7 @@ const CompanyProfilePage = () => {
         vision: {
           title: data.visionTitle || '',
           statement: data.visionStatement || '',
+          futurePriorities: data.visionFuturePriorities || [],
           longTermGoals: data.longTermGoals || ''
         },
         statistics: data.statistics || [],
@@ -123,6 +124,7 @@ const CompanyProfilePage = () => {
         await updateCompanyProfile(profileData.id, {
           visionTitle: sectionData.title,
           visionStatement: sectionData.statement,
+          visionFuturePriorities: sectionData.futurePriorities,
           longTermGoals: sectionData.longTermGoals
         });
       } else if (sectionKey === 'statistics') {

@@ -4,11 +4,13 @@ import { ArrowRight, MapPin, Lock, Globe2 } from 'lucide-react';
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 
 const ContactHeroSection = ({ data, inquiryRef }) => {
-  const defaults = CONTACT_PAGE_DEFAULTS.hero;
+  const defaults = data?.hero || {};
+  const primaryCTA = defaults.primaryCTA || 'Contact Experts';
+  const secondaryCTA = defaults.secondaryCTA || 'View Headquarters';
   
   // Use CMS data if available, fallback to defaults
-  const addressQuery = encodeURIComponent(data?.headquarters || CONTACT_PAGE_DEFAULTS.info.headquarters);
-  const mapsUrl = `${defaults.headquartersUrl}${addressQuery}`;
+  const addressQuery = encodeURIComponent(data?.headquarters || 'New Delhi, India');
+  const mapsUrl = `${defaults.headquartersUrl || 'https://www.google.com/maps/search/?api=1&query='}${addressQuery}`;
 
   const handleMapsClick = () => {
     window.open(mapsUrl, "_blank", "noopener,noreferrer");
@@ -58,54 +60,7 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
                style={{ backgroundImage: 'linear-gradient(rgba(255, 106, 0, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 106, 0, 0.15) 1px, transparent 1px)', backgroundSize: '150px 150px' }}>
           </div>
 
-          {/* Floating HUD Panel 1: SECURE NETWORK */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="absolute bottom-32 left-12 lg:left-24 bg-[#050505]/80 border border-brand-primary/30 p-5 shadow-[0_0_20px_rgba(255,106,0,0.1)] backdrop-blur-md z-30 hidden md:block"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-brand-primary/10 border border-brand-primary/30">
-                <Lock size={18} className="text-brand-primary" />
-              </div>
-              <div>
-                <h4 className="text-[10px] font-heading text-brand-primary tracking-widest uppercase mb-1">Secure Network</h4>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs font-mono text-brand-white/80">Encrypted AES-256</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
-          {/* Floating HUD Panel 2: GLOBAL CONNECTIVITY */}
-          <motion.div 
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="absolute top-32 right-12 lg:right-24 bg-[#050505]/80 border border-brand-primary/30 p-5 shadow-[0_0_20px_rgba(255,106,0,0.1)] backdrop-blur-md z-30 hidden md:block"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-brand-primary/10 border border-brand-primary/30 relative overflow-hidden">
-                <div className="absolute inset-0 bg-brand-primary/20 animate-pulse"></div>
-                <Globe2 size={18} className="text-brand-primary relative z-10" />
-              </div>
-              <div>
-                <h4 className="text-[10px] font-heading text-brand-primary tracking-widest uppercase mb-1">Global Connectivity</h4>
-                <div className="flex items-end gap-2">
-                  <span className="text-xs font-mono text-brand-white/50">Active Nodes:</span>
-                  <span className="text-lg font-mono font-bold text-brand-white leading-none">124</span>
-                </div>
-              </div>
-            </div>
-            {/* HUD Audio/Signal wave visualization mock */}
-            <div className="flex items-end gap-1 h-4 mt-4 opacity-50">
-              {[2,4,3,5,2,6,3,7,4,5,3,2,4].map((h, i) => (
-                <div key={i} className="w-1 bg-brand-primary" style={{ height: `${h*20}%` }}></div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
 
@@ -143,7 +98,7 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
               onClick={handleScrollToInquiry}
               className="inline-flex items-center justify-center gap-3 bg-brand-primary text-[#050505] px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-primary/90 hover:shadow-[0_0_15px_rgba(255,106,0,0.4)] transition-all duration-300 cursor-pointer"
             >
-              Contact Experts
+              {primaryCTA}
               <ArrowRight size={18} />
             </button>
             
@@ -153,7 +108,7 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
               className="inline-flex items-center justify-center gap-3 border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.02)] text-brand-white px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.3)] transition-all duration-300"
             >
               <MapPin size={18} className="text-brand-primary" />
-              View Headquarters
+              {secondaryCTA}
             </button>
           </div>
         </motion.div>

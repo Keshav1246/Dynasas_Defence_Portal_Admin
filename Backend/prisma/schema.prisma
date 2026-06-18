@@ -30,6 +30,7 @@ model Partner {
   logo        String?
   website     String?
   status      PartnerStatus @default(ACTIVE)
+  displayOrder Int          @default(0)
   isDeleted   Boolean       @default(false)
   deletedAt   DateTime?
   createdAt   DateTime      @default(now())
@@ -115,9 +116,10 @@ model CompanyProfile {
   missionStatement String?
 
   // New Vision fields
-  visionTitle     String?
-  visionStatement String?
-  longTermGoals   String?
+  visionTitle            String?
+  visionStatement        String?
+  longTermGoals          String?
+  visionFuturePriorities String[] @default([])
 
   // New Contact fields
   generalEmail          String?
@@ -153,6 +155,7 @@ model HomepageContent {
   id           String @id @default(uuid())
   heroTitle    String
   heroSubtitle String
+  heroDescription String @default("")
   ctaText      String
   ctaLink      String
   heroImage    String
@@ -164,6 +167,13 @@ model HomepageContent {
   statisticsSectionTitle     String?
 
   sectionOrder               String[] @default(["hero", "services", "statistics"])
+  trustBarItems              String[] @default([])
+
+  partnersSectionLabel       String?
+  partnersSectionTitle       String?
+  partnersSectionDescription String?
+  partnersButtonText         String?
+  partnersButtonLink         String?
 }
 
 model FooterContent {

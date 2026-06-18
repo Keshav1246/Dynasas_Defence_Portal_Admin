@@ -1,13 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Calendar, Layers, Users, Target } from 'lucide-react';
-import { PHASE_2_DUMMY_DATA } from '../../data/aboutPagePhase2Dummy';
+import * as LucideIcons from 'lucide-react';
 
-const GlobalImpactSection = () => {
-  const { label, heading, headingHighlight, description, trustBadge, statistics } = PHASE_2_DUMMY_DATA.impact;
+const GlobalImpactSection = ({ data }) => {
+  const { label, heading, headingHighlight, description, trustBadge, statistics } = data?.impact || {};
 
-  // Map dummy icons since they aren't stored as components in the array
-  const statIcons = [Calendar, Layers, Users, Target];
+
 
   return (
     <section className="py-24 lg:py-32 bg-brand-black overflow-hidden relative z-10">
@@ -37,7 +35,7 @@ const GlobalImpactSection = () => {
               </div>
 
               <h2 className="text-4xl lg:text-5xl font-heading font-bold text-brand-white leading-[1.1] mb-6">
-                Delivering Impact <br/>
+                {heading} <br/>
                 <span className="text-brand-primary">{headingHighlight}</span>
               </h2>
 
@@ -47,7 +45,7 @@ const GlobalImpactSection = () => {
 
               {/* Trust Badge */}
               <div className="inline-flex items-center gap-4 py-3 px-5 border border-brand-primary/30 bg-[#050505] rounded-sm group hover:border-brand-primary/60 transition-colors">
-                <ShieldCheck size={20} className="text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(255,106,0,0.8)] transition-all" />
+                <LucideIcons.ShieldCheck size={20} className="text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(255,106,0,0.8)] transition-all" />
                 <span className="text-xs font-heading font-bold tracking-widest text-brand-white/90">
                   {trustBadge}
                 </span>
@@ -58,8 +56,8 @@ const GlobalImpactSection = () => {
           {/* RIGHT PANEL: STATISTICS CARDS (75%) */}
           <div className="w-full lg:w-[75%] lg:pl-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-              {statistics.map((stat, idx) => {
-                const Icon = statIcons[idx];
+              {(statistics || []).map((stat, idx) => {
+                const Icon = LucideIcons[stat.iconName] || LucideIcons.Shield;
                 return (
                   <motion.div
                     key={idx}
@@ -96,7 +94,7 @@ const GlobalImpactSection = () => {
                         {stat.value}
                       </h3>
                       <h4 className="text-[13px] font-heading font-bold text-brand-white mb-3 leading-snug">
-                        {stat.title}
+                        {stat.title || stat.label}
                       </h4>
                       <p className="text-xs text-brand-white/50 font-body leading-relaxed max-w-[200px]">
                         {stat.description}

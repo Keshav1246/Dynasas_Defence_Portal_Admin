@@ -6,6 +6,8 @@ import ModuleSidebar from '../components/content/ModuleSidebar';
 import HeroEditor from '../components/content/HeroEditor';
 import ServicesEditor from '../components/content/ServicesEditor';
 import StatisticsEditor from '../components/content/StatisticsEditor';
+import TrustBarEditor from '../components/content/TrustBarEditor';
+import PartnersEditor from '../components/content/PartnersEditor';
 import LivePreview from '../components/content/LivePreview';
 
 import { getHomepageContent, createHomepageContent, updateHomepageContent } from '../services/cms.service';
@@ -42,11 +44,15 @@ const ContentManagementPage = () => {
         hero: {
           heroTitle: homepage.heroTitle || '',
           heroSubtitle: homepage.heroSubtitle || '',
+          heroDescription: homepage.heroDescription || '',
           heroImage: homepage.heroImage || '',
           ctaText: homepage.ctaText || '',
           ctaLink: homepage.ctaLink || '',
           secondaryCtaText: homepage.secondaryCtaText || '',
           secondaryCtaLink: homepage.secondaryCtaLink || '',
+        },
+        trustBar: {
+          items: (homepage.trustBarItems || []).map((val, i) => ({ id: `db-${i}`, value: val }))
         },
         services: {
           sectionTitle: homepage.servicesSectionTitle || '',
@@ -56,6 +62,13 @@ const ContentManagementPage = () => {
         statistics: {
           sectionTitle: homepage.statisticsSectionTitle || '',
           statsList: stats.map(s => ({ id: s.id, value: s.value, label: s.label, ...s }))
+        },
+        partners: {
+          partnersSectionLabel: homepage.partnersSectionLabel || '',
+          partnersSectionTitle: homepage.partnersSectionTitle || '',
+          partnersSectionDescription: homepage.partnersSectionDescription || '',
+          partnersButtonText: homepage.partnersButtonText || '',
+          partnersButtonLink: homepage.partnersButtonLink || '',
         },
         sectionOrder: homepage.sectionOrder || ["hero", "services", "statistics"]
       });
@@ -81,6 +94,7 @@ const ContentManagementPage = () => {
       const payload = {
         heroTitle: sectionData.heroTitle,
         heroSubtitle: sectionData.heroSubtitle,
+        heroDescription: sectionData.heroDescription,
         heroImage: sectionData.heroImage,
         ctaText: sectionData.ctaText,
         ctaLink: sectionData.ctaLink,
@@ -98,6 +112,28 @@ const ContentManagementPage = () => {
       await refreshData();
     } catch (err) {
       toast.error(err.message || "Failed to update Hero Section");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSaveTrustBar = async (sectionData) => {
+    try {
+      setIsSaving(true);
+      const payload = {
+        trustBarItems: sectionData.items.map(item => item.value),
+      };
+
+      if (contentData.homepageId) {
+        await updateHomepageContent(contentData.homepageId, payload);
+      } else {
+        await createHomepageContent(payload);
+      }
+
+      toast.success("Trust Bar Section updated successfully");
+      await refreshData();
+    } catch (err) {
+      toast.error(err.message || "Failed to update Trust Bar Section");
     } finally {
       setIsSaving(false);
     }
@@ -207,13 +243,34 @@ const ContentManagementPage = () => {
     }
   };
 
+  const handleSavePartners = async (sectionData) => {
+    try {
+      setIsSaving(true);
+      if (contentData.homepageId) {
+        await updateHomepageContent(contentData.homepageId, sectionData);
+      } else {
+        await createHomepageContent(sectionData);
+      }
+      toast.success("Partners section updated successfully");
+      await refreshData();
+    } catch (err) {
+      toast.error(err.message || "Failed to update partners section");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleSaveContent = async (sectionKey, sectionData) => {
     if (sectionKey === 'hero') {
       await handleSaveHero(sectionData);
+    } else if (sectionKey === 'trustBar') {
+      await handleSaveTrustBar(sectionData);
     } else if (sectionKey === 'services') {
       await handleSaveServices(sectionData);
     } else if (sectionKey === 'statistics') {
       await handleSaveStatistics(sectionData);
+    } else if (sectionKey === 'partners') {
+      await handleSavePartners(sectionData);
     } else {
       console.log(`Save triggered for ${sectionKey}, but saving is disabled in Step 4.`, sectionData);
       toast.success(`Data fetching verified! Save functionality for ${sectionKey} is deferred.`);
@@ -250,10 +307,14 @@ const ContentManagementPage = () => {
     switch (activeTab) {
       case 'hero':
         return <HeroEditor data={contentData.hero} onSave={handleSaveContent} isSaving={isSaving} />;
+      case 'trustBar':
+        return <TrustBarEditor data={contentData.trustBar} onSave={handleSaveContent} isSaving={isSaving} />;
       case 'services':
         return <ServicesEditor data={contentData.services} onSave={handleSaveContent} isSaving={isSaving} />;
       case 'statistics':
         return <StatisticsEditor data={contentData.statistics} onSave={handleSaveContent} isSaving={isSaving} />;
+      case 'partners':
+        return <PartnersEditor data={contentData.partners} onSave={handleSaveContent} isSaving={isSaving} />;
       default:
         return <HeroEditor data={contentData.hero} onSave={handleSaveContent} isSaving={isSaving} />;
     }

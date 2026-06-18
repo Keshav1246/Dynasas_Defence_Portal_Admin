@@ -31,6 +31,7 @@ const createPartnerSchema = z.object({
     logo: z.string().or(z.literal('')).optional().nullable(),
     website: z.string().url('Website must be a valid URL').or(z.literal('')).optional().nullable(),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional().default('ACTIVE'),
+    displayOrder: z.number().int().optional().default(0),
   }),
 });
 
@@ -45,6 +46,7 @@ const updatePartnerSchema = z.object({
     logo: z.string().or(z.literal('')).optional().nullable(),
     website: z.string().url('Website must be a valid URL').or(z.literal('')).optional().nullable(),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
+    displayOrder: z.number().int().optional(),
   }),
 });
 

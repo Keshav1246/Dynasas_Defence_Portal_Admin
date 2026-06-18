@@ -9,8 +9,6 @@ import CompanySnapshotSection from '../components/about/CompanySnapshotSection';
 import CompanyJourneySection from '../components/about/CompanyJourneySection';
 import GlobalImpactSection from '../components/about/GlobalImpactSection';
 import { RefreshCw } from 'lucide-react';
-import { ABOUT_PAGE_DEFAULTS } from '../data/aboutPageDefaults';
-
 const AboutPage = () => {
   const { content, error, refreshContent } = useWebsiteContent();
 
@@ -42,7 +40,7 @@ const AboutPage = () => {
   const aboutSeoData = {
     ...seoData,
     title: `About Us | ${siteData?.siteName || 'Dynasas'}`,
-    description: ABOUT_PAGE_DEFAULTS.snapshotDescription
+    description: aboutData?.snapshot?.description || 'Learn more about Dynasas.'
   };
 
   return (
@@ -58,8 +56,8 @@ const AboutPage = () => {
         <CompanySnapshotSection data={aboutData} />
         
         {/* Phase 2 Sections */}
-        <CompanyJourneySection />
-        <GlobalImpactSection />
+        <CompanyJourneySection data={aboutData} />
+        <GlobalImpactSection data={aboutData} />
         
         {/* Future sections (Mission, Vision, Leadership, etc) will go here */}
       </main>

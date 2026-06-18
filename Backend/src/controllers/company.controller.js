@@ -1,6 +1,7 @@
 const prisma = require("../config/db");
 const logger = require("../config/logger");
 const activityLogService = require("../services/ActivityLogService");
+// trigger nodemon
 
 const getCompanyProfile = async (req, res, next) => {
   try {

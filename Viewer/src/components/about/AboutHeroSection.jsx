@@ -5,12 +5,17 @@ import { ArrowRight, MapPin, Calendar } from 'lucide-react';
 import { ABOUT_PAGE_DEFAULTS } from '../../data/aboutPageDefaults';
 
 const AboutHeroSection = ({ data }) => {
-  const overview = data?.overview || ABOUT_PAGE_DEFAULTS.overview;
-  const foundedYear = data?.details?.foundedYear || ABOUT_PAGE_DEFAULTS.foundedYear;
-  const headquarters = data?.details?.headquarters || ABOUT_PAGE_DEFAULTS.headquarters;
+  const defaults = data?.hero || {};
+  const overview = data?.overview || data?.companyOverview;
+  const foundedYear = data?.details?.foundedYear;
+  const headquarters = data?.details?.headquarters;
   
-  // Tactical defense placeholder image
-  const bgImage = "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80";
+  const sectionLabel = defaults.sectionLabel;
+  const sectionTitle = defaults.sectionTitle;
+  const bgImage = defaults.bgImage;
+  const heroOverview = overview || defaults.overview;
+  const primaryCTA = defaults.primaryCTA || { text: 'Our Mission', link: '#mission' };
+  const secondaryCTA = defaults.secondaryCTA || { text: 'Contact Us', link: '/contact' };
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#050505]">
@@ -74,26 +79,24 @@ const AboutHeroSection = ({ data }) => {
           <div className="flex items-center gap-4 mb-6">
             <div className="h-[1px] w-8 bg-brand-primary"></div>
             <span className="text-sm text-brand-primary tracking-widest font-heading uppercase font-bold">
-              ABOUT DYNASAS
+            {sectionLabel}
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-brand-white leading-[1.1] mb-8">
-            Engineering the Future of <br className="hidden md:block" />
-            <span className="text-brand-primary">Defense Technology</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-brand-white leading-[1.1] mb-8" dangerouslySetInnerHTML={{ __html: (sectionTitle || '').replace('Defense Technology', '<br class="hidden md:block" /><span class="text-brand-primary">Defense Technology</span>') }}>
           </h1>
 
           <p className="text-xl text-brand-white/70 font-body leading-relaxed mb-12 max-w-xl">
-            {overview}
+            {heroOverview}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <Link to="#mission" className="inline-flex items-center justify-center gap-3 bg-brand-primary text-[#050505] px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white hover:text-[#050505] transition-colors duration-300">
-              Our Mission
+            <Link to={primaryCTA.link} className="inline-flex items-center justify-center gap-3 bg-brand-primary text-[#050505] px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white hover:text-[#050505] transition-colors duration-300">
+              {primaryCTA.text}
               <ArrowRight size={18} />
             </Link>
-            <Link to="/contact" className="inline-flex items-center justify-center gap-3 border border-[rgba(255,255,255,0.15)] text-brand-white px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white/5 transition-colors duration-300">
-              Contact Us
+            <Link to={secondaryCTA.link} className="inline-flex items-center justify-center gap-3 border border-[rgba(255,255,255,0.15)] text-brand-white px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-brand-white/5 transition-colors duration-300">
+              {secondaryCTA.text}
             </Link>
           </div>
 

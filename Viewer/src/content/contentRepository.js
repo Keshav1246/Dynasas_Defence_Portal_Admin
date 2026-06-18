@@ -21,7 +21,7 @@ import {
 // Basic in-memory cache to prevent redundant fetching during route transitions
 let contentCache = null;
 let lastFetchTime = null;
-const CACHE_DURATION_MS = 1000 * 60 * 5; // 5 minutes
+const CACHE_DURATION_MS = 0; // Disabled cache to allow instant updates from admin
 
 export const fetchAllWebsiteContent = async (forceRefresh = false) => {
   const now = Date.now();
@@ -47,8 +47,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       apiClient.get('/company-profile').catch(() => ({ data: {} })),
       apiClient.get('/company-profile/statistics').catch(() => ({ data: [] })),
       apiClient.get('/company-profile/pillars').catch(() => ({ data: [] })),
-      apiClient.get('/services?status=published&limit=100').catch(() => ({ data: [] })),
-      apiClient.get('/partners?status=ACTIVE&limit=100').catch(() => ({ data: [] }))
+      apiClient.get('/services?status=published&limit=100').catch(() => ({ data: [] }))
     ]);
 
     // Extract inner data arrays/objects
@@ -59,7 +58,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
     const rawStats = statsRes.data || [];
     const rawPillars = pillarsRes.data || [];
     const rawServices = servicesRes.data || [];
-    const rawPartners = partnersRes.data || [];
+    const rawPartners = rawHomepage.partners || [];
 
     // Map to frontend-safe structures
     const siteData = mapSiteData(rawSettings);
@@ -85,7 +84,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       servicesData: validateServicesData(mapServicesData(rawHomepage, rawServices)),
       aboutData: validateAboutData(mapAboutData(rawCompany, rawPillars)),
       statisticsData: validateStatisticsData(mapStatisticsData(rawHomepage, rawStats)),
-      partnersData: validatePartnersData(mapPartnersData(rawPartners)),
+      partnersData: validatePartnersData(mapPartnersData(rawHomepage, rawPartners)),
       contactData: mapContactData(rawCompany),
       footerData: validateFooterData(mapFooterData(siteData, rawFooter, rawCompany)),
     };
@@ -100,3 +99,5 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
     throw error;
   }
 };
+
+// Force HMR cache flush

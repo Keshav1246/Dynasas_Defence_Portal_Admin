@@ -8,8 +8,10 @@ export const validateHeroData = (data) => {
   const safeData = data || {};
   return {
     badgeText: safeString(safeData.badgeText, CONTENT_DEFAULTS.hero.badgeText),
-    title: safeString(safeData.title, CONTENT_DEFAULTS.hero.title),
-    subtitle: safeString(safeData.subtitle, CONTENT_DEFAULTS.hero.subtitle),
+    heroTitle: safeString(safeData.heroTitle, CONTENT_DEFAULTS.hero.title),
+    heroSubtitle: safeString(safeData.heroSubtitle, CONTENT_DEFAULTS.hero.subtitle),
+    heroDescription: safeString(safeData.heroDescription, ""),
+    trustBarItems: safeArray(safeData.trustBarItems),
     backgroundImage: getSafeImageUrl(safeData.backgroundImage, null),
     backgroundVideo: getSafeImageUrl(safeData.backgroundVideo, null),
     primaryCTA: {
@@ -43,20 +45,31 @@ export const validateAboutData = (data) => {
   return {
     sectionLabel: safeString(safeData.sectionLabel, CONTENT_DEFAULTS.about.sectionLabel),
     sectionTitle: safeString(safeData.sectionTitle, CONTENT_DEFAULTS.about.sectionTitle),
+    companyOverview: safeString(safeData.companyOverview, ""),
+    foundedYear: safeString(safeData.foundedYear, "—"),
+    headquarters: safeString(safeData.headquarters, "—"),
     introduction: safeString(safeData.introduction, ""),
     mission: {
       title: safeString(safeData.mission?.title, CONTENT_DEFAULTS.about.missionTitle),
       statement: safeString(safeData.mission?.statement, ""),
-      pillars: safeArray(safeData.mission?.pillars)
+      items: safeArray(safeData.mission?.items),
+      listTitle: safeString(safeData.mission?.listTitle, "FOCUS AREAS")
     },
     vision: {
       title: safeString(safeData.vision?.title, CONTENT_DEFAULTS.about.visionTitle),
-      statement: safeString(safeData.vision?.statement, "")
+      statement: safeString(safeData.vision?.statement, ""),
+      items: safeArray(safeData.vision?.items),
+      listTitle: safeString(safeData.vision?.listTitle, "FUTURE PRIORITIES")
     },
     details: {
       foundedYear: safeData.details?.foundedYear || null,
-      headquarters: safeData.details?.headquarters || null
+      headquarters: safeData.details?.headquarters || null,
+      yearsOfLegacy: safeData.details?.yearsOfLegacy || null
     },
+    snapshot: safeData.snapshot || null,
+    journey: safeData.journey || null,
+    impact: safeData.impact || null,
+    hero: safeData.hero || null,
     media: getSafeImageUrl(safeData.media, null)
   };
 };
@@ -76,8 +89,11 @@ export const validateStatisticsData = (data) => {
 export const validatePartnersData = (data) => {
   const safeData = data || {};
   return {
-    sectionLabel: safeString(safeData.sectionLabel, CONTENT_DEFAULTS.partners.sectionLabel),
-    sectionTitle: safeString(safeData.sectionTitle, CONTENT_DEFAULTS.partners.sectionTitle),
+    sectionLabel: safeString(safeData.sectionLabel, ""),
+    sectionTitle: safeString(safeData.sectionTitle, "Trusted By Industry Leaders"),
+    sectionDescription: safeString(safeData.sectionDescription, ""),
+    ctaText: safeString(safeData.ctaText, "View Strategic Partnerships"),
+    ctaLink: safeString(safeData.ctaLink, ""),
     items: safeArray(safeData.items).map(item => ({
       ...item,
       name: safeString(item.name, "Partner"),

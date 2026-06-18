@@ -39,32 +39,26 @@ const AboutSection = ({ data }) => {
             transition={{ delay: 0.2 }}
             className="text-lg md:text-xl text-brand-white/70 leading-relaxed font-body max-w-3xl mt-4"
           >
-            {data.introduction}
+            {data.companyOverview}
           </motion.p>
 
           {/* Company Details Grid */}
-          {(data.details?.foundedYear || data.details?.headquarters) && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-12 pt-8"
-            >
-              {data.details?.foundedYear && (
-                <div>
-                  <h4 className="text-label text-brand-white/40 mb-2">Founded</h4>
-                  <p className="text-2xl font-bold font-heading">{data.details.foundedYear}</p>
-                </div>
-              )}
-              {data.details?.headquarters && (
-                <div>
-                  <h4 className="text-label text-brand-white/40 mb-2">Headquarters</h4>
-                  <p className="text-2xl font-bold font-heading">{data.details.headquarters}</p>
-                </div>
-              )}
-            </motion.div>
-          )}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap justify-center gap-12 pt-8"
+          >
+            <div>
+              <h4 className="text-label text-brand-white/40 mb-2">Founded</h4>
+              <p className="text-2xl font-bold font-heading">{data.foundedYear}</p>
+            </div>
+            <div>
+              <h4 className="text-label text-brand-white/40 mb-2">Headquarters</h4>
+              <p className="text-2xl font-bold font-heading">{data.headquarters}</p>
+            </div>
+          </motion.div>
 
         </div>
       </div>

@@ -8,7 +8,7 @@ import ServicesEditor from '../components/content/ServicesEditor';
 import StatisticsEditor from '../components/content/StatisticsEditor';
 import LivePreview from '../components/content/LivePreview';
 
-import { getHomepageContent, createHomepageContent, updateHomepageContent } from '../services/cms.service';
+import { getHomepageContent, createHomepageContent, updateHomepageContent, getServicesPageContent, createServicesPageContent, updateServicesPageContent } from '../services/cms.service';
 import { getServices, createService, updateService, deleteService } from '../services/services.service';
 import { getStatistics, createStatistic, updateStatistic, deleteStatistic } from '../services/companyProfile.service';
 
@@ -23,13 +23,15 @@ const ContentManagementPage = () => {
     try {
       setError(null);
       
-      const [homepageRes, servicesRes, statsRes] = await Promise.all([
+      const [homepageRes, servicesRes, statsRes, servicesPageRes] = await Promise.all([
         getHomepageContent().catch(() => null),
         getServices({ limit: 100 }).catch(() => ({ data: [] })),
-        getStatistics().catch(() => [])
+        getStatistics().catch(() => []),
+        getServicesPageContent().catch(() => null)
       ]);
 
       const homepage = homepageRes || {};
+      const servicesPageContent = servicesPageRes || {};
       const services = Array.isArray(servicesRes?.data) ? servicesRes.data : [];
       const stats = Array.isArray(statsRes) ? statsRes : [];
 
@@ -48,9 +50,14 @@ const ContentManagementPage = () => {
           secondaryCtaText: homepage.secondaryCtaText || '',
           secondaryCtaLink: homepage.secondaryCtaLink || '',
         },
+        servicesPageId: servicesPageContent.id || null,
         services: {
           sectionTitle: homepage.servicesSectionTitle || '',
           sectionDescription: homepage.servicesSectionDescription || '',
+          heroLabel: servicesPageContent.heroLabel || '',
+          heroTitle: servicesPageContent.heroTitle || '',
+          heroDescription: servicesPageContent.heroDescription || '',
+          servicesNavigatorTitle: servicesPageContent.servicesNavigatorTitle || '',
           servicesList: services.map(s => ({ id: s.id, text: s.title, ...s }))
         },
         statistics: {
@@ -107,9 +114,17 @@ const ContentManagementPage = () => {
     try {
       setIsSaving(true);
       
+      
       const metaPayload = {
         servicesSectionTitle: sectionData.sectionTitle,
         servicesSectionDescription: sectionData.sectionDescription,
+      };
+      
+      const pagePayload = {
+        heroLabel: sectionData.heroLabel,
+        heroTitle: sectionData.heroTitle,
+        heroDescription: sectionData.heroDescription,
+        servicesNavigatorTitle: sectionData.servicesNavigatorTitle,
       };
 
       if (contentData.homepageId) {
@@ -117,6 +132,13 @@ const ContentManagementPage = () => {
       } else {
         await createHomepageContent(metaPayload);
       }
+      
+      if (contentData.servicesPageId) {
+        await updateServicesPageContent(contentData.servicesPageId, pagePayload);
+      } else {
+        await createServicesPageContent(pagePayload);
+      }
+
 
       const originalMap = new Map(contentData.services.servicesList.map(s => [s.id, s]));
       const currentMap = new Map(sectionData.servicesList.map(s => [s.id, s]));

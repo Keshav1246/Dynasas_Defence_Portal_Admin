@@ -132,6 +132,55 @@ const ServicesEditor = ({ data, onSave, isSaving }) => {
           {errors.sectionDescription && <p className="mt-1.5 text-sm text-rose-500">{errors.sectionDescription}</p>}
         </div>
 
+        <div className="pt-6 border-t border-gray-100">
+          <h3 className="text-sm font-bold text-gray-900 mb-4">Dedicated Services Page Settings</h3>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Label</label>
+              <input 
+                type="text" 
+                name="heroLabel"
+                value={formData.heroLabel || ''}
+                onChange={handleChange}
+                className={`w-full px-4 py-2.5 bg-white border border-gray-200 focus:ring-[#F97316] rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm`}
+                placeholder="e.g. OUR EXPERTISE"
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Title</label>
+              <input 
+                type="text" 
+                name="heroTitle"
+                value={formData.heroTitle || ''}
+                onChange={handleChange}
+                className={`w-full px-4 py-2.5 bg-white border border-gray-200 focus:ring-[#F97316] rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm`}
+                placeholder="e.g. Mission-Critical Solutions"
+              />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-[13px] font-semibold text-gray-900">Hero Description</label>
+            <textarea 
+              name="heroDescription"
+              value={formData.heroDescription || ''}
+              onChange={handleChange}
+              rows={2}
+              className={`w-full px-4 py-3 bg-white border border-gray-200 focus:ring-[#F97316] rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-[13px] text-gray-700 leading-relaxed`}
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-[13px] font-semibold text-gray-900">Navigator Title</label>
+            <input 
+              type="text" 
+              name="servicesNavigatorTitle"
+              value={formData.servicesNavigatorTitle || ''}
+              onChange={handleChange}
+              className={`w-full px-4 py-2.5 bg-white border border-gray-200 focus:ring-[#F97316] rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all text-sm`}
+              placeholder="e.g. Our Capabilities"
+            />
+          </div>
+        </div>
+
         <div>
           <label className="block mb-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">SERVICES (drag to reorder)</label>
           <div className="space-y-3">

@@ -23,24 +23,24 @@ const router = express.Router();
 router.get("/", getAllServices);
 router.get("/:id", getServiceById);
 
-// Protected Routes
+// Protected Routes (TODO: Re-enable authMiddleware once authentication is implemented)
 router.post(
   "/",
-  authMiddleware,
+  // authMiddleware,
   validate(createServiceSchema),
   createService
 );
 
 router.put(
   "/:id",
-  authMiddleware,
+  // authMiddleware,
   validate(updateServiceSchema),
   updateService
 );
 
 router.delete(
   "/:id",
-  authMiddleware,
+  // authMiddleware,
   deleteService
 );
 

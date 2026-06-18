@@ -11,6 +11,16 @@ const createServiceSchema = z.object({
 
   image: z.string().optional(),
 
+  subtitle: z.string().optional(),
+
+  features: z.array(z.string()).optional(),
+
+  ctaText: z.string().optional(),
+
+  ctaLink: z.string().optional(),
+
+  isActive: z.boolean().optional(),
+
   status: z
     .enum(["published", "draft", "archived"])
     .optional(),

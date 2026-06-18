@@ -54,7 +54,7 @@ export const mapServicesData = (homepage, services) => {
     sectionTitle: homepage?.servicesSectionTitle || DEFAULT_CONTENT.SERVICES_TITLE,
     sectionDescription: homepage?.servicesSectionDescription || '',
     items: Array.isArray(services) ? services
-      // Filter handled by backend endpoint, map everything received.
+      .filter(s => s.status === 'published' && s.isActive === true)
       .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
       .map((s, index) => ({
         id: s.id,
@@ -62,6 +62,10 @@ export const mapServicesData = (homepage, services) => {
         title: s.title,
         description: s.description,
         image: s.image || null,
+        subtitle: s.subtitle || null,
+        features: Array.isArray(s.features) ? s.features : [],
+        ctaText: s.ctaText || null,
+        ctaLink: s.ctaLink || null,
       })) : []
   };
 };

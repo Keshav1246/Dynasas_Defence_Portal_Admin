@@ -39,7 +39,8 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       statsRes,
       pillarsRes,
       servicesRes,
-      partnersRes
+      partnersRes,
+      servicesPageRes
     ] = await Promise.all([
       apiClient.get('/settings').catch(() => ({ data: {} })),
       apiClient.get('/cms/homepage').catch(() => ({ data: {} })),
@@ -48,7 +49,8 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       apiClient.get('/company-profile/statistics').catch(() => ({ data: [] })),
       apiClient.get('/company-profile/pillars').catch(() => ({ data: [] })),
       apiClient.get('/services?status=published&limit=100').catch(() => ({ data: [] })),
-      apiClient.get('/partners?status=ACTIVE&limit=100').catch(() => ({ data: [] }))
+      apiClient.get('/partners?status=ACTIVE&limit=100').catch(() => ({ data: [] })),
+      apiClient.get('/cms/services-page').catch(() => ({ data: {} }))
     ]);
 
     // Extract inner data arrays/objects
@@ -58,8 +60,23 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
     const rawCompany = companyRes.data || {};
     const rawStats = statsRes.data || [];
     const rawPillars = pillarsRes.data || [];
-    const rawServices = servicesRes.data || [];
+    // Handle all possible API response structures for services
+    let rawServices = [];
+    if (Array.isArray(servicesRes)) {
+      rawServices = servicesRes;
+    } else if (servicesRes && Array.isArray(servicesRes.data)) {
+      rawServices = servicesRes.data;
+    } else if (servicesRes && servicesRes.data && Array.isArray(servicesRes.data.data)) {
+      rawServices = servicesRes.data.data;
+    } else if (servicesRes && Array.isArray(servicesRes.services)) {
+      rawServices = servicesRes.services;
+    }
+    
+    // TEMPORARY DEBUGGING LOGS
+    console.log("Services API response:", servicesRes);
+    console.log("Extracted rawServices:", rawServices);
     const rawPartners = partnersRes.data || [];
+    const rawServicesPage = servicesPageRes.data || {};
 
     // Map to frontend-safe structures
     const siteData = mapSiteData(rawSettings);
@@ -86,6 +103,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
       aboutData: validateAboutData(mapAboutData(rawCompany, rawPillars)),
       statisticsData: validateStatisticsData(mapStatisticsData(rawHomepage, rawStats)),
       partnersData: validatePartnersData(mapPartnersData(rawPartners)),
+      servicesPageData: rawServicesPage,
       contactData: mapContactData(rawCompany),
       footerData: validateFooterData(mapFooterData(siteData, rawFooter, rawCompany)),
     };

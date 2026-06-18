@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ImagePlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeroSection = ({ data }) => {
+  const [imgError, setImgError] = React.useState(false);
+
   if (!data) return null;
 
   return (
@@ -20,18 +22,22 @@ const HeroSection = ({ data }) => {
           >
             <source src={data.backgroundVideo} type="video/mp4" />
           </video>
-        ) : data.backgroundImage ? (
+        ) : !imgError ? (
           <img
-            src={data.backgroundImage}
+            src="/assets/hero/hero-bg.jpg"
             alt="Hero Background"
             className="w-full h-full object-cover"
+            onError={() => setImgError(true)}
           />
         ) : (
-          <div className="w-full h-full bg-brand-black" />
+          <div className="w-full h-full bg-brand-dark flex flex-col items-center justify-center text-brand-white/30">
+            <ImagePlus size={32} className="mb-2 opacity-50" />
+            <span className="text-sm font-semibold tracking-widest uppercase">Add image</span>
+          </div>
         )}
         
-        {/* Dark Cinematic Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/80 via-brand-black/50 to-brand-dark" />
+        {/* Dark Cinematic Overlay (70-80% Black) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/80 via-brand-black/70 to-brand-dark/90" />
       </div>
 
       {/* Content */}
@@ -42,11 +48,13 @@ const HeroSection = ({ data }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-6 inline-block"
         >
+
           {data.heroTitle && (
             <span className="px-4 py-1 border border-brand-border rounded-full text-xs uppercase tracking-[0.2em] font-medium backdrop-blur-sm bg-brand-black/20">
               {data.heroTitle}
             </span>
           )}
+
         </motion.div>
 
         <motion.h1

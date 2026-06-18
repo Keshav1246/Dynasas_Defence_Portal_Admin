@@ -16,7 +16,7 @@ const FooterSection = ({ data, siteData }) => {
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
               {logoUrl ? (
-                <img src={logoUrl} alt="Logo" className="h-10 opacity-90 object-contain" />
+                <img src={logoUrl} alt="Logo" className="h-12 opacity-90 object-contain" />
               ) : (
                 <span className="text-2xl font-bold text-brand-white tracking-wide">
                   {siteData?.siteName || "Dynasas"}

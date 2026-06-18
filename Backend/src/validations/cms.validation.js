@@ -55,9 +55,21 @@ const createFooterSchema = z.object({
 const updateFooterSchema =
   createFooterSchema.partial();
 
+const createServicesPageSchema = z.object({
+  heroLabel: z.string().optional(),
+  heroTitle: z.string().optional(),
+  heroDescription: z.string().optional(),
+  servicesNavigatorTitle: z.string().optional(),
+});
+
+const updateServicesPageSchema =
+  createServicesPageSchema.partial();
+
 module.exports = {
   createHomepageSchema,
   updateHomepageSchema,
   createFooterSchema,
   updateFooterSchema,
+  createServicesPageSchema,
+  updateServicesPageSchema,
 };

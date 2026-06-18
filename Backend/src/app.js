@@ -30,9 +30,17 @@ const app = express();
 
 // Enable Cross-Origin Resource Sharing
 app.use(cors({
-  origin: '*', // Adjust this to specific origins in production
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:5175',
+    'http://localhost:5176',
+    'http://localhost:5177'
+  ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
 // Parsers for incoming request payloads

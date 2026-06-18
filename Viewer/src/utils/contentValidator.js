@@ -35,7 +35,11 @@ export const validateServicesData = (data) => {
       ...item,
       title: safeString(item.title, "Service Title"),
       description: safeString(item.description, "Service Description"),
-      image: getSafeImageUrl(item.image, null)
+      image: getSafeImageUrl(item.image, null),
+      subtitle: safeString(item.subtitle, ""),
+      features: safeArray(item.features),
+      ctaText: safeString(item.ctaText, ""),
+      ctaLink: safeString(item.ctaLink, "")
     }))
   };
 };

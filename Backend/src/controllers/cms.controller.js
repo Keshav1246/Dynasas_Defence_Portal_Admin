@@ -159,6 +159,95 @@ const updateFooterContent = async (req, res, next) => {
   }
 };
 
+const getServicesPageContent = async (req, res, next) => {
+  try {
+    const servicesPageContent =
+      await prisma.servicesPageContent.findFirst();
+
+    res.status(200).json({
+      success: true,
+      data: servicesPageContent,
+    });
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+const createServicesPageContent = async (req, res, next) => {
+  try {
+    const existing =
+      await prisma.servicesPageContent.findFirst();
+
+    let servicesPageContent;
+
+    if (existing) {
+      servicesPageContent = await prisma.servicesPageContent.update({
+        where: { id: existing.id },
+        data: req.body,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Services Page Content Updated",
+        data: servicesPageContent,
+      });
+
+      activityLogService.logActivity({
+        action: `Updated services page content: Services`,
+        entityType: "ServicesPageContent",
+        entityId: servicesPageContent.id,
+      });
+    } else {
+      servicesPageContent = await prisma.servicesPageContent.create({
+        data: req.body,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "Services Page Content Created",
+        data: servicesPageContent,
+      });
+
+      activityLogService.logActivity({
+        action: `Created services page content: Services`,
+        entityType: "ServicesPageContent",
+        entityId: servicesPageContent.id,
+      });
+    }
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+const updateServicesPageContent = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const servicesPageContent =
+      await prisma.servicesPageContent.update({
+        where: { id },
+        data: req.body,
+      });
+
+    res.status(200).json({
+      success: true,
+      message: "Services Page Content Updated",
+      data: servicesPageContent,
+    });
+
+    activityLogService.logActivity({
+      action: `Updated services page content`,
+      entityType: "ServicesPageContent",
+      entityId: servicesPageContent.id,
+    });
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
 module.exports = {
   getHomepageContent,
   createHomepageContent,
@@ -168,3 +257,7 @@ module.exports = {
   updateFooterContent,
 };
 // Trigger reload
+  getServicesPageContent,
+  createServicesPageContent,
+  updateServicesPageContent,
+};

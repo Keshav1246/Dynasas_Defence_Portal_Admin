@@ -176,6 +176,14 @@ model HomepageContent {
   partnersButtonLink         String?
 }
 
+model ServicesPageContent {
+  id                     String  @id @default(uuid())
+  heroLabel              String?
+  heroTitle              String?
+  heroDescription        String?
+  servicesNavigatorTitle String?
+}
+
 model FooterContent {
   id      String @id @default(uuid())
   address String
@@ -194,9 +202,14 @@ model FooterContent {
 model Service {
   id           String   @id @default(uuid())
   title        String
+  subtitle     String?
   description  String
   image        String?
+  features     String[]
+  ctaText      String?
+  ctaLink      String?
   status       String   @default("published")
+  isActive     Boolean  @default(true)
   displayOrder Int      @default(0)
   createdAt    DateTime @default(now())
 }

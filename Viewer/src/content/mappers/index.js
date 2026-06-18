@@ -62,22 +62,58 @@ export const mapHeroData = (homepage) => {
 
 export const mapServicesData = (homepage, services) => {
   const safeHomepage = homepage || {};
-  const mappedServices = Array.isArray(services) && services.length > 0 
-    ? services.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)).map((s, index) => ({
-        id: s.id,
-        number: String(index + 1).padStart(2, '0'),
-        title: s.title,
-        description: s.description,
-        image: withFallback(s.image, DEFAULT_ASSETS.IMAGE_PLACEHOLDER),
-      })) 
-    : DEFAULT_SERVICES;
+
+  const mappedServices =
+    Array.isArray(services) && services.length > 0
+      ? services
+          .filter(
+            s =>
+              s.status === 'published' &&
+              (s.isActive === true || s.isActive === undefined)
+          )
+          .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+          .map((s, index) => ({
+            id: s.id,
+            number: String(index + 1).padStart(2, '0'),
+            title: s.title,
+            description: s.description,
+
+            image: withFallback(
+              s.image,
+              DEFAULT_ASSETS.IMAGE_PLACEHOLDER
+            ),
+
+            subtitle: s.subtitle || null,
+
+            features: Array.isArray(s.features)
+              ? s.features
+              : [],
+
+            ctaText: s.ctaText || null,
+
+            ctaLink: s.ctaLink || null,
+          }))
+      : DEFAULT_SERVICES;
 
   return {
-    sectionLabel: withFallback(safeHomepage.servicesSectionLabel, DEFAULT_HOMEPAGE.services.sectionLabel),
-    sectionTitle: withFallback(safeHomepage.servicesSectionTitle, DEFAULT_HOMEPAGE.services.sectionTitle),
-    sectionDescription: withFallback(safeHomepage.servicesSectionDescription, DEFAULT_HOMEPAGE.services.sectionDescription),
-    items: mappedServices
+    sectionLabel: withFallback(
+      safeHomepage.servicesSectionLabel,
+      DEFAULT_HOMEPAGE.services.sectionLabel
+    ),
+
+    sectionTitle: withFallback(
+      safeHomepage.servicesSectionTitle,
+      DEFAULT_HOMEPAGE.services.sectionTitle
+    ),
+
+    sectionDescription: withFallback(
+      safeHomepage.servicesSectionDescription,
+      DEFAULT_HOMEPAGE.services.sectionDescription
+    ),
+
+    items: mappedServices,
   };
+
 };
 
 export const mapAboutData = (profile, pillars) => {

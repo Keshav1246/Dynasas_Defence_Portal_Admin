@@ -32,7 +32,7 @@ const Header = ({ siteData }) => {
         <div className="container mx-auto px-6 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 z-50">
             {logoUrl ? (
-              <img src={logoUrl} alt={siteData?.siteName || "Dynasas"} className="h-8 md:h-10 object-contain" />
+              <img src={logoUrl} alt={siteData?.siteName || "Dynasas"} className="h-10 md:h-12 object-contain" />
             ) : (
               <span className="text-xl font-bold text-brand-white tracking-wide">{siteData?.siteName || "Dynasas"}</span>
             )}

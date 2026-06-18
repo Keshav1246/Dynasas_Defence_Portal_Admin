@@ -20,9 +20,9 @@ const ServicesStickyMedia = ({ activeService }) => {
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="absolute inset-0 w-full h-full"
         >
-          <img 
-            src={imageUrl} 
-            alt={activeService.imageAlt || activeService.title} 
+          <img
+            src={imageUrl}
+            alt={activeService.imageAlt || activeService.title}
             className="w-full h-full object-cover opacity-60"
             onError={(e) => {
               // Basic fallback if the image fails to load
@@ -33,7 +33,7 @@ const ServicesStickyMedia = ({ activeService }) => {
           <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(10,10,10,0.9)] z-10 pointer-events-none" />
           <div className="absolute top-4 left-4 border-t border-l border-brand-primary/50 w-8 h-8 z-10" />
           <div className="absolute bottom-4 right-4 border-b border-r border-brand-primary/50 w-8 h-8 z-10" />
-          
+
           <div className="absolute bottom-6 left-6 z-20">
             <div className="text-label text-brand-primary mb-1">{activeService.category}</div>
             <div className="text-xl text-brand-white/80 font-heading tracking-widest">{activeService.title}</div>

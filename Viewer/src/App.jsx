@@ -11,6 +11,7 @@ import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import PartnersPage from './pages/PartnersPage';
 
 function AppContent() {
   const { isLoading, content } = useWebsiteContent();
@@ -68,6 +69,7 @@ function AppContent() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/services" element={<ServicesPage />} />
                 <Route path="/services/:slug" element={<ServiceDetailPage />} />
+                <Route path="/partners" element={<PartnersPage />} />
                 
                 {/* Fallback for other non-implemented routes yet */}
                 <Route path="*" element={<HomePage />} />

@@ -17,6 +17,18 @@ const ServiceCard = ({ service, index, position, setActiveIndex }) => {
 
   const imageUrl = getServiceImage(service);
 
+  const createSlug = (title) => {
+    return title ? title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '';
+  };
+
+  const slug = createSlug(service.title);
+  
+  // Create smart CTA link
+  let finalCtaLink = service.ctaLink || '/services';
+  if (finalCtaLink === '/services' || finalCtaLink === '/services/') {
+    finalCtaLink = `/services?service=${slug}`;
+  }
+
   // Animation variants for the layout transition
   const cardVariants = {
     initial: { 
@@ -66,7 +78,7 @@ const ServiceCard = ({ service, index, position, setActiveIndex }) => {
             <span>{service.category}</span>
           </div>
           
-          <Link to={service.ctaLink} className={`block group ${!isCenter && 'pointer-events-none'}`}>
+          <Link to={finalCtaLink} className={`block group ${!isCenter && 'pointer-events-none'}`}>
             <h3 className={`${isCenter ? 'text-2xl md:text-4xl mb-6' : 'text-xl mb-0'} font-bold font-heading group-hover:text-brand-primary transition-colors truncate`}>
               {service.title}
             </h3>
@@ -111,7 +123,7 @@ const ServiceCard = ({ service, index, position, setActiveIndex }) => {
               )}
 
               <Link
-                to={service.ctaLink}
+                to={finalCtaLink}
                 className="group inline-flex items-center gap-3 bg-brand-primary/10 border border-brand-primary text-brand-white px-6 py-3 font-semibold uppercase tracking-wider text-sm hover:bg-brand-primary hover:text-brand-white transition-all duration-300"
               >
                 {service.ctaText}

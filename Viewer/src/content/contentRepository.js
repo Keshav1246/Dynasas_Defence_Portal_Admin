@@ -6,6 +6,7 @@ import {
   mapAboutData,
   mapStatisticsData,
   mapPartnersData,
+  mapPartnersPageData,
   mapFooterData,
   mapContactData
 } from './mappers';
@@ -114,6 +115,8 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
   partnersData: validatePartnersData(
     mapPartnersData(rawHomepage, rawPartners)
   ),
+
+  partnersPageData: mapPartnersPageData(rawHomepage, rawPartners),
 
   servicesPageData: rawServicesPage,
 

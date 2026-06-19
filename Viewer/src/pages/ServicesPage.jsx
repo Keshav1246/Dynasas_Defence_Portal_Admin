@@ -24,17 +24,23 @@ const ServicesPage = () => {
   const location = useLocation();
   const [activeServiceId, setActiveServiceId] = useState('');
 
+  const services = content?.servicesData?.items || [];
+
   useEffect(() => {
+    if (!services || services.length === 0) return;
+
     // Handle URL parameters or Hash for scrolling to a specific service initially
     const searchParams = new URLSearchParams(location.search);
     const serviceParam = location.hash ? location.hash.replace('#', '') : searchParams.get('service');
 
     if (serviceParam) {
-      setTimeout(() => {
-        const element = document.getElementById(`service-${serviceParam}`);
-        if (element) {
+      const timer = setTimeout(() => {
+        const sectionElement = document.getElementById(`service-${serviceParam}`);
+        const cardElement = document.getElementById(`service-card-${serviceParam}`);
+        
+        if (sectionElement) {
           const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
+          const elementPosition = sectionElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
           window.scrollTo({
@@ -42,17 +48,31 @@ const ServicesPage = () => {
             behavior: "smooth"
           });
 
-          // Temporary subtle highlight to indicate which section was deep-linked
-          element.classList.add('bg-brand-white/[0.02]', 'transition-colors', 'duration-1000');
-          setTimeout(() => {
-            element.classList.remove('bg-brand-white/[0.02]');
-          }, 3000);
+          // Temporary visual focus effect: orange glow, border highlight, subtle pulse animation
+          if (cardElement) {
+            // First apply the highlight classes immediately
+            cardElement.classList.add('ring-2', 'ring-brand-primary', 'shadow-[0_0_40px_rgba(255,106,0,0.4)]', 'animate-pulse');
+            
+            // Remove the pulse and highlight after 3-5 seconds
+            setTimeout(() => {
+              cardElement.classList.remove('animate-pulse');
+              cardElement.style.transition = 'all 1s ease-out';
+              cardElement.classList.remove('ring-2', 'ring-brand-primary', 'shadow-[0_0_40px_rgba(255,106,0,0.4)]');
+              
+              // cleanup inline style after transition to return to hover-based transition
+              setTimeout(() => {
+                 cardElement.style.transition = '';
+              }, 1000);
+            }, 3500);
+          }
         }
-      }, 500);
+      }, 300); // Wait a tiny bit for layout shift to settle
+      
+      return () => clearTimeout(timer);
     } else {
       window.scrollTo(0, 0);
     }
-  }, [location]);
+  }, [location, services.length]);
 
   if (error) {
     return (
@@ -79,8 +99,6 @@ const ServicesPage = () => {
     title: `Capabilities | ${siteData?.siteName || 'Dynasas'}`,
     description: servicesPageData?.heroDescription || 'Our mission-critical capabilities.'
   };
-
-  const services = servicesData?.items || [];
 
   const scrollToService = (id) => {
     const element = document.getElementById(`service-${id}`);
@@ -368,6 +386,7 @@ const ServicesPage = () => {
                     {/* Right Side: Dynamic Info Card = 3 */}
                     <div className="relative z-[3]">
                       <motion.div
+                        id={`service-card-${slug}`}
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}

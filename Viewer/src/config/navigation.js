@@ -12,8 +12,8 @@ export const navigation = [
     href: "/solutions"
   },
   {
-    label: "Industries",
-    href: "/industries"
+    label: "Partners",
+    href: "/partners"
   },
   {
     label: "Contact",

@@ -6,6 +6,7 @@ import {
   DEFAULT_ABOUT,
   DEFAULT_CONTACT,
   DEFAULT_SERVICES,
+  DEFAULT_PARTNERS_PAGE,
   withFallback,
   withArrayFallback,
   withObjectFallback
@@ -181,6 +182,7 @@ export const mapPartnersData = (homepage, partners) => {
     ? partners.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)).map(p => ({
       id: p.id,
       name: p.name,
+      description: p.description || null,
       logo: withFallback(p.logo, DEFAULT_ASSETS.LOGO_PLACEHOLDER),
       website: withFallback(p.website, '#'),
       category: p.category || null,
@@ -193,6 +195,36 @@ export const mapPartnersData = (homepage, partners) => {
     sectionDescription: withFallback(safeHomepage.partnersSectionDescription, DEFAULT_HOMEPAGE.partners.sectionDescription),
     ctaText: withFallback(safeHomepage.partnersButtonText, DEFAULT_HOMEPAGE.partners.ctaText),
     ctaLink: withFallback(safeHomepage.partnersButtonLink, DEFAULT_HOMEPAGE.partners.ctaLink),
+    items: mappedPartners
+  };
+};
+
+export const mapPartnersPageData = (homepage, partners) => {
+  // TODO: Future Implementation
+  // Once a dedicated `PartnersPageContent` model is created in the backend CMS, 
+  // this function should accept `partnersPageContent` instead of `homepage`.
+  // For now, we reuse the Homepage partner section fields to drive the dedicated page hero.
+  
+  const safeHomepage = homepage || {};
+  const mappedPartners = Array.isArray(partners) && partners.length > 0
+    ? partners
+        .filter(p => p.status === 'ACTIVE' && !p.isDeleted)
+        .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+        .map(p => ({
+          id: p.id,
+          name: p.name,
+          description: p.description || null,
+          logo: withFallback(p.logo, DEFAULT_ASSETS.LOGO_PLACEHOLDER),
+          website: withFallback(p.website, null), // Changed to null instead of #
+        }))
+    : [];
+
+  return {
+    hero: {
+      sectionLabel: withFallback(safeHomepage.partnersSectionLabel, DEFAULT_PARTNERS_PAGE.hero.sectionLabel),
+      sectionTitle: withFallback(safeHomepage.partnersSectionTitle, DEFAULT_PARTNERS_PAGE.hero.sectionTitle),
+      sectionDescription: withFallback(safeHomepage.partnersSectionDescription, DEFAULT_PARTNERS_PAGE.hero.sectionDescription),
+    },
     items: mappedPartners
   };
 };

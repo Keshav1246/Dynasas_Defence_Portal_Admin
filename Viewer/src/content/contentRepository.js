@@ -58,22 +58,19 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
     const rawHomepage = homepageRes.data || {};
     const rawFooter = footerRes.data || {};
     const rawCompany = companyRes.data || {};
-    const rawStats = statsRes.data || [];
-    const rawPillars = pillarsRes.data || [];
-    // Handle all possible API response structures for services
-    let rawServices = [];
-    if (Array.isArray(servicesRes)) {
-      rawServices = servicesRes;
-    } else if (servicesRes && Array.isArray(servicesRes.data)) {
-      rawServices = servicesRes.data;
-    } else if (servicesRes && servicesRes.data && Array.isArray(servicesRes.data.data)) {
-      rawServices = servicesRes.data.data;
-    } else if (servicesRes && Array.isArray(servicesRes.services)) {
-      rawServices = servicesRes.services;
-    }
-    
+    // Handle all possible API response structures for stats, pillars, services, and partners
+    const extractArray = (res, fallbackKey) => {
+      if (Array.isArray(res)) return res;
+      if (res && Array.isArray(res.data)) return res.data;
+      if (res && res.data && Array.isArray(res.data.data)) return res.data.data;
+      if (res && Array.isArray(res[fallbackKey])) return res[fallbackKey];
+      return [];
+    };
 
-    const rawPartners = partnersRes.data || [];
+    const rawStats = extractArray(statsRes, 'statistics');
+    const rawPillars = extractArray(pillarsRes, 'pillars');
+    const rawServices = extractArray(servicesRes, 'services');
+    const rawPartners = extractArray(partnersRes, 'partners');
     const rawServicesPage = servicesPageRes.data || {};
 
     // Map to frontend-safe structures

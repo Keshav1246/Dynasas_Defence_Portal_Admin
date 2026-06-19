@@ -10,7 +10,7 @@ import { RefreshCw, ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucid
 import { getServiceImage } from '../utils/serviceAssetResolver';
 
 // Import local assets
-import servicesHeroImage from '../../public/assets/services/hero-services.avif';
+import servicesHeroImage from '../../src/assets/services/hero-services.avif';
 
 // Rotates through multiple icons so they do not repeat consecutively
 const FEATURE_ICONS = [Radar, Camera, Cpu, Shield, Target];
@@ -218,7 +218,7 @@ const ServicesPage = () => {
                           >
                             {/* Left Orange Accent Line on Hover */}
                             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-brand-primary group-hover:h-full transition-all duration-300 ease-out rounded-full" />
-                            
+
                             <div className="flex items-center gap-6 pl-2">
                               <span className={`text-sm font-heading tracking-widest transition-colors duration-300 ${isActive ? 'text-brand-primary font-bold' : 'text-brand-white/30 group-hover:text-brand-primary/70'}`}>
                                 {(index + 1).toString().padStart(2, '0')}
@@ -314,7 +314,7 @@ const ServicesPage = () => {
                         {/* Top Watermark = 1 */}
                         {topWord && (
                           <div className="absolute top-0 -translate-y-[45%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2 
+                            <h2
                               className="font-heading font-black uppercase m-0 p-0 text-center"
                               style={{
                                 fontSize: 'clamp(80px, 8vw, 140px)',
@@ -347,7 +347,7 @@ const ServicesPage = () => {
                         {/* Bottom Watermark = 1 */}
                         {bottomWords && (
                           <div className="absolute bottom-[5%] translate-y-[60%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2 
+                            <h2
                               className="font-heading font-black uppercase m-0 p-0 text-center"
                               style={{
                                 fontSize: 'clamp(80px, 8vw, 140px)',
@@ -376,11 +376,11 @@ const ServicesPage = () => {
                       >
                         {/* Glow Effect */}
                         <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
-                        
+
                         {/* Tactical Top Accent Line */}
                         <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
                         <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
-                        
+
                         {/* Corner Accents */}
                         <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
                         <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
@@ -402,28 +402,28 @@ const ServicesPage = () => {
 
                           {service.features && service.features.length > 0 && (
                             <div className="mb-10 space-y-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
-                            {service.features.map((feature, fIndex) => (
-                              <div key={fIndex} className="flex items-center gap-6">
-                                <div className="shrink-0 p-2.5 rounded-full bg-brand-primary/10 border border-brand-primary/20">
-                                  {getFeatureIcon(fIndex)}
+                              {service.features.map((feature, fIndex) => (
+                                <div key={fIndex} className="flex items-center gap-6">
+                                  <div className="shrink-0 p-2.5 rounded-full bg-brand-primary/10 border border-brand-primary/20">
+                                    {getFeatureIcon(fIndex)}
+                                  </div>
+                                  {renderFeatureText(feature)}
                                 </div>
-                                {renderFeatureText(feature)}
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                              ))}
+                            </div>
+                          )}
 
-                        {(service.ctaText || service.ctaLink) && (
-                          <div className="mt-8">
-                            <a
-                              href={service.ctaLink || '/contact'}
-                              className="inline-flex items-center gap-3 text-brand-primary font-heading text-[13px] font-bold tracking-widest uppercase hover:text-brand-white transition-colors duration-300 group/btn"
-                            >
-                              {service.ctaText || 'Explore Service'}
-                              <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                            </a>
-                          </div>
-                        )}
+                          {(service.ctaText || service.ctaLink) && (
+                            <div className="mt-8">
+                              <a
+                                href={service.ctaLink || '/contact'}
+                                className="inline-flex items-center gap-3 text-brand-primary font-heading text-[13px] font-bold tracking-widest uppercase hover:text-brand-white transition-colors duration-300 group/btn"
+                              >
+                                {service.ctaText || 'Explore Service'}
+                                <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     </div>

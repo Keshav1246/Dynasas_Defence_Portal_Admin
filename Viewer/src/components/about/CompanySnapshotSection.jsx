@@ -12,6 +12,14 @@ const CompanySnapshotSection = ({ data }) => {
   const headquarters = data?.details?.headquarters;
   const yearsOfLegacy = data?.details?.yearsOfLegacy;
 
+  const getCityOnly = (address) => {
+    if (!address) return '';
+    if (address.toLowerCase().includes('gurgaon') || address.toLowerCase().includes('gurugram')) return 'Gurgaon';
+    if (address.toLowerCase().includes('delhi')) return 'New Delhi';
+    const parts = address.split(',').map(p => p.trim());
+    return parts[0];
+  };
+
   return (
     <section className="py-24 bg-[#050505] relative z-10 border-t border-[rgba(255,255,255,0.06)] overflow-hidden">
       {/* Background Subtle Grid */}
@@ -45,12 +53,15 @@ const CompanySnapshotSection = ({ data }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {snapshot.stats?.map((stat, index) => {
             const IconComponent = LucideIcons[stat.iconName] || LucideIcons.Shield;
+            const displayValue = stat.label?.toLowerCase() === 'headquarters' && stat.value 
+              ? getCityOnly(stat.value)
+              : stat.value;
             return (
               <SnapshotCard 
                 key={index}
                 index={index}
                 icon={IconComponent}
-                value={stat.value}
+                value={displayValue}
                 label={stat.label}
                 description={stat.description}
               />

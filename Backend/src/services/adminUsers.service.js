@@ -99,7 +99,8 @@ const inviteUser = async (name, email, invitedById) => {
     }
   });
 
-  const inviteLink = `http://localhost:5173/setup-password?token=${token}`;
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const inviteLink = `${frontendUrl}/setup-password?token=${token}`;
 
   await sendEmail({
     to: email,
@@ -127,7 +128,8 @@ const resendInvitation = async (id) => {
   const invite = await prisma.userInvitation.findUnique({ where: { id } });
   if (!invite) throw new AppError('Invitation not found', 404);
 
-  const inviteLink = `http://localhost:5173/setup-password?token=${invite.invitationToken}`;
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const inviteLink = `${frontendUrl}/setup-password?token=${invite.invitationToken}`;
 
   await sendEmail({
     to: invite.email,

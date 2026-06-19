@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { API_URL as BASE_URL } from '../config/api';
 
-const API_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
+const API_URL = BASE_URL;
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,

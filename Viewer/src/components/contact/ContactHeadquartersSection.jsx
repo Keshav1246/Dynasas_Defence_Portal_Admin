@@ -3,12 +3,21 @@ import { motion } from 'framer-motion';
 import { MapPin, Globe, Building2, ShieldCheck, Users } from 'lucide-react';
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 import { DEFAULT_CONTACT } from '../../defaults/contact';
+import { DEFAULT_ASSETS } from '../../defaults/assets';
 
 const ContactHeadquartersSection = ({ data }) => {
   const defaults = data?.hq || DEFAULT_CONTACT.hq || {};
 
   const mailingAddress = data?.mailingAddress || DEFAULT_CONTACT.mailingAddress || '';
   const website = data?.website || DEFAULT_CONTACT.website || '';
+
+  const getCityOnly = (address) => {
+    if (!address) return '';
+    if (address.toLowerCase().includes('gurgaon') || address.toLowerCase().includes('gurugram')) return 'Gurgaon';
+    if (address.toLowerCase().includes('delhi')) return 'New Delhi';
+    const parts = address.split(',').map(p => p.trim());
+    return parts[0];
+  };
 
   const handleMapsClick = () => {
     const addressQuery = encodeURIComponent(mailingAddress.replace(/\n/g, ', '));
@@ -64,7 +73,7 @@ const ContactHeadquartersSection = ({ data }) => {
                   <div>
                     <h4 className="text-[10px] font-heading font-bold text-brand-primary tracking-widest uppercase mb-2">Mailing Address</h4>
                     <p className="text-brand-white/90 font-body leading-relaxed whitespace-pre-line text-sm">
-                      {mailingAddress}
+                      {getCityOnly(mailingAddress)}
                     </p>
                   </div>
                 </div>
@@ -93,60 +102,11 @@ const ContactHeadquartersSection = ({ data }) => {
           </div>
 
           {/* RIGHT VISUAL (60%) */}
-          <div className="w-full lg:w-[60%] min-h-[400px] lg:min-h-[500px] relative border border-[rgba(255,255,255,0.06)] bg-[#0a0a0a] overflow-hidden group">
-
-            {/* Cinematic Background Image */}
-            <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-50 transition-opacity duration-700 mix-blend-luminosity"
-              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}></div>
-
-            {/* Grid Overlay */}
-            <div className="absolute inset-0 opacity-30"
-              style={{ backgroundImage: 'linear-gradient(rgba(255, 106, 0, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 106, 0, 0.2) 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-
-            {/* Central Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-brand-primary/20 blur-[100px] rounded-full pointer-events-none"></div>
-
-            {/* Simulated Central Node (HQ) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-brand-primary rounded-full shadow-[0_0_20px_rgba(255,106,0,1)] z-20">
-              <div className="absolute inset-[-20px] border border-brand-primary/50 rounded-full animate-ping"></div>
-              <div className="absolute inset-[-40px] border border-brand-primary/30 rounded-full animate-[spin_4s_linear_infinite] border-t-transparent"></div>
-              <MapPin size={32} className="absolute -top-10 -left-3.5 text-brand-primary drop-shadow-[0_0_10px_rgba(255,106,0,0.8)]" />
+          <div className="w-full lg:w-[60%] min-h-[400px] lg:min-h-[500px] relative border border-[rgba(255,255,255,0.06)] bg-[#0a0a0a] overflow-hidden">
+            <div className="absolute inset-0 bg-cover bg-center opacity-80"
+              style={{ backgroundImage: `url('${DEFAULT_ASSETS.COMMAND_AND_CONTROL_HQ}')` }}>
             </div>
-
-            {/* Floating Labels */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute top-1/4 left-1/4 border border-brand-primary/30 bg-[#050505]/80 backdrop-blur px-3 py-1.5 flex items-center gap-2"
-            >
-              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full"></div>
-              <span className="text-[9px] font-heading font-bold text-brand-white uppercase tracking-wider">Washington, DC</span>
-              <span className="text-[9px] font-mono text-brand-primary">18 KM</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute bottom-1/4 left-10 border border-brand-primary/30 bg-[#050505]/80 backdrop-blur px-3 py-1.5 flex items-center gap-2"
-            >
-              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full"></div>
-              <span className="text-[9px] font-heading font-bold text-brand-white uppercase tracking-wider">Dulles Int'l Airport</span>
-              <span className="text-[9px] font-mono text-brand-primary">32 KM</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.8 }}
-              className="absolute top-1/3 right-10 border border-brand-primary/30 bg-[#050505]/80 backdrop-blur px-3 py-1.5 flex items-center gap-2"
-            >
-              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full"></div>
-              <span className="text-[9px] font-heading font-bold text-brand-white uppercase tracking-wider">Pentagon</span>
-              <span className="text-[9px] font-mono text-brand-primary">10 KM</span>
-            </motion.div>
-
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] to-transparent"></div>
           </div>
         </div>
 

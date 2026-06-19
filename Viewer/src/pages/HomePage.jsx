@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useWebsiteContent } from '../hooks/useWebsiteContent';
 import SEOManager from '../components/layout/SEOManager';
 import ScrollProgress from '../components/layout/ScrollProgress';
@@ -15,6 +16,22 @@ import { RefreshCw } from 'lucide-react';
 
 const HomePage = () => {
   const { content, error, refreshContent } = useWebsiteContent();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        // slight delay to ensure components are mounted and layout is stable
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   if (error) {
     return (

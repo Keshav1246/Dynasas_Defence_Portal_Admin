@@ -7,6 +7,8 @@ import { MediaCard, getMediaType, formatBytes } from '../components/media/MediaC
 import { FileDetailsSidebar } from '../components/media/FileDetailsSidebar';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { fetchFiles, uploadFile, deleteFile, fetchMediaStats } from '../api/mediaApi';
+import axios from 'axios';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 
 // ─── Filter pill labels → fileType query param ───────────────────────────────
@@ -96,7 +98,7 @@ const MediaLibrary = () => {
 
   const handleDownload = async (id, filename) => {
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
+      const BASE_URL = API_URL;
       const token = localStorage.getItem('token');
       const response = await fetch(`${BASE_URL}/media/${id}/download`, {
         headers: {

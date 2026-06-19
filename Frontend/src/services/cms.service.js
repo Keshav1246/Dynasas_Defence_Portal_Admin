@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5001/api/v1/cms';
+import { API_URL as BASE_URL } from '../config/api';
+const API_URL = `${BASE_URL}/cms`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');

@@ -5,8 +5,8 @@ export const DEFAULT_CONTACT = {
   securityEmail: 'security@dynasas.com',
   mainPhone: '9999999999',
   defenseContractsPhone: '+1 9999999999',
-  headquarters: 'Global Command Center',
-  mailingAddress: 'Sector 43, Gurgaon',
+  headquarters: 'Gurgaon',
+  mailingAddress: 'Delhi',
   website: 'https://www.dynasas.co',
 
   // Hardcoded UI text fallbacks

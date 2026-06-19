@@ -6,8 +6,6 @@ import Header from '../components/layout/Header';
 import FooterSection from '../components/layout/FooterSection';
 import AboutHeroSection from '../components/about/AboutHeroSection';
 import CompanySnapshotSection from '../components/about/CompanySnapshotSection';
-import CompanyJourneySection from '../components/about/CompanyJourneySection';
-import GlobalImpactSection from '../components/about/GlobalImpactSection';
 import { RefreshCw } from 'lucide-react';
 const AboutPage = () => {
   const { content, error, refreshContent } = useWebsiteContent();
@@ -55,10 +53,7 @@ const AboutPage = () => {
         <AboutHeroSection data={aboutData} />
         <CompanySnapshotSection data={aboutData} />
         
-        {/* Phase 2 Sections */}
-        <CompanyJourneySection data={aboutData} />
-        <GlobalImpactSection data={aboutData} />
-        
+
         {/* Future sections (Mission, Vision, Leadership, etc) will go here */}
       </main>
 

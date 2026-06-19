@@ -1,6 +1,8 @@
+import { API_URL } from '../config/api';
+
 export const getDashboardData = async () => {
   try {
-    const response = await fetch('http://localhost:5001/api/v1/dashboard', {
+    const response = await fetch(`${API_URL}/dashboard`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -153,8 +153,6 @@ export const mapAboutData = (profile, pillars) => {
       yearsOfLegacy: yearsOfLegacy
     },
     snapshot: DEFAULT_ABOUT.snapshot,
-    journey: DEFAULT_ABOUT.journey,
-    impact: DEFAULT_ABOUT.impact,
     hero: DEFAULT_ABOUT.hero,
     media: null,
   };

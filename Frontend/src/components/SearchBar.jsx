@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -44,7 +45,7 @@ const SearchBar = () => {
 
       setIsLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5001/api/v1/search?q=${encodeURIComponent(query)}`);
+        const res = await axios.get(`${API_URL}/search?q=${encodeURIComponent(query)}`);
         setResults(res.data.data || []);
         setIsOpen(true);
         setSelectedIndex(-1);

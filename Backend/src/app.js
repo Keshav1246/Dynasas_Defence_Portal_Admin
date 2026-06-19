@@ -29,14 +29,13 @@ const AppError = require('./utils/AppError');
 const app = express();
 
 // Enable Cross-Origin Resource Sharing
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:5173',
+  process.env.VIEWER_URL || 'http://localhost:5174'
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'http://localhost:5176',
-    'http://localhost:5177'
-  ],
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,

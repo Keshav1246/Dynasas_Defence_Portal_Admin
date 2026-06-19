@@ -9,6 +9,14 @@ const AboutHeroSection = ({ data }) => {
   const overview = data?.overview || data?.companyOverview;
   const foundedYear = data?.details?.foundedYear;
   const headquarters = data?.details?.headquarters;
+
+  const getCityOnly = (address) => {
+    if (!address) return '';
+    if (address.toLowerCase().includes('gurgaon') || address.toLowerCase().includes('gurugram')) return 'Gurgaon';
+    if (address.toLowerCase().includes('delhi')) return 'New Delhi';
+    const parts = address.split(',').map(p => p.trim());
+    return parts[0];
+  };
   
   const sectionLabel = defaults.sectionLabel;
   const sectionTitle = defaults.sectionTitle;
@@ -45,26 +53,7 @@ const AboutHeroSection = ({ data }) => {
                style={{ backgroundImage: 'linear-gradient(rgba(255, 106, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 106, 0, 0.1) 1px, transparent 1px)', backgroundSize: '100px 100px' }}>
           </div>
 
-          {/* Floating Connected Systems Panel */}
-          <motion.div 
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="absolute top-32 right-12 lg:right-24 bg-[#050505]/80 border border-brand-primary/30 p-6 shadow-[0_0_30px_rgba(255,106,0,0.1)] backdrop-blur-md z-30 hidden md:block"
-          >
-            <div className="flex items-center gap-3 mb-4 border-b border-[rgba(255,255,255,0.06)] pb-3">
-              <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></div>
-              <h4 className="text-xs font-heading text-brand-primary tracking-widest uppercase font-bold">Connected Systems</h4>
-            </div>
-            <ul className="space-y-3">
-              {['Integrated Operations', 'Secure Networks', 'Real-time Intelligence'].map((item, i) => (
-                <li key={i} className="flex items-center gap-3">
-                  <span className="text-brand-primary text-xs opacity-50 font-mono">0{i+1}</span>
-                  <span className="text-sm font-body text-brand-white/80">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+
         </div>
       </div>
 
@@ -83,7 +72,7 @@ const AboutHeroSection = ({ data }) => {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-brand-white leading-[1.1] mb-8" dangerouslySetInnerHTML={{ __html: (sectionTitle || '').replace('Defense Technology', '<br class="hidden md:block" /><span class="text-brand-primary">Defense Technology</span>') }}>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-brand-white leading-[1.1] mb-8" dangerouslySetInnerHTML={{ __html: (sectionTitle || '').replace('Defense Technology', '<br class="hidden md:block" /><span class="text-brand-primary">Defense Technology</span>') }}>
           </h1>
 
           <p className="text-xl text-brand-white/70 font-body leading-relaxed mb-12 max-w-xl">
@@ -120,7 +109,7 @@ const AboutHeroSection = ({ data }) => {
               </div>
               <div>
                 <h4 className="text-brand-white/40 text-[10px] font-heading tracking-widest uppercase mb-0.5">Headquarters</h4>
-                <p className="text-brand-white font-mono font-bold text-lg">{headquarters}</p>
+                <p className="text-brand-white font-mono font-bold text-lg">{getCityOnly(headquarters)}</p>
               </div>
             </div>
           </div>

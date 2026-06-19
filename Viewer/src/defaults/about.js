@@ -2,17 +2,17 @@ import { DEFAULT_ASSETS } from './assets';
 
 export const DEFAULT_ABOUT = {
   companyName: 'Dynasas',
-  foundedYear: '1998',
-  headquarters: 'New Delhi, India',
+  foundedYear: '2022',
+  headquarters: 'Gurgaon, India',
   overview: 'Dynasas is a global technology leader operating at the intersection of defense, aerospace, and advanced cybersecurity. For over two decades, we have been the trusted partner for allied forces and government agencies worldwide, delivering integrated, multi-domain capabilities that ensure operational overmatch.',
 
   hero: {
     sectionLabel: 'ABOUT US',
-    sectionTitle: 'Engineering the Future of Defense Technology Survillance',
-    overview: 'Dynasas is a global technology leader operating at the intersection of defense, aerospace, and advanced cybersecurity. For over two decades, we have been the trusted partner for allied forces and government agencies worldwide, delivering integrated, multi-domain capabilities that ensure operational overmatch.',
+    sectionTitle: 'Engineering the Future of Defense Technology & Surveillance Systems',
+    overview: 'Dynasas is a technology-driven defence solutions company specializing in command & control systems, surveillance platforms, secure communications, geospatial intelligence, and mission-critical infrastructure. We deliver innovative solutions that enhance operational readiness, strengthen situational awareness, and support strategic decision-making across defence and security domains.',
     primaryCTA: {
-      text: 'Our Vision',
-      link: '#mission'
+      text: 'Our Mission',
+      link: '/#mission'
     },
     secondaryCTA: {
       text: 'Contact',
@@ -23,40 +23,16 @@ export const DEFAULT_ABOUT = {
 
   // Sections not yet in CMS but hardcoded in UI
   snapshot: {
-    heading: 'Defining the Future of Technology',
-    description: 'We believe that absolute security requires perpetual innovation.Our engineers, strategists, and veterans work tirelessly to anticipate threats before they emerge.',
+    heading: 'Defining the Future of Defense Technology',
+    description: 'Dynasas is committed to advancing defence and security through innovation, precision, and operational excellence. By combining cutting-edge technologies with mission-focused expertise, we deliver solutions that enhance situational awareness, strengthen command effectiveness, and support critical decision-making in complex environments.',
     stats: [
-      { label: 'FOUNDED YEAR', value: '2022', description: 'Established with a commitment to strategic defence superiority', iconName: 'Shield' },
-      { label: 'Headquarters', value: 'Gurgaon', description: 'Global Operations directed from ourprimary command center', iconName: 'Location' },
-      { label: 'Years of Legacy', value: '4+', description: 'Decades of proven excellence in complex operational environments', iconName: 'Clock' }
+      { label: 'FOUNDED YEAR', value: '2022', description: 'Established with a commitment to strategic defence superiority', iconName: 'Calendar' },
+      { label: 'Headquarters', value: 'Gurgaon', description: 'Global Operations directed from our primary command center', iconName: 'MapPin' },
+      { label: 'CORE SERVICES', value: '12+', description: 'Comprehensive defence, surveillance, communication and command solutions tailored for mission-critical operations.', iconName: 'Layers' },
+      { label: 'Operational Support', value: '24/7', description: 'Dedicated support and response for mission-critical deployments.', iconName: 'Headset' }
     ]
   },
 
-  journey: {
-    label: 'OUR Journey',
-    heading: 'Decade of Strategic Innovation',
-    description: 'From our inception as a specialized communications contractor to our current position as a prime defense systems integrator, our trajectory has been defined by technological breakthrough.',
-    achievement: "4+ Years of excellence in delivering mission-critical defense solutions worldwide.",
-    milestones: [
-      { year: '2022', title: 'Foundation', description: 'Established to provide secure tactical communications for allied forces.', iconName: 'Calendar' },
-      { year: '2023', title: 'Aerospace Expansion', description: 'Launched the integrated avionics division securing first major tier-1 contract.', iconName: 'Award' },
-      { year: '2024', title: 'Cyber Defense Initiative', description: 'Pioneered offensive and defensive cyber capabilities for national security.', iconName: 'Target' },
-      { year: '2025', title: 'Autonomous Systems', description: 'Deployed first fully autonomous threat detection grid.', iconName: 'Crosshair' },
-      { year: 'Present', title: 'Multi-Domain Dominance', description: 'Leading the integration of space, cyber, and conventional defense platforms.', iconName: 'Globe' }
-    ],
-    values: ["INNOVATION", "RELIABILITY", "SECURITY"]
-  },
 
-  impact: {
-    label: 'GLOBAL REACH',
-    heading: 'Securing',
-    headingHighlight: 'Free World',
-    description: 'Our systems form the invisible shield protecting democratic institutions, critical infrastructure, and deployed forces across the globe',
-    trustBadge: 'NATO STANAG COMPLIANT.',
-    statistics: [
-      { id: 1, title: 'Systems Deployed', value: '10,000+', iconName: 'Shield', description: 'Field-proven solutions deployed in real-world environments.' },
-      { id: 2, title: 'Threats Neutralized', value: '2.5M+', iconName: 'Target', description: 'Automated threat detection and immediate mitigation.' },
-      { id: 3, title: 'Uptime Reliability', value: '99.99%', iconName: 'Activity', description: 'Ensuring continuous operation in the most extreme conditions.' }
-    ]
-  }
+
 };

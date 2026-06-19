@@ -10,7 +10,7 @@ const MissionVisionSection = ({ data }) => {
   const vision = data?.vision;
 
   return (
-    <section className="py-24 w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black">
+    <section id="mission" className="py-24 w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Mission & Vision Cards Row */}

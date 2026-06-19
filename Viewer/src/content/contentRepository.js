@@ -123,7 +123,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
   contactData: mapContactData(rawCompany),
 
   footerData: validateFooterData(
-    mapFooterData(siteData, rawFooter, rawCompany)
+    mapFooterData(siteData, rawFooter, rawCompany, rawServices)
   ),
 };
     contentCache = mappedContent;

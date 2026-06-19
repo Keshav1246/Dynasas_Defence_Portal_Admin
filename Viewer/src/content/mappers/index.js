@@ -31,11 +31,11 @@ export const mapSiteData = (settings) => {
       text: withFallback(safeSettings.textColor, DEFAULT_THEME.colors.text),
     },
     socialLinks: {
-      linkedin: withFallback(safeSettings.linkedinUrl, null),
-      twitter: withFallback(safeSettings.twitterUrl, null),
-      youtube: withFallback(safeSettings.youtubeUrl, null),
-      facebook: withFallback(safeSettings.facebookUrl, null),
-      instagram: withFallback(safeSettings.instagramUrl, null),
+      linkedin: withFallback(safeSettings.linkedinUrl, '#'),
+      twitter: withFallback(safeSettings.twitterUrl, '#'),
+      youtube: withFallback(safeSettings.youtubeUrl, '#'),
+      facebook: withFallback(safeSettings.facebookUrl, '#'),
+      instagram: withFallback(safeSettings.instagramUrl, '#'),
     }
   };
 };
@@ -229,7 +229,7 @@ export const mapPartnersPageData = (homepage, partners) => {
   };
 };
 
-export const mapFooterData = (siteData, footerContent, companyProfile) => {
+export const mapFooterData = (siteData, footerContent, companyProfile, rawServices) => {
   const safeFooter = footerContent || {};
   const safeSiteData = siteData || {};
   const safeProfile = companyProfile || {};
@@ -243,6 +243,21 @@ export const mapFooterData = (siteData, footerContent, companyProfile) => {
     };
   };
 
+  const createSlug = (title) => {
+    if (!title) return '';
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  };
+
+  const mappedSolutions = Array.isArray(rawServices) && rawServices.length > 0
+    ? rawServices
+        .filter(s => s.status === 'published' && (s.isActive === true || s.isActive === undefined))
+        .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+        .map(s => ({
+          label: s.title,
+          url: `/services/${createSlug(s.title)}`
+        }))
+    : withArrayFallback(safeFooter.solutionLinks, []).map(parseLink);
+
   return {
     logo: withFallback(safeSiteData.primaryLogo, DEFAULT_ASSETS.PRIMARY_LOGO),
     tagline: withFallback(safeFooter.footerTagline, DEFAULT_SEO.description),
@@ -254,7 +269,7 @@ export const mapFooterData = (siteData, footerContent, companyProfile) => {
     },
     links: {
       company: withArrayFallback(safeFooter.companyLinks, []).map(parseLink),
-      solutions: withArrayFallback(safeFooter.solutionLinks, []).map(parseLink),
+      solutions: mappedSolutions,
       resources: withArrayFallback(safeFooter.resourceLinks, []).map(parseLink),
       legal: withArrayFallback(safeFooter.legalLinks, []).map(parseLink),
     },

@@ -5,9 +5,10 @@ import { Pagination } from '../components/ui/Pagination';
 import { Search, Mail, FileText, ChevronRight, Clock, User, CheckCircle2, AlertCircle } from 'lucide-react';
 import { fetchInquiries, fetchInquiryStats } from '../api/inquiryApi';
 import InquiryDrawer from '../components/InquiryDrawer';
+import { databaseToDisplayMap } from '../constants/inquiryMapping';
 
 const STATUS_FILTERS = ['All', 'New', 'In Review', 'Assigned', 'Resolved'];
-const TYPE_FILTERS = ['All Types', 'Contact', 'Demo Request', 'Quote'];
+const TYPE_FILTERS = ['All Types', 'Defense Procurement', 'Strategic Partnership', 'General Information'];
 
 const StatCard = ({ value, label, countColor = 'text-[#f95724]', bgShape = 'bg-[#fff2ee]' }) => (
   <div className="bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-5 flex items-center gap-4 transition-transform hover:-translate-y-0.5">
@@ -27,9 +28,11 @@ const StatusBadge = ({ status, assignedTeam }) => {
 };
 
 const TypeBadge = ({ type }) => {
-  if (type === 'DEMO_REQUEST') return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-red-600"><FileText className="w-3.5 h-3.5" /> Demo Request</span>;
-  if (type === 'QUOTE') return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-yellow-600"><FileText className="w-3.5 h-3.5" /> Quote</span>;
-  return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-blue-600"><Mail className="w-3.5 h-3.5" /> Contact</span>;
+  const displayLabel = databaseToDisplayMap[type] || 'Defense Procurement';
+  
+  if (type === 'DEMO_REQUEST') return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-red-600"><FileText className="w-3.5 h-3.5" /> {displayLabel}</span>;
+  if (type === 'QUOTE') return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-yellow-600"><FileText className="w-3.5 h-3.5" /> {displayLabel}</span>;
+  return <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-blue-600"><Mail className="w-3.5 h-3.5" /> {displayLabel}</span>;
 };
 
 const ContactInquiries = () => {

@@ -4,6 +4,27 @@ import { Send, CheckCircle2, AlertCircle, ShieldAlert, FileText, Clock } from 'l
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 import { apiClient } from '../../api/client';
 
+import { INQUIRY_TYPES } from '../../constants/inquiryTypes';
+
+const Toast = ({ message, type, onClose }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 50, scale: 0.95 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: 50, scale: 0.95 }}
+    className={`fixed bottom-8 right-8 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl border ${
+      type === 'success' 
+        ? 'bg-[#050505] border-green-500/30 text-green-500'
+        : 'bg-[#050505] border-red-500/30 text-red-500'
+    }`}
+  >
+    {type === 'success' ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}
+    <p className="font-heading font-bold uppercase tracking-wider text-sm">{message}</p>
+    <button onClick={onClose} className="ml-4 text-brand-white/50 hover:text-brand-white">
+      <AlertCircle size={16} className="opacity-0" /> {/* Spacer */}
+    </button>
+  </motion.div>
+);
+
 const ContactInquirySection = ({ data, forwardRef }) => {
 
   const [formData, setFormData] = useState({
@@ -18,6 +39,7 @@ const ContactInquirySection = ({ data, forwardRef }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [toast, setToast] = useState(null);
   const [apiError, setApiError] = useState('');
 
   const validateForm = () => {
@@ -60,17 +82,27 @@ const ContactInquirySection = ({ data, forwardRef }) => {
         email: formData.email,
         phone: formData.phone || undefined,
         organization: formData.organization || undefined,
-        subject: formData.inquiryType, // Store dropdown selection here
-        message: formData.message,
-        inquiryType: "CONTACT" // Enum requirement
+        type: formData.inquiryType,
+        message: formData.message
       };
 
       await apiClient.post('/contact', payload);
 
-      setIsSuccess(true);
+      setToast({ type: 'success', message: formDefaults.fields?.successMessage || 'Inquiry Submitted Successfully' });
+      setFormData({
+        fullName: '',
+        organization: '',
+        email: '',
+        phone: '',
+        inquiryType: '',
+        message: ''
+      });
+      setErrors({});
+      setTimeout(() => setToast(null), 5000);
     } catch (err) {
       console.error("Submission failed", err);
-      setApiError('Failed to send inquiry. Please try again later or contact us directly.');
+      setToast({ type: 'error', message: 'Failed to send inquiry. Please try again later.' });
+      setTimeout(() => setToast(null), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -97,24 +129,20 @@ const ContactInquirySection = ({ data, forwardRef }) => {
                 {formDefaults.description}
               </p>
 
-              <AnimatePresence mode="wait">
-                {isSuccess ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="p-8 border border-green-500/30 bg-green-500/5 text-center flex flex-col items-center justify-center min-h-[400px]"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-6">
-                      <CheckCircle2 size={32} className="text-green-500" />
-                    </div>
-                    <h3 className="text-2xl font-heading font-bold text-brand-white mb-2">Inquiry Submitted</h3>
-                    <p className="text-brand-white/70 font-body">{formDefaults.fields?.successMessage}</p>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                <AnimatePresence>
+                  {toast && (
+                    <Toast 
+                      type={toast.type} 
+                      message={toast.message} 
+                      onClose={() => setToast(null)} 
+                    />
+                  )}
+                </AnimatePresence>
+
+                <motion.form
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
                     className="space-y-6"
                   >
@@ -187,7 +215,7 @@ const ContactInquirySection = ({ data, forwardRef }) => {
                         style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.5)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E\")", backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.2em' }}
                       >
                         <option value="" disabled>Select inquiry type</option>
-                        {(formDefaults.fields?.inquiryOptions || []).map((type, idx) => (
+                        {INQUIRY_TYPES.map((type, idx) => (
                           <option key={idx} value={type} className="bg-[#050505] text-brand-white">{type}</option>
                         ))}
                       </select>
@@ -223,8 +251,6 @@ const ContactInquirySection = ({ data, forwardRef }) => {
                       </div>
                     </div>
                   </motion.form>
-                )}
-              </AnimatePresence>
             </div>
           </div>
 

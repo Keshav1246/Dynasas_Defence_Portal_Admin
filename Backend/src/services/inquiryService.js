@@ -1,4 +1,5 @@
 const prisma = require('../config/prisma');
+const { viewerToDatabaseMap } = require('../constants/inquiryMapping');
 
 /**
  * Service to handle business logic for Contact & Inquiry Management
@@ -48,9 +49,10 @@ class InquiryService {
     }
 
     if (type && type !== 'All Types') {
-      if (type === 'Contact') where.inquiryType = 'CONTACT';
-      if (type === 'Demo Request') where.inquiryType = 'DEMO_REQUEST';
-      if (type === 'Quote') where.inquiryType = 'QUOTE';
+      const dbEnum = viewerToDatabaseMap[type];
+      if (dbEnum) {
+        where.inquiryType = dbEnum;
+      }
     }
 
     if (search) {

@@ -7,9 +7,8 @@ const createContactSchema = z.object({
     email: z.string().email('Invalid email address'),
     phone: z.string().max(20).optional().nullable(),
     organization: z.string().max(255).optional().nullable(),
-    subject: z.string().min(1, 'Subject is required').max(255),
+    type: z.enum(['Defense Procurement', 'Strategic Partnership', 'General Information']),
     message: z.string().min(1, 'Message is required').max(5000),
-    inquiryType: z.enum(['CONTACT', 'DEMO_REQUEST', 'QUOTE']).optional(),
   }),
 });
 
@@ -20,7 +19,7 @@ const listInquiriesSchema = z.object({
     limit: z.string().optional().transform((val) => (val ? Math.min(100, Math.max(1, parseInt(val, 10))) : 10)),
     search: z.string().max(100).optional(),
     status: z.enum(['All', 'New', 'In Review', 'Assigned', 'Resolved']).optional(),
-    type: z.enum(['All Types', 'Contact', 'Demo Request', 'Quote']).optional(),
+    type: z.enum(['All Types', 'Defense Procurement', 'Strategic Partnership', 'General Information']).optional(),
     assignedTo: z.string().max(255).optional(),
   }),
 });

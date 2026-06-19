@@ -2,6 +2,7 @@ const inquiryService = require('../services/inquiryService');
 const apiResponse = require('../utils/apiResponse');
 const AppError = require('../utils/AppError');
 const activityLogService = require('../services/ActivityLogService');
+const { viewerToDatabaseMap } = require('../constants/inquiryMapping');
 
 /**
  * Controller to handle Contact & Inquiry Management HTTP requests
@@ -12,7 +13,20 @@ class InquiryController {
    */
   submitContact = async (req, res, next) => {
     try {
-      const inquiry = await inquiryService.createInquiry(req.body);
+      const payload = { ...req.body };
+      
+      // Auto-generate subject if missing
+      if (!payload.subject) {
+        payload.subject = `New Inquiry from ${payload.fullName}`;
+      }
+
+      // Map Viewer labels to Database enum
+      if (payload.type) {
+        payload.inquiryType = viewerToDatabaseMap[payload.type] || 'CONTACT';
+        delete payload.type;
+      }
+
+      const inquiry = await inquiryService.createInquiry(payload);
       res.status(201).json(apiResponse.success(inquiry, 'Your inquiry has been submitted successfully'));
     } catch (error) {
       next(error);

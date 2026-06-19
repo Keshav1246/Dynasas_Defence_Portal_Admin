@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Calendar, User, Phone, Mail, Building, FileText, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui/Button';
 import { updateInquiryStatus, assignInquiry, updateInquiry } from '../api/inquiryApi';
+import { databaseToDisplayMap } from '../constants/inquiryMapping';
 
 const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
   const [status, setStatus] = useState('');
@@ -65,9 +66,9 @@ const InquiryDrawer = ({ isOpen, onClose, inquiry, onUpdate }) => {
   };
 
   const typeConfig = {
-    CONTACT: { label: 'Contact', color: 'text-blue-600', icon: Mail },
-    DEMO_REQUEST: { label: 'Demo Request', color: 'text-red-600', icon: FileText },
-    QUOTE: { label: 'Quote', color: 'text-yellow-600', icon: FileText },
+    CONTACT: { label: databaseToDisplayMap.CONTACT, color: 'text-blue-600', icon: Mail },
+    DEMO_REQUEST: { label: databaseToDisplayMap.DEMO_REQUEST, color: 'text-red-600', icon: FileText },
+    QUOTE: { label: databaseToDisplayMap.QUOTE, color: 'text-yellow-600', icon: FileText },
   };
 
   const currentType = typeConfig[inquiry.inquiryType] || typeConfig.CONTACT;

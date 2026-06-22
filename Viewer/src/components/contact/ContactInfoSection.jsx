@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Shield, Phone, FileSignature } from 'lucide-react';
+import { Mail, Briefcase, TrendingUp, Handshake, Headset } from 'lucide-react';
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 import { DEFAULT_CONTACT } from '../../defaults/contact';
 
@@ -61,28 +61,28 @@ const ContactInfoSection = ({ data }) => {
   // Contact items mapped directly to props and fallbacks
   const contactCards = [
     {
-      icon: Mail,
-      title: defaults.generalEmailLabel || "General Email",
-      value: data?.generalEmail || DEFAULT_CONTACT.generalEmail,
-      description: defaults.generalEmailDescription || "For general inquiries and information requests."
+      icon: Briefcase,
+      title: defaults.careersLabel || "Careers",
+      value: defaults.careersEmail || "hr@dynasas.com",
+      description: defaults.careersDescription || "For career opportunities and HR inquiries."
     },
     {
-      icon: Shield,
-      title: defaults.securityEmailLabel || "Security Email",
-      value: data?.securityEmail || DEFAULT_CONTACT.securityEmail,
-      description: defaults.securityEmailDescription || "For security concerns and vulnerability reports."
+      icon: TrendingUp,
+      title: defaults.salesLabel || "Sales",
+      value: defaults.salesEmail || "sales@dynasas.com",
+      description: defaults.salesDescription || "For product inquiries and enterprise sales."
     },
     {
-      icon: Phone,
-      title: defaults.phoneLabel || "Main Phone",
-      value: data?.mainPhone || DEFAULT_CONTACT.mainPhone,
-      description: defaults.phoneDescription || "For general calls and business inquiries."
+      icon: Handshake,
+      title: defaults.partnershipsLabel || "Partnerships",
+      value: defaults.partnershipsEmail || "partner@dynasas.com",
+      description: defaults.partnershipsDescription || "For strategic partnerships and alliances."
     },
     {
-      icon: FileSignature,
-      title: defaults.contractsLabel || "Defense Contracts",
-      value: data?.defenseContractsPhone || DEFAULT_CONTACT.defenseContractsPhone,
-      description: defaults.contractsDescription || "For defense contracts and partnership opportunities."
+      icon: Headset,
+      title: defaults.supportLabel || "Technical Support",
+      value: defaults.supportEmail || "technical@dynasas.com",
+      description: defaults.supportDescription || "For technical assistance and product support."
     }
   ];
 

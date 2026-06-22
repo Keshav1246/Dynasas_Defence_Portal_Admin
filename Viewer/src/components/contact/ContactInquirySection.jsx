@@ -113,8 +113,8 @@ const ContactInquirySection = ({ data, forwardRef }) => {
       <div className="container mx-auto px-6 max-w-[1400px]">
         <div className="flex flex-col lg:flex-row gap-12 xl:gap-20">
 
-          {/* LEFT: INQUIRY FORM */}
-          <div className="w-full lg:w-[65%] border border-[rgba(255,255,255,0.06)] bg-[#080808] p-8 md:p-12 relative overflow-hidden group">
+          {/* INQUIRY FORM */}
+          <div className="w-full border border-[rgba(255,255,255,0.06)] bg-[#080808] p-8 md:p-12 relative overflow-hidden group">
             {/* Ambient Background */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/5 blur-[80px] rounded-full pointer-events-none transition-opacity duration-700"></div>
 
@@ -251,68 +251,6 @@ const ContactInquirySection = ({ data, forwardRef }) => {
                       </div>
                     </div>
                   </motion.form>
-            </div>
-          </div>
-
-          {/* RIGHT: OPERATIONAL SUPPORT SIDEBAR */}
-          <div className="w-full lg:w-[35%] flex flex-col">
-            <div className="border border-[rgba(255,255,255,0.06)] bg-[#050505] h-full flex flex-col relative overflow-hidden group">
-
-              {/* Tactical Image Header */}
-              <div className="h-48 relative border-b border-[rgba(255,255,255,0.06)]">
-                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')", filter: 'contrast(1.2) brightness(0.7)' }}></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent"></div>
-                <div className="absolute inset-0 bg-brand-primary/20 mix-blend-overlay"></div>
-              </div>
-
-              <div className="p-8 md:p-10 flex-1 flex flex-col relative z-10 -mt-20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-6 h-6 rounded border border-brand-primary/40 bg-brand-primary/10 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
-                  </div>
-                  <span className="text-[10px] text-brand-white/80 tracking-widest font-heading uppercase font-bold">{supportDefaults.label}</span>
-                </div>
-
-                <h3 className="text-3xl font-heading font-bold text-brand-white leading-tight mb-4 drop-shadow-md">
-                  {supportDefaults.heading}<br />
-                  <span className="text-brand-primary">{supportDefaults.headingHighlight}</span>
-                </h3>
-
-                <p className="text-sm text-brand-white/60 font-body leading-relaxed mb-10">
-                  {supportDefaults.description}
-                </p>
-
-                <div className="space-y-4 mt-auto">
-
-                  {/* Card 1 */}
-                  <div className="flex items-center gap-4 p-5 border border-brand-primary/20 bg-brand-primary/5 group/card hover:bg-brand-primary/10 transition-colors rounded-sm">
-                    <FileText size={20} className="text-brand-primary shrink-0 group-hover/card:scale-110 transition-transform" />
-                    <div>
-                      <h4 className="text-[10px] font-heading font-bold text-brand-white/50 uppercase tracking-widest mb-1">Defense Contracts</h4>
-                      <p className="text-sm font-mono text-brand-primary drop-shadow-[0_0_5px_rgba(255,106,0,0.5)]">{data?.defenseContractsPhone}</p>
-                    </div>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div className="flex items-center gap-4 p-5 border border-brand-primary/20 bg-brand-primary/5 group/card hover:bg-brand-primary/10 transition-colors rounded-sm">
-                    <ShieldAlert size={20} className="text-brand-primary shrink-0 group-hover/card:scale-110 transition-transform" />
-                    <div>
-                      <h4 className="text-[10px] font-heading font-bold text-brand-white/50 uppercase tracking-widest mb-1">Security Email</h4>
-                      <p className="text-sm font-mono text-brand-primary drop-shadow-[0_0_5px_rgba(255,106,0,0.5)]">{data?.securityEmail}</p>
-                    </div>
-                  </div>
-
-                  {/* Card 3 */}
-                  <div className="flex items-center gap-4 p-5 border border-brand-primary/20 bg-brand-primary/5 group/card hover:bg-brand-primary/10 transition-colors rounded-sm">
-                    <Clock size={20} className="text-brand-primary shrink-0 group-hover/card:scale-110 transition-transform" />
-                    <div>
-                      <h4 className="text-[10px] font-heading font-bold text-brand-white/50 uppercase tracking-widest mb-1">Response Time</h4>
-                      <p className="text-sm font-mono text-brand-primary drop-shadow-[0_0_5px_rgba(255,106,0,0.5)]">{supportDefaults.responseTime}</p>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
             </div>
           </div>
 

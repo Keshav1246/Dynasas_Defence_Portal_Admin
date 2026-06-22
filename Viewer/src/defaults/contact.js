@@ -94,6 +94,6 @@ export const DEFAULT_CONTACT = {
     heading: 'Direct Line ',
     headingHighlight: 'Command',
     description: 'urgent matters requiring immediate attention, bypass the standard transmission protocols and use our direct operational lines.',
-    responseTime: '<= 15 Minutes'
+    responseTime: '< 15 Minutes'
   }
 };

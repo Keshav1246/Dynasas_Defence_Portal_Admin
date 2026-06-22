@@ -7,6 +7,7 @@ import {
   DEFAULT_CONTACT,
   DEFAULT_SERVICES,
   DEFAULT_PARTNERS_PAGE,
+  DEFAULT_SOLUTIONS,
   withFallback,
   withArrayFallback,
   withObjectFallback
@@ -31,11 +32,11 @@ export const mapSiteData = (settings) => {
       text: withFallback(safeSettings.textColor, DEFAULT_THEME.colors.text),
     },
     socialLinks: {
-      linkedin: withFallback(safeSettings.linkedinUrl, '#'),
-      twitter: withFallback(safeSettings.twitterUrl, '#'),
-      youtube: withFallback(safeSettings.youtubeUrl, '#'),
-      facebook: withFallback(safeSettings.facebookUrl, '#'),
-      instagram: withFallback(safeSettings.instagramUrl, '#'),
+      linkedin: withFallback(safeSettings.linkedinUrl, ''),
+      twitter: withFallback(safeSettings.twitterUrl, ''),
+      youtube: withFallback(safeSettings.youtubeUrl, ''),
+      facebook: withFallback(safeSettings.facebookUrl, ''),
+      instagram: withFallback(safeSettings.instagramUrl, ''),
     }
   };
 };
@@ -118,19 +119,30 @@ export const mapServicesData = (homepage, services) => {
 
 };
 
-export const mapAboutData = (profile, pillars) => {
+export const mapAboutData = (profile, pillars, rawServices = []) => {
   const safeProfile = profile || {};
   const foundedYear = withFallback(safeProfile.foundedYear, DEFAULT_ABOUT.foundedYear);
+  const headquarters = withFallback(safeProfile.headquarters, DEFAULT_ABOUT.headquarters);
   const currentYear = new Date().getFullYear();
   const calculatedYears = currentYear - parseInt(foundedYear, 10);
   const yearsOfLegacy = isNaN(calculatedYears) ? "25+" : `${calculatedYears}+`;
+
+  let servicesCountText = '12+';
+  const publishedServices = Array.isArray(rawServices) ? rawServices.filter(s => s.status === 'published' && (s.isActive === true || s.isActive === undefined)) : [];
+  if (publishedServices.length > 0) {
+    if (publishedServices.length > 10) {
+      servicesCountText = '10+';
+    } else {
+      servicesCountText = publishedServices.length.toString();
+    }
+  }
 
   return {
     sectionLabel: withFallback(safeProfile.sectionLabel, DEFAULT_HOMEPAGE.about.sectionLabel),
     sectionTitle: withFallback(safeProfile.companyName, DEFAULT_HOMEPAGE.about.sectionTitle),
     companyOverview: withFallback(safeProfile.overview, DEFAULT_ABOUT.overview),
     foundedYear: foundedYear,
-    headquarters: withFallback(safeProfile.headquarters, DEFAULT_ABOUT.headquarters),
+    headquarters: headquarters,
     introduction: withFallback(safeProfile.overview, DEFAULT_ABOUT.overview),
     overview: withFallback(safeProfile.overview, DEFAULT_ABOUT.overview),
     mission: {
@@ -150,10 +162,18 @@ export const mapAboutData = (profile, pillars) => {
     },
     details: {
       foundedYear: foundedYear,
-      headquarters: withFallback(safeProfile.headquarters, DEFAULT_ABOUT.headquarters),
+      headquarters: headquarters,
       yearsOfLegacy: yearsOfLegacy
     },
-    snapshot: DEFAULT_ABOUT.snapshot,
+    snapshot: {
+      ...DEFAULT_ABOUT.snapshot,
+      stats: [
+        { ...DEFAULT_ABOUT.snapshot.stats[0], value: foundedYear },
+        { ...DEFAULT_ABOUT.snapshot.stats[1], value: headquarters },
+        { ...DEFAULT_ABOUT.snapshot.stats[2], value: servicesCountText },
+        DEFAULT_ABOUT.snapshot.stats[3]
+      ]
+    },
     hero: DEFAULT_ABOUT.hero,
     media: null,
   };
@@ -247,14 +267,11 @@ export const mapFooterData = (siteData, footerContent, companyProfile, rawServic
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   };
 
-  const mappedSolutions = Array.isArray(rawServices) && rawServices.length > 0
-    ? rawServices
-        .filter(s => s.status === 'published' && (s.isActive === true || s.isActive === undefined))
-        .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
-        .map(s => ({
-          label: s.title,
-          url: `/services/${createSlug(s.title)}`
-        }))
+  const mappedSolutions = DEFAULT_SOLUTIONS?.items?.length > 0
+    ? DEFAULT_SOLUTIONS.items.map(s => ({
+        label: s.title,
+        url: `/solutions#${s.id}`
+      }))
     : withArrayFallback(safeFooter.solutionLinks, []).map(parseLink);
 
   return {

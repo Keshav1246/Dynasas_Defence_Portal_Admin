@@ -14,8 +14,6 @@ const CompanySnapshotSection = ({ data }) => {
 
   const getCityOnly = (address) => {
     if (!address) return '';
-    if (address.toLowerCase().includes('gurgaon') || address.toLowerCase().includes('gurugram')) return 'Gurgaon';
-    if (address.toLowerCase().includes('delhi')) return 'New Delhi';
     const parts = address.split(',').map(p => p.trim());
     return parts[0];
   };

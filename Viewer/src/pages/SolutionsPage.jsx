@@ -54,9 +54,9 @@ const SolutionsPage = () => {
           });
 
           // Temporary subtle highlight to indicate which section was deep-linked
-          element.classList.add('bg-brand-white/[0.02]', 'transition-colors', 'duration-1000');
+          element.classList.add('bg-brand-primary/10', 'rounded-2xl', 'transition-colors', 'duration-1000', 'shadow-[0_0_30px_rgba(255,106,0,0.2)]');
           setTimeout(() => {
-            element.classList.remove('bg-brand-white/[0.02]');
+            element.classList.remove('bg-brand-primary/10', 'shadow-[0_0_30px_rgba(255,106,0,0.2)]');
           }, 3000);
         }
       }, 500);

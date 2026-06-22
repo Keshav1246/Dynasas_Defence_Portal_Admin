@@ -34,7 +34,7 @@ const SnapshotCard = ({ icon: Icon, value, label, description, index }) => {
         
         <div className="mt-auto">
           {/* Large Orange Value */}
-          <h3 className="text-5xl lg:text-6xl font-heading font-bold text-brand-primary mb-4 tracking-tight drop-shadow-[0_0_15px_rgba(255,106,0,0.3)]">
+          <h3 className="text-3xl lg:text-4xl font-heading font-bold text-brand-primary mb-4 tracking-tight drop-shadow-[0_0_15px_rgba(255,106,0,0.3)] whitespace-nowrap overflow-hidden text-ellipsis">
             {value}
           </h3>
           <h4 className="text-sm font-heading tracking-widest text-brand-white uppercase mb-4">

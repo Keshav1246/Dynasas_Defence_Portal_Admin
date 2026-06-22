@@ -105,7 +105,7 @@ export const fetchAllWebsiteContent = async (forceRefresh = false) => {
   ),
 
   aboutData: validateAboutData(
-    mapAboutData(rawCompany, rawPillars)
+    mapAboutData(rawCompany, rawPillars, rawServices)
   ),
 
   statisticsData: validateStatisticsData(

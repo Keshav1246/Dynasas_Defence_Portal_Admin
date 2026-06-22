@@ -44,7 +44,7 @@ const ContactHeadquartersSection = ({ data }) => {
                   <span className="text-[10px] text-brand-primary font-mono">0</span>
                 </div>
                 <span className="text-sm text-brand-primary tracking-widest font-heading uppercase font-bold">
-                  {defaults.label}
+                  {getCityOnly(data?.headquarters || DEFAULT_CONTACT.headquarters)} HEADQUARTERS
                 </span>
               </div>
 

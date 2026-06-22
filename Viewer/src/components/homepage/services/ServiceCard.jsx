@@ -78,7 +78,7 @@ const ServiceCard = ({ service, index, position, setActiveIndex }) => {
             <span>{service.category}</span>
           </div>
           
-          <Link to={finalCtaLink} className={`block group ${!isCenter && 'pointer-events-none'}`}>
+          <Link to={`/services#${(service.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')}`} className={`block group ${!isCenter && 'pointer-events-none'}`}>
             <h3 className={`${isCenter ? 'text-2xl md:text-4xl mb-6' : 'text-xl mb-0'} font-bold font-heading group-hover:text-brand-primary transition-colors truncate`}>
               {service.title}
             </h3>

@@ -92,7 +92,7 @@ const FooterSection = ({ data, siteData }) => {
                 <>
                   <li><Link to="/about" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">About Us</Link></li>
                   <li><Link to="/services" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">Services</Link></li>
-                  <li><Link to="/services" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">Solutions</Link></li>
+                  <li><Link to="/solutions" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">Solutions</Link></li>
                   <li><Link to="/partners" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">Partners</Link></li>
                   <li><Link to="/contact" className="text-[15px] text-brand-white/60 hover:text-brand-primary transition-colors">Contact</Link></li>
                 </>
@@ -117,34 +117,34 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 4: Follow Us */}
-          <div>
-            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6">Follow Us</h4>
-            <div className="flex flex-wrap gap-4">
-              {siteData?.socialLinks?.linkedin && (
+          <div className="flex flex-col items-center">
+            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6 text-center">Follow Us</h4>
+            <div className="flex flex-wrap gap-4 justify-center">
+              {siteData?.socialLinks?.linkedin ? (
                 <a href={siteData.socialLinks.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
-              )}
-              {siteData?.socialLinks?.twitter && (
+              ) : null}
+              {siteData?.socialLinks?.twitter ? (
                 <a href={siteData.socialLinks.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <TwitterIcon className="w-4 h-4" />
                 </a>
-              )}
-              {siteData?.socialLinks?.facebook && (
+              ) : null}
+              {siteData?.socialLinks?.facebook ? (
                 <a href={siteData.socialLinks.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <FacebookIcon className="w-4 h-4" />
                 </a>
-              )}
-              {siteData?.socialLinks?.instagram && (
+              ) : null}
+              {siteData?.socialLinks?.instagram ? (
                 <a href={siteData.socialLinks.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <InstagramIcon className="w-4 h-4" />
                 </a>
-              )}
-              {siteData?.socialLinks?.youtube && (
+              ) : null}
+              {siteData?.socialLinks?.youtube ? (
                 <a href={siteData.socialLinks.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <YoutubeIcon className="w-4 h-4" />
                 </a>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

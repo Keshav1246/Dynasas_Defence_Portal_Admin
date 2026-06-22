@@ -1,8 +1,9 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL } from '../config/api';
 
 export const getDashboardData = async () => {
   try {
-    const response = await fetch(`${API_URL}/dashboard`, {
+    const response = await apiFetch(`${API_URL}/dashboard`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

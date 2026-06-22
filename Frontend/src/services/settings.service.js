@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = `${BASE_URL}/settings`;
 
@@ -10,7 +11,7 @@ const getAuthHeaders = () => {
 };
 
 export const getSettings = async () => {
-  const response = await fetch(API_URL, {
+  const response = await apiFetch(API_URL, {
     method: 'GET',
     headers: getAuthHeaders(),
   });
@@ -26,7 +27,7 @@ export const updateSettings = async (id, data) => {
   const method = id ? 'PUT' : 'POST';
   const url = id ? `${API_URL}/${id}` : API_URL;
 
-  const response = await fetch(url, {
+  const response = await apiFetch(url, {
     method,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),

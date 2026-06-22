@@ -4,10 +4,12 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Zap, LogOut } from 'lucide-react';
 import { sidebarConfig } from './sidebarConfig';
 import { fetchUnreadCount } from '../api/inquiryApi';
+import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ onClose }) => {
     const [unreadInquiries, setUnreadInquiries] = useState(0);
     const location = useLocation();
+    const { logout } = useAuth();
 
     useEffect(() => {
         fetchUnreadCount().then(res => {
@@ -104,7 +106,10 @@ const Sidebar = ({ onClose }) => {
 
             <div className="mt-auto pt-3 border-t border-white/5">
                 <button 
-                  onClick={onClose}
+                  onClick={() => {
+                      if (onClose) onClose();
+                      logout();
+                  }}
                   className="flex items-center gap-3 w-full px-3 py-[10px] rounded-xl text-[#d45555] hover:bg-[#ff5a36]/10 transition-all duration-200 border border-red-500/10 bg-[#150d0f]"
                 >
                     <LogOut className="w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />

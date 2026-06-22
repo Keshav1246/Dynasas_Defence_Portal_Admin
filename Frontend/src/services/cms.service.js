@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = `${BASE_URL}/cms`;
 
@@ -10,7 +11,7 @@ const getAuthHeaders = () => {
 };
 
 export const getHomepageContent = async () => {
-  const response = await fetch(`${API_URL}/homepage`, {
+  const response = await apiFetch(`${API_URL}/homepage`, {
     method: 'GET',
     headers: getAuthHeaders(),
     cache: 'no-store',
@@ -24,7 +25,7 @@ export const getHomepageContent = async () => {
 };
 
 export const createHomepageContent = async (data) => {
-  const response = await fetch(`${API_URL}/homepage`, {
+  const response = await apiFetch(`${API_URL}/homepage`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -38,7 +39,7 @@ export const createHomepageContent = async (data) => {
 };
 
 export const updateHomepageContent = async (id, data) => {
-  const response = await fetch(`${API_URL}/homepage/${id}`, {
+  const response = await apiFetch(`${API_URL}/homepage/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -52,7 +53,7 @@ export const updateHomepageContent = async (id, data) => {
 };
 
 export const getFooterContent = async () => {
-  const response = await fetch(`${API_URL}/footer`, {
+  const response = await apiFetch(`${API_URL}/footer`, {
     method: 'GET',
     headers: getAuthHeaders(),
     cache: 'no-store',
@@ -66,7 +67,7 @@ export const getFooterContent = async () => {
 };
 
 export const createFooterContent = async (data) => {
-  const response = await fetch(`${API_URL}/footer`, {
+  const response = await apiFetch(`${API_URL}/footer`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -80,7 +81,7 @@ export const createFooterContent = async (data) => {
 };
 
 export const updateFooterContent = async (id, data) => {
-  const response = await fetch(`${API_URL}/footer/${id}`, {
+  const response = await apiFetch(`${API_URL}/footer/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -94,7 +95,7 @@ export const updateFooterContent = async (id, data) => {
 };
 
 export const getServicesPageContent = async () => {
-  const response = await fetch(`${API_URL}/services-page`, {
+  const response = await apiFetch(`${API_URL}/services-page`, {
     method: 'GET',
     headers: getAuthHeaders(),
     cache: 'no-store',
@@ -108,7 +109,7 @@ export const getServicesPageContent = async () => {
 };
 
 export const createServicesPageContent = async (data) => {
-  const response = await fetch(`${API_URL}/services-page`, {
+  const response = await apiFetch(`${API_URL}/services-page`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -122,7 +123,7 @@ export const createServicesPageContent = async (data) => {
 };
 
 export const updateServicesPageContent = async (id, data) => {
-  const response = await fetch(`${API_URL}/services-page/${id}`, {
+  const response = await apiFetch(`${API_URL}/services-page/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),

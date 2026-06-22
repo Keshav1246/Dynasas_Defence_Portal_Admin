@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 
 /**
@@ -12,7 +13,7 @@ export async function fetchPartners(params = {}) {
   if (params.search) query.append('search', params.search);
   if (params.status) query.append('status', params.status);
 
-  const res = await fetch(`${BASE_URL}/partners?${query.toString()}`);
+  const res = await apiFetch(`${BASE_URL}/partners?${query.toString()}`);
   if (!res.ok) throw new Error('Failed to fetch partners');
   const json = await res.json();
   return {
@@ -28,7 +29,7 @@ export async function fetchPartners(params = {}) {
  * Body fields: name, description?, logo?, website?, category?, status? (ACTIVE|INACTIVE)
  */
 export async function createPartner(body) {
-  const res = await fetch(`${BASE_URL}/partners`, {
+  const res = await apiFetch(`${BASE_URL}/partners`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -47,7 +48,7 @@ export async function createPartner(body) {
  * Body fields: name?, description?, logo?, website?, category?, status?
  */
 export async function updatePartner(id, body) {
-  const res = await fetch(`${BASE_URL}/partners/${id}`, {
+  const res = await apiFetch(`${BASE_URL}/partners/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -65,7 +66,7 @@ export async function updatePartner(id, body) {
  * DELETE /api/v1/partners/:id
  */
 export async function deletePartner(id) {
-  const res = await fetch(`${BASE_URL}/partners/${id}`, { method: 'DELETE' });
+  const res = await apiFetch(`${BASE_URL}/partners/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(`Delete failed: ${res.status}`);
   return res.json();
 }

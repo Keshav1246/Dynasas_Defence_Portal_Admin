@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 
 /**
@@ -10,7 +11,7 @@ export async function fetchFiles({ page = 1, limit = 50, search = '', fileType =
   if (search) params.append('search', search);
   if (fileType) params.append('fileType', fileType);
 
-  const res = await fetch(`${BASE_URL}/media?${params.toString()}`);
+  const res = await apiFetch(`${BASE_URL}/media?${params.toString()}`);
   if (!res.ok) throw new Error(`Failed to fetch files: ${res.status}`);
   const json = await res.json();
   // Shape: { success, message, data: [...], pagination: {...} }
@@ -22,7 +23,7 @@ export async function fetchFiles({ page = 1, limit = 50, search = '', fileType =
  * GET /api/v1/media/stats
  */
 export async function fetchMediaStats() {
-  const res = await fetch(`${BASE_URL}/media/stats`);
+  const res = await apiFetch(`${BASE_URL}/media/stats`);
   if (!res.ok) throw new Error(`Failed to fetch stats: ${res.status}`);
   const json = await res.json();
   return json.data;
@@ -36,7 +37,7 @@ export async function uploadFile(file) {
   const formData = new FormData();
   formData.append('file', file);
 
-  const res = await fetch(`${BASE_URL}/media/upload`, {
+  const res = await apiFetch(`${BASE_URL}/media/upload`, {
     method: 'POST',
     body: formData,
     // Do NOT set Content-Type header — browser sets it with boundary automatically
@@ -55,7 +56,7 @@ export async function uploadFile(file) {
  * DELETE /api/v1/media/:id
  */
 export async function deleteFile(id) {
-  const res = await fetch(`${BASE_URL}/media/${id}`, { method: 'DELETE' });
+  const res = await apiFetch(`${BASE_URL}/media/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(`Delete failed: ${res.status}`);
   return res.json();
 }

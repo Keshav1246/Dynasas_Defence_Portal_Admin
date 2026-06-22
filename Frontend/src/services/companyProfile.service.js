@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = `${BASE_URL}/company-profile`;
 
@@ -11,7 +12,7 @@ const getAuthHeaders = () => {
 
 // --- Profile ---
 export const getCompanyProfile = async () => {
-  const response = await fetch(API_URL, {
+  const response = await apiFetch(API_URL, {
     method: 'GET',
     headers: getAuthHeaders(),
   });
@@ -24,7 +25,7 @@ export const getCompanyProfile = async () => {
 };
 
 export const updateCompanyProfile = async (id, data) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await apiFetch(`${API_URL}/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -38,7 +39,7 @@ export const updateCompanyProfile = async (id, data) => {
 };
 
 export const createCompanyProfile = async (data) => {
-  const response = await fetch(API_URL, {
+  const response = await apiFetch(API_URL, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -53,7 +54,7 @@ export const createCompanyProfile = async (data) => {
 
 // --- Statistics ---
 export const getStatistics = async () => {
-  const response = await fetch(`${API_URL}/statistics`, {
+  const response = await apiFetch(`${API_URL}/statistics`, {
     method: 'GET',
     headers: getAuthHeaders(),
   });
@@ -63,7 +64,7 @@ export const getStatistics = async () => {
 };
 
 export const createStatistic = async (data) => {
-  const response = await fetch(`${API_URL}/statistics`, {
+  const response = await apiFetch(`${API_URL}/statistics`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -77,7 +78,7 @@ export const createStatistic = async (data) => {
 };
 
 export const updateStatistic = async (id, data) => {
-  const response = await fetch(`${API_URL}/statistics/${id}`, {
+  const response = await apiFetch(`${API_URL}/statistics/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -91,7 +92,7 @@ export const updateStatistic = async (id, data) => {
 };
 
 export const deleteStatistic = async (id) => {
-  const response = await fetch(`${API_URL}/statistics/${id}`, {
+  const response = await apiFetch(`${API_URL}/statistics/${id}`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
   });
@@ -105,7 +106,7 @@ export const deleteStatistic = async (id) => {
 
 // --- Pillars ---
 export const getPillars = async () => {
-  const response = await fetch(`${API_URL}/pillars`, {
+  const response = await apiFetch(`${API_URL}/pillars`, {
     method: 'GET',
     headers: getAuthHeaders(),
   });
@@ -115,7 +116,7 @@ export const getPillars = async () => {
 };
 
 export const createPillar = async (data) => {
-  const response = await fetch(`${API_URL}/pillars`, {
+  const response = await apiFetch(`${API_URL}/pillars`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -129,7 +130,7 @@ export const createPillar = async (data) => {
 };
 
 export const updatePillar = async (id, data) => {
-  const response = await fetch(`${API_URL}/pillars/${id}`, {
+  const response = await apiFetch(`${API_URL}/pillars/${id}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
@@ -143,7 +144,7 @@ export const updatePillar = async (id, data) => {
 };
 
 export const deletePillar = async (id) => {
-  const response = await fetch(`${API_URL}/pillars/${id}`, {
+  const response = await apiFetch(`${API_URL}/pillars/${id}`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
   });

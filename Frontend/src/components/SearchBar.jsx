@@ -64,9 +64,9 @@ const SearchBar = () => {
     setIsOpen(false);
     setQuery('');
     if (item.type === 'Service') {
-      navigate('/services');
+      navigate('/admin/services');
     } else if (item.type === 'Partner') {
-      navigate('/partner-management');
+      navigate('/admin/partner-management');
     }
   };
 

@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Lock, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const UserMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
+  const { logout } = useAuth();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -30,7 +32,8 @@ const UserMenu = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate('/login');
+        logout();
+        navigate('/admin/login');
     };
 
     return (
@@ -65,7 +68,7 @@ const UserMenu = () => {
                             className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                             onClick={() => {
                                 setIsOpen(false);
-                                // Add change password logic if it exists, or open a modal
+                                navigate('/admin/settings');
                             }}
                         >
                             <Lock className="w-4 h-4 text-slate-400" />

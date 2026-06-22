@@ -1,6 +1,7 @@
 const express = require("express");
 
 const validate = require("../middlewares/validate.middleware");
+const authMiddleware = require("../middlewares/auth.middleware");
 
 const {
   createServiceSchema,
@@ -21,21 +22,24 @@ const router = express.Router();
 router.get("/", getAllServices);
 router.get("/:id", getServiceById);
 
-// Protected Routes (TODO: Re-enable authMiddleware once authentication is implemented)
+// Protected Routes
 router.post(
   "/",
+  authMiddleware,
   validate(createServiceSchema),
   createService
 );
 
 router.put(
   "/:id",
+  authMiddleware,
   validate(updateServiceSchema),
   updateService
 );
 
 router.delete(
   "/:id",
+  authMiddleware,
   deleteService
 );
 

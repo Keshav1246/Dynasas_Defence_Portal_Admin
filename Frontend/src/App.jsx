@@ -16,28 +16,37 @@ import CompanyProfilePage from './pages/CompanyProfilePage'
 import ContentManagementPage from './pages/ContentManagementPage'
 import SettingsPage from './pages/SettingsPage'
 
+// Auth components
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
+import Login from './pages/Login'
+
 const App = () => {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Toaster position="top-center" />
-      <Routes>
-        {/* All routes inside this block will share the AdminLayout (Sidebar + TopNavbar) */}
-        <Route path="/" element={<AdminLayout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="media-library" element={<MediaLibrary />} />
-          <Route path="partner-management" element={<PartnerManagement />} />
-          <Route path="contact-inquiries" element={<ContactInquiries />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="admin-users" element={<AdminUsers />} />
-          <Route path="services" element={<ServicesPage />} />
-          <Route path="company-profile" element={<CompanyProfilePage />} />
-          <Route path="content" element={<ContentManagementPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          {/* Add more routes here like <Route path="users" element={<UsersPage />} /> */}
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <ScrollToTop />
+        <Toaster position="top-center" />
+        <Routes>
+          {/* Public Admin Route */}
+          <Route path="/admin/login" element={<Login />} />
+
+          {/* Protected Admin Routes */}
+          <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="media-library" element={<MediaLibrary />} />
+            <Route path="partner-management" element={<PartnerManagement />} />
+            <Route path="contact-inquiries" element={<ContactInquiries />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="admin-users" element={<AdminUsers />} />
+            <Route path="services" element={<ServicesPage />} />
+            <Route path="company-profile" element={<CompanyProfilePage />} />
+            <Route path="content" element={<ContentManagementPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

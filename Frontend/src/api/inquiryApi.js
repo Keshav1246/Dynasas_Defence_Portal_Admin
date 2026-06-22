@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiClient from '../config/axios';
 import { API_URL as BASE_URL } from '../config/api';
 
 const API_URL = BASE_URL;
@@ -10,7 +10,7 @@ const getAuthHeaders = () => ({
 export const fetchInquiries = async (params = {}) => {
   const { search, status, type, limit = 10, page = 1 } = params;
 
-  const res = await axios.get(`${API_URL}/inquiries`, {
+  const res = await apiClient.get(`${API_URL}/inquiries`, {
     params: {
       search,
       status,
@@ -25,7 +25,7 @@ export const fetchInquiries = async (params = {}) => {
 };
 
 export const fetchInquiryStats = async () => {
-  const res = await axios.get(`${API_URL}/inquiries/stats`, {
+  const res = await apiClient.get(`${API_URL}/inquiries/stats`, {
     headers: getAuthHeaders(),
   });
 
@@ -33,7 +33,7 @@ export const fetchInquiryStats = async () => {
 };
 
 export const fetchUnreadCount = async () => {
-  const res = await axios.get(`${API_URL}/inquiries/unread-count`, {
+  const res = await apiClient.get(`${API_URL}/inquiries/unread-count`, {
     headers: getAuthHeaders(),
   });
 
@@ -41,7 +41,7 @@ export const fetchUnreadCount = async () => {
 };
 
 export const fetchInquiryById = async (id) => {
-  const res = await axios.get(`${API_URL}/inquiries/${id}`, {
+  const res = await apiClient.get(`${API_URL}/inquiries/${id}`, {
     headers: getAuthHeaders(),
   });
 
@@ -49,7 +49,7 @@ export const fetchInquiryById = async (id) => {
 };
 
 export const updateInquiry = async (id, data) => {
-  const res = await axios.put(
+  const res = await apiClient.put(
     `${API_URL}/inquiries/${id}`,
     data,
     {
@@ -61,7 +61,7 @@ export const updateInquiry = async (id, data) => {
 };
 
 export const updateInquiryStatus = async (id, status) => {
-  const res = await axios.patch(
+  const res = await apiClient.patch(
     `${API_URL}/inquiries/${id}/status`,
     { status },
     {
@@ -73,7 +73,7 @@ export const updateInquiryStatus = async (id, status) => {
 };
 
 export const assignInquiry = async (id, assignedTeam) => {
-  const res = await axios.patch(
+  const res = await apiClient.patch(
     `${API_URL}/inquiries/${id}/assign`,
     { assignedTeam },
     {
@@ -85,7 +85,7 @@ export const assignInquiry = async (id, assignedTeam) => {
 };
 
 export const deleteInquiry = async (id) => {
-  const res = await axios.delete(
+  const res = await apiClient.delete(
     `${API_URL}/inquiries/${id}`,
     {
       headers: getAuthHeaders(),
@@ -96,7 +96,7 @@ export const deleteInquiry = async (id) => {
 };
 
 export const fetchAdmins = async () => {
-  const res = await axios.get(
+  const res = await apiClient.get(
     `${API_URL}/auth/users`,
     {
       headers: getAuthHeaders(),

@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PageHeader from '../components/PageHeader';
 import { Button } from '../components/ui/Button';
@@ -100,7 +101,7 @@ const MediaLibrary = () => {
     try {
       const BASE_URL = API_URL;
       const token = localStorage.getItem('token');
-      const response = await fetch(`${BASE_URL}/media/${id}/download`, {
+      const response = await apiFetch(`${BASE_URL}/media/${id}/download`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

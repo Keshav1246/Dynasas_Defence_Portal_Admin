@@ -15,52 +15,52 @@ export const sidebarConfig = [
   {
     title: 'Dashboard',
     icon: LayoutGrid,
-    path: '/dashboard',
+    path: '/admin/dashboard',
   },
   {
     title: 'Services',
     icon: Layers,
-    path: '/services',
+    path: '/admin/services',
   },
   {
     title: 'Company Profile',
     icon: Building2,
-    path: '/company-profile',
+    path: '/admin/company-profile',
   },
   {
     title: 'Content Management',
     icon: FileEdit,
-    path: '/content',
+    path: '/admin/content',
   },
   {
     title: 'Media Library',
     icon: ImageIcon,
-    path: '/media-library',
+    path: '/admin/media-library',
   },
   {
     title: 'Partner Management',
     icon: Handshake,
-    path: '/partner-management',
+    path: '/admin/partner-management',
   },
   {
     title: 'Contact & Inquiries',
     icon: MessageSquare,
-    path: '/contact-inquiries',
+    path: '/admin/contact-inquiries',
     badge: 8,
   },
   {
     title: 'Analytics',
     icon: BarChart2,
-    path: '/analytics',
+    path: '/admin/analytics',
   },
   {
     title: 'Admin Users',
     icon: Users,
-    path: '/admin-users',
+    path: '/admin/admin-users',
   },
   {
     title: 'Settings',
     icon: Settings,
-    path: '/settings',
+    path: '/admin/settings',
   }
 ];

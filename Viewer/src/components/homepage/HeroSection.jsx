@@ -26,7 +26,7 @@ const HeroSection = ({ data }) => {
           <img
             src={data.backgroundImage}
             alt="Hero Background"
-            className="w-full h-full object-contain object-center"
+            className="w-full h-full object-cover object-center"
             onError={() => setImgError(true)}
           />
         ) : (

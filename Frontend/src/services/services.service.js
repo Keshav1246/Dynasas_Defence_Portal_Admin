@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = `${BASE_URL}/services`;
 
@@ -18,7 +19,7 @@ export const getServices = async ({ page = 1, limit = 5, search = '', status = '
       ...(status && status !== 'All' && { status: status.toLowerCase() }),
     });
 
-    const response = await fetch(`${API_URL}?${queryParams}`, {
+    const response = await apiFetch(`${API_URL}?${queryParams}`, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
@@ -38,7 +39,7 @@ export const getServices = async ({ page = 1, limit = 5, search = '', status = '
 
 export const getServiceById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
@@ -58,7 +59,7 @@ export const getServiceById = async (id) => {
 
 export const createService = async (serviceData) => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await apiFetch(API_URL, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(serviceData),
@@ -79,7 +80,7 @@ export const createService = async (serviceData) => {
 
 export const updateService = async (id, serviceData) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(serviceData),
@@ -100,7 +101,7 @@ export const updateService = async (id, serviceData) => {
 
 export const deleteService = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });

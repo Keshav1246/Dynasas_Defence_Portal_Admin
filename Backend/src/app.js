@@ -76,6 +76,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
+const authMiddleware = require('./middlewares/auth.middleware');
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/company-profile", companyRoutes);
 app.use("/api/v1/cms", cmsRoutes);
@@ -84,12 +86,14 @@ app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/partners", partnerRouter);
 app.use("/api/v1/inquiries", inquiryRouter);
 app.use("/api/v1/contact", contactRouter);
-app.use("/api/v1/dashboard", dashboardRoutes);
-app.use("/api/v1/activity-logs", activityLogRoutes);
-app.use("/api/v1/settings", settingsRoutes);
-app.use('/api/v1/analytics', analyticsRoutes);
-app.use('/api/v1/admin-users', adminUsersRoutes);
-app.use('/api/v1/search', searchRoutes);
+
+// Protected Admin Routes
+app.use("/api/v1/dashboard", authMiddleware, dashboardRoutes);
+app.use("/api/v1/activity-logs", authMiddleware, activityLogRoutes);
+app.use("/api/v1/settings", authMiddleware, settingsRoutes);
+app.use('/api/v1/analytics', authMiddleware, analyticsRoutes);
+app.use('/api/v1/admin-users', authMiddleware, adminUsersRoutes);
+app.use('/api/v1/search', authMiddleware, searchRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {

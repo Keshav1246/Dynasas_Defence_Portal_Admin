@@ -1,3 +1,4 @@
+import { apiFetch } from '../config/apiFetch';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = `${BASE_URL}/activity-logs`;
 
@@ -19,7 +20,7 @@ export const getActivityLogs = async ({ page = 1, limit = 20, search = '', entit
       ...(dateRange && dateRange !== 'All' && { dateRange }),
     });
 
-    const response = await fetch(`${API_URL}?${queryParams}`, {
+    const response = await apiFetch(`${API_URL}?${queryParams}`, {
       method: 'GET',
       headers: getAuthHeaders(),
     });

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiClient from '../config/axios';
 import { API_URL as BASE_URL } from '../config/api';
 const API_URL = BASE_URL;
 
@@ -7,7 +7,7 @@ const getAuthHeaders = () => ({
 });
 
 export const fetchOverview = async (filter = '30D') => {
-  const res = await axios.get(`${API_URL}/analytics/overview`, {
+  const res = await apiClient.get(`${API_URL}/analytics/overview`, {
     params: { filter },
     headers: getAuthHeaders(),
   });
@@ -15,7 +15,7 @@ export const fetchOverview = async (filter = '30D') => {
 };
 
 export const fetchTraffic = async (filter = '30D') => {
-  const res = await axios.get(`${API_URL}/analytics/traffic`, {
+  const res = await apiClient.get(`${API_URL}/analytics/traffic`, {
     params: { filter },
     headers: getAuthHeaders(),
   });
@@ -23,20 +23,20 @@ export const fetchTraffic = async (filter = '30D') => {
 };
 
 export const fetchLeads = async () => {
-  const res = await axios.get(`${API_URL}/analytics/leads`, {
+  const res = await apiClient.get(`${API_URL}/analytics/leads`, {
     headers: getAuthHeaders(),
   });
   return res.data;
 };
 
 export const trackEvent = async (data) => {
-  const res = await axios.post(`${API_URL}/analytics/track`, data);
+  const res = await apiClient.post(`${API_URL}/analytics/track`, data);
   return res.data;
 };
 
 // Export triggers a file download, so we don't return JSON
 export const triggerExport = async (format = 'csv', filter = '30D') => {
-  const res = await axios.get(`${API_URL}/analytics/export`, {
+  const res = await apiClient.get(`${API_URL}/analytics/export`, {
     params: { format, filter },
     headers: getAuthHeaders(),
     responseType: 'blob', // crucial for file downloads

@@ -10,9 +10,9 @@ import { ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucide-react';
 import { DEFAULT_SOLUTIONS } from '../defaults/solutions';
 
 // Import local assets
-import solutionsHeroImage from '../../src/assets/solutions/solutions-hero.jpg';
-import cniProtectionImg from '../../src/assets/solutions/cni-protection.jpg';
-import borderProtectionImg from '../../src/assets/solutions/border-protection.jpg';
+import solutionsHeroImage from '../../src/assets/solutions/solutions-hero.png';
+import cniProtectionImg from '../../src/assets/solutions/cni-protection.png';
+import borderProtectionImg from '../../src/assets/solutions/border-protection.png';
 import oilGasImg from '../../src/assets/solutions/oil&gas.jpg';
 import eriManagementImg from '../../src/assets/solutions/eri-management.jpg';
 

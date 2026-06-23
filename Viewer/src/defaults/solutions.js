@@ -37,6 +37,7 @@ export const DEFAULT_SOLUTIONS = {
       ctaLink: '/contact',
       image: '/assets/solutions/border-protection.jpg'
     },
+    /*
     {
       id: 'oil-gas-protection',
       number: '03',
@@ -67,5 +68,6 @@ export const DEFAULT_SOLUTIONS = {
       ctaLink: '/contact',
       image: '/assets/solutions/eri-management.jpg'
     }
+    */
   ]
 };

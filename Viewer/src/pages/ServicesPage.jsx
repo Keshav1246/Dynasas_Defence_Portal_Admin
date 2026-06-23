@@ -10,7 +10,7 @@ import { RefreshCw, ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucid
 import { getServiceImage } from '../utils/serviceAssetResolver';
 
 // Import local assets
-import servicesHeroImage from '../../src/assets/services/hero-services.avif';
+import servicesHeroImage from '../../src/assets/services/hero-services.png';
 
 // Rotates through multiple icons so they do not repeat consecutively
 const FEATURE_ICONS = [Radar, Camera, Cpu, Shield, Target];
@@ -38,7 +38,7 @@ const ServicesPage = () => {
       const timer = setTimeout(() => {
         const sectionElement = document.getElementById(`service-${serviceParam}`);
         const cardElement = document.getElementById(`service-card-${serviceParam}`);
-        
+
         if (sectionElement) {
           const headerOffset = 100;
           const elementPosition = sectionElement.getBoundingClientRect().top;
@@ -53,22 +53,22 @@ const ServicesPage = () => {
           if (cardElement) {
             // First apply the highlight classes immediately
             cardElement.classList.add('ring-2', 'ring-brand-primary', 'shadow-[0_0_40px_rgba(255,106,0,0.4)]', 'animate-pulse');
-            
+
             // Remove the pulse and highlight after 3-5 seconds
             setTimeout(() => {
               cardElement.classList.remove('animate-pulse');
               cardElement.style.transition = 'all 1s ease-out';
               cardElement.classList.remove('ring-2', 'ring-brand-primary', 'shadow-[0_0_40px_rgba(255,106,0,0.4)]');
-              
+
               // cleanup inline style after transition to return to hover-based transition
               setTimeout(() => {
-                 cardElement.style.transition = '';
+                cardElement.style.transition = '';
               }, 1000);
             }, 3500);
           }
         }
       }, 300); // Wait a tiny bit for layout shift to settle
-      
+
       return () => clearTimeout(timer);
     } else {
       window.scrollTo(0, 0);
@@ -457,99 +457,99 @@ const ServicesPage = () => {
                         {/* Subservice Navigator Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                           {service.subservices.map((sub, subIdx) => {
-                             const isActive = (activeSubserviceIndexes[service.id] || 0) === subIdx;
-                             return (
-                               <button
-                                 key={subIdx}
-                                 onClick={() => setActiveSubserviceIndexes({ ...activeSubserviceIndexes, [service.id]: subIdx })}
-                                 className={`p-4 rounded-xl border text-left transition-all duration-300 flex items-center justify-between group overflow-hidden relative ${isActive ? 'bg-brand-primary/10 border-brand-primary shadow-[0_0_15px_rgba(255,106,0,0.3)]' : 'bg-brand-black/40 border-brand-white/10 hover:border-brand-primary/50 hover:bg-brand-primary/5'}`}
-                               >
-                                  {/* Hover active accent */}
-                                  <div className={`absolute left-0 top-0 bottom-0 w-1 transition-colors duration-300 ${isActive ? 'bg-brand-primary' : 'bg-transparent group-hover:bg-brand-primary/50'}`}></div>
-                                  
-                                  <span className={`font-heading font-semibold text-sm pl-2 transition-colors ${isActive ? 'text-brand-white drop-shadow-md' : 'text-brand-white/60 group-hover:text-brand-white'}`}>
-                                    {sub.title}
-                                  </span>
-                                  <div className={`w-2 h-2 rounded-full transition-colors ${isActive ? 'bg-brand-primary shadow-[0_0_8px_rgba(255,106,0,0.8)]' : 'bg-brand-white/20 group-hover:bg-brand-primary/50'}`}></div>
-                               </button>
-                             );
+                            const isActive = (activeSubserviceIndexes[service.id] || 0) === subIdx;
+                            return (
+                              <button
+                                key={subIdx}
+                                onClick={() => setActiveSubserviceIndexes({ ...activeSubserviceIndexes, [service.id]: subIdx })}
+                                className={`p-4 rounded-xl border text-left transition-all duration-300 flex items-center justify-between group overflow-hidden relative ${isActive ? 'bg-brand-primary/10 border-brand-primary shadow-[0_0_15px_rgba(255,106,0,0.3)]' : 'bg-brand-black/40 border-brand-white/10 hover:border-brand-primary/50 hover:bg-brand-primary/5'}`}
+                              >
+                                {/* Hover active accent */}
+                                <div className={`absolute left-0 top-0 bottom-0 w-1 transition-colors duration-300 ${isActive ? 'bg-brand-primary' : 'bg-transparent group-hover:bg-brand-primary/50'}`}></div>
+
+                                <span className={`font-heading font-semibold text-sm pl-2 transition-colors ${isActive ? 'text-brand-white drop-shadow-md' : 'text-brand-white/60 group-hover:text-brand-white'}`}>
+                                  {sub.title}
+                                </span>
+                                <div className={`w-2 h-2 rounded-full transition-colors ${isActive ? 'bg-brand-primary shadow-[0_0_8px_rgba(255,106,0,0.8)]' : 'bg-brand-white/20 group-hover:bg-brand-primary/50'}`}></div>
+                              </button>
+                            );
                           })}
                         </div>
                       </div>
-                      
+
                       <div className="w-full max-w-4xl mx-auto mt-8">
-                         {(() => {
-                            const subIdx = activeSubserviceIndexes[service.id] || 0;
-                            const activeSubservice = service.subservices[subIdx];
-                            return (
-                              <motion.div
-                                key={activeSubservice.title} // Re-animate when changed
-                                id={`subservice-card-${slug}`}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, ease: "easeOut" }}
-                                className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-[#0f0f11] transition-all duration-500 overflow-hidden"
-                              >
-                                {/* Glow Effect */}
-                                <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
+                        {(() => {
+                          const subIdx = activeSubserviceIndexes[service.id] || 0;
+                          const activeSubservice = service.subservices[subIdx];
+                          return (
+                            <motion.div
+                              key={activeSubservice.title} // Re-animate when changed
+                              id={`subservice-card-${slug}`}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, ease: "easeOut" }}
+                              className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-[#0f0f11] transition-all duration-500 overflow-hidden"
+                            >
+                              {/* Glow Effect */}
+                              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
 
-                                {/* Tactical Top Accent Line */}
-                                <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
-                                <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
+                              {/* Tactical Top Accent Line */}
+                              <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
+                              <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
 
-                                {/* Corner Accents */}
-                                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
-                                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
+                              {/* Corner Accents */}
+                              <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
+                              <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
 
-                                <div className="relative z-10">
-                                  {activeSubservice.image && (
-                                     <div className="mb-8 w-full max-w-[200px] relative flex items-center justify-start overflow-hidden rounded-lg opacity-80 group-hover:opacity-100 transition-opacity">
-                                       <img src={activeSubservice.image} alt={activeSubservice.title} className="w-full h-auto object-contain object-center filter drop-shadow-xl" />
-                                     </div>
-                                  )}
-                                  
-                                  <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-4 text-brand-white group-hover:text-brand-primary transition-colors duration-300">
-                                    {activeSubservice.title}
-                                  </h2>
+                              <div className="relative z-10">
+                                {activeSubservice.image && (
+                                  <div className="mb-8 w-full max-w-[200px] relative flex items-center justify-start overflow-hidden rounded-lg opacity-80 group-hover:opacity-100 transition-opacity">
+                                    <img src={activeSubservice.image} alt={activeSubservice.title} className="w-full h-auto object-contain object-center filter drop-shadow-xl" />
+                                  </div>
+                                )}
 
-                                  {activeSubservice.subtitle && (
-                                    <h3 className="text-lg text-brand-white/80 font-heading mb-6">
-                                      {activeSubservice.subtitle}
-                                    </h3>
-                                  )}
+                                <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-4 text-brand-white group-hover:text-brand-primary transition-colors duration-300">
+                                  {activeSubservice.title}
+                                </h2>
 
-                                  <p className="text-brand-white/60 leading-relaxed mb-10 text-[15px] group-hover:text-brand-white/80 transition-colors duration-300">
-                                    {activeSubservice.description}
-                                  </p>
+                                {activeSubservice.subtitle && (
+                                  <h3 className="text-lg text-brand-white/80 font-heading mb-6">
+                                    {activeSubservice.subtitle}
+                                  </h3>
+                                )}
 
-                                  {activeSubservice.features && activeSubservice.features.length > 0 && (
-                                    <div className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
-                                      {activeSubservice.features.map((feature, fIndex) => (
-                                        <div key={fIndex} className="flex items-start gap-4">
-                                          <div className="shrink-0 p-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mt-1">
-                                            {getFeatureIcon(fIndex)}
-                                          </div>
-                                          {renderFeatureText(feature)}
+                                <p className="text-brand-white/60 leading-relaxed mb-10 text-[15px] group-hover:text-brand-white/80 transition-colors duration-300">
+                                  {activeSubservice.description}
+                                </p>
+
+                                {activeSubservice.features && activeSubservice.features.length > 0 && (
+                                  <div className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
+                                    {activeSubservice.features.map((feature, fIndex) => (
+                                      <div key={fIndex} className="flex items-start gap-4">
+                                        <div className="shrink-0 p-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mt-1">
+                                          {getFeatureIcon(fIndex)}
                                         </div>
-                                      ))}
-                                    </div>
-                                  )}
+                                        {renderFeatureText(feature)}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
 
-                                  {(activeSubservice.ctaText || activeSubservice.ctaLink) && (
-                                    <div className="mt-8">
-                                      <a
-                                        href={activeSubservice.ctaLink || '/contact'}
-                                        className="inline-flex items-center gap-3 text-brand-primary font-heading text-[13px] font-bold tracking-widest uppercase hover:text-brand-white transition-colors duration-300 group/btn"
-                                      >
-                                        {activeSubservice.ctaText || 'Explore Service'}
-                                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                                      </a>
-                                    </div>
-                                  )}
-                                </div>
-                              </motion.div>
-                            );
-                         })()}
+                                {(activeSubservice.ctaText || activeSubservice.ctaLink) && (
+                                  <div className="mt-8">
+                                    <a
+                                      href={activeSubservice.ctaLink || '/contact'}
+                                      className="inline-flex items-center gap-3 text-brand-primary font-heading text-[13px] font-bold tracking-widest uppercase hover:text-brand-white transition-colors duration-300 group/btn"
+                                    >
+                                      {activeSubservice.ctaText || 'Explore Service'}
+                                      <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            </motion.div>
+                          );
+                        })()}
                       </div>
                     </div>
                   )}

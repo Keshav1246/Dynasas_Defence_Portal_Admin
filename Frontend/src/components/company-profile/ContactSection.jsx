@@ -20,11 +20,17 @@ const ContactSection = ({ data, onSave }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
 
-    if (formData.generalEmail && !emailRegex.test(formData.generalEmail)) {
-      newErrors.generalEmail = 'Must be a valid email format';
+    if (formData.hrEmail && !emailRegex.test(formData.hrEmail)) {
+      newErrors.hrEmail = 'Must be a valid email format';
     }
-    if (formData.securityEmail && !emailRegex.test(formData.securityEmail)) {
-      newErrors.securityEmail = 'Must be a valid email format';
+    if (formData.enquiryEmail && !emailRegex.test(formData.enquiryEmail)) {
+      newErrors.enquiryEmail = 'Must be a valid email format';
+    }
+    if (formData.partnersEmail && !emailRegex.test(formData.partnersEmail)) {
+      newErrors.partnersEmail = 'Must be a valid email format';
+    }
+    if (formData.technicalEmail && !emailRegex.test(formData.technicalEmail)) {
+      newErrors.technicalEmail = 'Must be a valid email format';
     }
     if (formData.website && !urlRegex.test(formData.website)) {
       newErrors.website = 'Must be a valid URL';
@@ -62,26 +68,51 @@ const ContactSection = ({ data, onSave }) => {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">General Email</label>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">HR Email</label>
             <input 
               type="email" 
-              name="generalEmail"
-              value={formData.generalEmail}
+              name="hrEmail"
+              value={formData.hrEmail}
               onChange={handleChange}
-              className={`w-full px-4 py-2.5 bg-white border ${errors.generalEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
+              className={`w-full px-4 py-2.5 bg-white border ${errors.hrEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
             />
-            {errors.generalEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.generalEmail}</p>}
+            {errors.hrEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.hrEmail}</p>}
           </div>
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">Security Email</label>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">Enquiry Email</label>
             <input 
               type="email" 
-              name="securityEmail"
-              value={formData.securityEmail}
+              name="enquiryEmail"
+              value={formData.enquiryEmail}
               onChange={handleChange}
-              className={`w-full px-4 py-2.5 bg-white border ${errors.securityEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
+              className={`w-full px-4 py-2.5 bg-white border ${errors.enquiryEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
             />
-            {errors.securityEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.securityEmail}</p>}
+            {errors.enquiryEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.enquiryEmail}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">Partners Email</label>
+            <input 
+              type="email" 
+              name="partnersEmail"
+              value={formData.partnersEmail}
+              onChange={handleChange}
+              className={`w-full px-4 py-2.5 bg-white border ${errors.partnersEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
+            />
+            {errors.partnersEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.partnersEmail}</p>}
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">Technical Email</label>
+            <input 
+              type="email" 
+              name="technicalEmail"
+              value={formData.technicalEmail}
+              onChange={handleChange}
+              className={`w-full px-4 py-2.5 bg-white border ${errors.technicalEmail ? 'border-rose-300 focus:ring-rose-500' : 'border-gray-200 focus:ring-orange-500'} rounded-xl focus:ring-2 focus:border-transparent outline-none transition-all`}
+            />
+            {errors.technicalEmail && <p className="mt-1.5 text-sm text-rose-500">{errors.technicalEmail}</p>}
           </div>
         </div>
 
@@ -115,12 +146,45 @@ const ContactSection = ({ data, onSave }) => {
         </div>
 
         <div>
-          <label className="block mb-2 text-sm font-semibold text-gray-700">Mailing Address</label>
+          <label className="block mb-2 text-sm font-semibold text-gray-700">Mailing Address (Legacy)</label>
           <textarea 
             name="address"
             value={formData.address}
             onChange={handleChange}
-            rows={4}
+            rows={2}
+            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all leading-relaxed text-sm text-gray-700"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">City</label>
+            <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all" />
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">State / Province</label>
+            <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">Country</label>
+            <input type="text" name="country" value={formData.country} onChange={handleChange} className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all" />
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">Postal Code</label>
+            <input type="text" name="postalCode" value={formData.postalCode} onChange={handleChange} className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all" />
+          </div>
+        </div>
+
+        <div>
+          <label className="block mb-2 text-sm font-semibold text-gray-700">Full Format Address</label>
+          <textarea 
+            name="fullAddress"
+            value={formData.fullAddress}
+            onChange={handleChange}
+            rows={2}
             className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all leading-relaxed text-sm text-gray-700"
           />
         </div>

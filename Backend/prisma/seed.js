@@ -330,6 +330,11 @@ async function main() {
         securityEmail:
           'security@dynasas.com',
 
+        hrEmail: 'hr@dynasas.com',
+        enquiryEmail: 'enquiry@dynasas.com',
+        partnersEmail: 'partners@dynasas.com',
+        technicalEmail: 'technical@dynasas.com',
+
         mainPhone:
           '+91-11-23456789',
 
@@ -337,7 +342,13 @@ async function main() {
           '+91-11-99887766',
 
         mailingAddress:
-          'Defence Technology Park, Sector 18, New Delhi, India',
+          'Defence Technology Park, Sector 18, Gurugram, Haryana 122015, India',
+
+        city: 'Gurugram',
+        state: 'Haryana',
+        country: 'India',
+        postalCode: '122015',
+        fullAddress: 'Defence Technology Park, Sector 18, Gurugram, Haryana 122015, India',
 
         website:
           'https://www.dynasas.com',
@@ -498,7 +509,13 @@ async function main() {
   await prisma.footerContent.create({
     data: {
       address:
-        'Defence Technology Park, Sector 18, New Delhi, India',
+        'Defence Technology Park, Sector 18, Gurugram, Haryana 122015, India',
+
+      city: 'Gurugram',
+      state: 'Haryana',
+      country: 'India',
+      postalCode: '122015',
+      fullAddress: 'Defence Technology Park, Sector 18, Gurugram, Haryana 122015, India',
 
       phone:
         '+91-11-23456789',

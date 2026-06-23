@@ -6,7 +6,6 @@ export const DEFAULT_HOMEPAGE = {
     title: 'Advanced Defense Solutions',
     subtitle: 'Pioneering next-generation technologies for a safer future.',
     description: '',
-    trustBarItems: ['TRUSTED BY GLOBAL ALLIES', 'ISO 9001 CERTIFIED', 'DEFENSE COMPLIANT'],
     backgroundImage: DEFAULT_ASSETS.HERO_BACKGROUND,
     primaryCTA: {
       text: 'Explore Our Solutions',

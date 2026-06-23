@@ -16,6 +16,15 @@ const getCompanyProfile = async (req, res, next) => {
       },
     });
 
+    // Backward compatibility mapping
+    if (companyProfile && companyProfile.generalEmail) {
+      if (companyProfile.generalEmail === 'hr@dynasas.com' && !companyProfile.hrEmail) {
+        companyProfile.hrEmail = companyProfile.generalEmail;
+      } else if (companyProfile.generalEmail !== 'hr@dynasas.com' && !companyProfile.enquiryEmail) {
+        companyProfile.enquiryEmail = companyProfile.generalEmail;
+      }
+    }
+
     res.status(200).json({
       success: true,
       data: companyProfile,
@@ -77,7 +86,7 @@ const updateCompanyProfile = async (req, res, next) => {
     const aboutUsFields = ["companyName", "foundedYear", "headquarters", "registrationNumber", "overview", "logo"];
     const missionFields = ["missionTitle", "missionStatement"];
     const visionFields = ["visionTitle", "visionStatement", "longTermGoals"];
-    const contactFields = ["generalEmail", "securityEmail", "mainPhone", "defenseContractsPhone", "mailingAddress", "website"];
+    const contactFields = ["generalEmail", "securityEmail", "hrEmail", "enquiryEmail", "partnersEmail", "technicalEmail", "mainPhone", "defenseContractsPhone", "mailingAddress", "city", "state", "country", "postalCode", "fullAddress", "website"];
 
     const hasAboutUs = aboutUsFields.some((f) => body[f] !== undefined);
     const hasMission = missionFields.some((f) => body[f] !== undefined);

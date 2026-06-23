@@ -9,7 +9,7 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
   const secondaryCTA = defaults.secondaryCTA || 'View Headquarters';
 
   // Use CMS data if available, fallback to defaults
-  const addressQuery = encodeURIComponent(data?.headquarters || 'New Delhi, India');
+  const addressQuery = encodeURIComponent(data?.fullAddress || data?.headquarters || 'Gurugram, Haryana, India');
   const mapsUrl = `${defaults.headquartersUrl || 'https://www.google.com/maps/search/?api=1&query='}${addressQuery}`;
 
   const handleMapsClick = () => {

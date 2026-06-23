@@ -52,6 +52,11 @@ export const validateAboutData = (data) => {
     companyOverview: safeString(safeData.companyOverview, ""),
     foundedYear: safeString(safeData.foundedYear, "—"),
     headquarters: safeString(safeData.headquarters, "—"),
+    city: safeString(safeData.city, ""),
+    state: safeString(safeData.state, ""),
+    country: safeString(safeData.country, ""),
+    postalCode: safeString(safeData.postalCode, ""),
+    fullAddress: safeString(safeData.fullAddress, ""),
     introduction: safeString(safeData.introduction, ""),
     mission: {
       title: safeString(safeData.mission?.title, CONTENT_DEFAULTS.about.missionTitle),
@@ -68,6 +73,11 @@ export const validateAboutData = (data) => {
     details: {
       foundedYear: safeData.details?.foundedYear || null,
       headquarters: safeData.details?.headquarters || null,
+      city: safeData.details?.city || null,
+      state: safeData.details?.state || null,
+      country: safeData.details?.country || null,
+      postalCode: safeData.details?.postalCode || null,
+      fullAddress: safeData.details?.fullAddress || null,
       yearsOfLegacy: safeData.details?.yearsOfLegacy || null
     },
     snapshot: safeData.snapshot || null,
@@ -117,7 +127,12 @@ export const validateFooterData = (data) => {
     contact: {
       email: safeString(safeData.contact?.email, ""),
       phone: safeString(safeData.contact?.phone, ""),
-      address: safeString(safeData.contact?.address, "")
+      address: safeString(safeData.contact?.address, ""),
+      city: safeString(safeData.contact?.city, ""),
+      state: safeString(safeData.contact?.state, ""),
+      country: safeString(safeData.contact?.country, ""),
+      postalCode: safeString(safeData.contact?.postalCode, ""),
+      fullAddress: safeString(safeData.contact?.fullAddress, "")
     },
     links: {
       company: safeArray(safeData.links?.company),

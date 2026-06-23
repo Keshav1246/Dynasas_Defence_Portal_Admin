@@ -17,9 +17,18 @@ const createCompanySchema = z.object({
   visionFuturePriorities: z.array(z.string()).optional(),
   generalEmail: z.string().optional().nullable(),
   securityEmail: z.string().optional().nullable(),
+  hrEmail: z.string().optional().nullable(),
+  enquiryEmail: z.string().optional().nullable(),
+  partnersEmail: z.string().optional().nullable(),
+  technicalEmail: z.string().optional().nullable(),
   mainPhone: z.string().optional().nullable(),
   defenseContractsPhone: z.string().optional().nullable(),
   mailingAddress: z.string().optional().nullable(),
+  city: z.string().optional().nullable(),
+  state: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
+  postalCode: z.string().optional().nullable(),
+  fullAddress: z.string().optional().nullable(),
   website: z.string().optional().nullable(),
 });
 

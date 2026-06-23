@@ -4,12 +4,6 @@ import { motion } from 'framer-motion';
 const AboutSection = ({ data }) => {
   if (!data) return null;
 
-  const getCityOnly = (address) => {
-    if (!address) return '';
-    const parts = address.split(',').map(p => p.trim());
-    return parts[0];
-  };
-
   return (
     <section className="pt-32 pb-8 w-full text-brand-white relative z-10">
       <div className="container mx-auto px-6 max-w-5xl">
@@ -62,7 +56,7 @@ const AboutSection = ({ data }) => {
             </div>
             <div>
               <h4 className="text-label text-brand-white/40 mb-2">Headquarters</h4>
-              <p className="text-2xl font-bold font-heading">{getCityOnly(data.headquarters)}</p>
+              <p className="text-2xl font-bold font-heading">{[data.city, data.state].filter(Boolean).join(', ') || data.headquarters}</p>
             </div>
           </motion.div>
 

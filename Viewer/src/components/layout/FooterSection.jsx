@@ -67,13 +67,9 @@ const FooterSection = ({ data, siteData }) => {
                   {data.contact.email}
                 </a>
               )}
-              {data.contact?.phone && (
-                <a href={`tel:${data.contact.phone}`} className="hover:text-brand-primary transition-colors">
-                  {data.contact.phone}
-                </a>
-              )}
-              {data.contact?.address && (
-                <span className="whitespace-pre-line">{data.contact.address}</span>
+
+              {(data.contact?.fullAddress || data.contact?.address) && (
+                <span className="whitespace-pre-line">{data.contact.fullAddress || data.contact.address}</span>
               )}
             </div>
           </div>

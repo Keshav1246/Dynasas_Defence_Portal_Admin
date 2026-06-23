@@ -11,12 +11,6 @@ const ContactHeadquartersSection = ({ data }) => {
   const mailingAddress = data?.mailingAddress || DEFAULT_CONTACT.mailingAddress || '';
   const website = data?.website || DEFAULT_CONTACT.website || '';
 
-  const getCityOnly = (address) => {
-    if (!address) return '';
-    const parts = address.split(',').map(p => p.trim());
-    return parts[0];
-  };
-
   const handleMapsClick = () => {
     const addressQuery = encodeURIComponent(mailingAddress.replace(/\n/g, ', '));
     window.open(`https://www.google.com/maps/search/?api=1&query=${addressQuery}`, "_blank", "noopener,noreferrer");
@@ -44,7 +38,7 @@ const ContactHeadquartersSection = ({ data }) => {
                   <span className="text-[10px] text-brand-primary font-mono">0</span>
                 </div>
                 <span className="text-sm text-brand-primary tracking-widest font-heading uppercase font-bold">
-                  {getCityOnly(data?.headquarters || DEFAULT_CONTACT.headquarters)} HEADQUARTERS
+                  {data?.city || data?.headquarters || DEFAULT_CONTACT.headquarters} HEADQUARTERS
                 </span>
               </div>
 
@@ -71,7 +65,7 @@ const ContactHeadquartersSection = ({ data }) => {
                   <div>
                     <h4 className="text-[10px] font-heading font-bold text-brand-primary tracking-widest uppercase mb-2">Mailing Address</h4>
                     <p className="text-brand-white/90 font-body leading-relaxed whitespace-pre-line text-sm">
-                      {getCityOnly(mailingAddress)}
+                      {data?.fullAddress || mailingAddress}
                     </p>
                   </div>
                 </div>

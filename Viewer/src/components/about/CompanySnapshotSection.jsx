@@ -12,11 +12,7 @@ const CompanySnapshotSection = ({ data }) => {
   const headquarters = data?.details?.headquarters;
   const yearsOfLegacy = data?.details?.yearsOfLegacy;
 
-  const getCityOnly = (address) => {
-    if (!address) return '';
-    const parts = address.split(',').map(p => p.trim());
-    return parts[0];
-  };
+
 
   return (
     <section className="py-24 bg-[#050505] relative z-10 border-t border-[rgba(255,255,255,0.06)] overflow-hidden">
@@ -52,7 +48,7 @@ const CompanySnapshotSection = ({ data }) => {
           {snapshot.stats?.map((stat, index) => {
             const IconComponent = LucideIcons[stat.iconName] || LucideIcons.Shield;
             const displayValue = stat.label?.toLowerCase() === 'headquarters' && stat.value 
-              ? getCityOnly(stat.value)
+              ? ([data?.details?.city, data?.details?.state].filter(Boolean).join(', ') || stat.value)
               : stat.value;
             return (
               <SnapshotCard 

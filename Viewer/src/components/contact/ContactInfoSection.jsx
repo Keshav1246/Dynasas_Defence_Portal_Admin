@@ -62,26 +62,26 @@ const ContactInfoSection = ({ data }) => {
   const contactCards = [
     {
       icon: Briefcase,
-      title: defaults.careersLabel || "Careers",
-      value: defaults.careersEmail || "hr@dynasas.com",
+      title: "Careers",
+      value: data?.hrEmail || "hr@dynasas.com",
       description: defaults.careersDescription || "For career opportunities and HR inquiries."
     },
     {
-      icon: TrendingUp,
-      title: defaults.salesLabel || "Sales",
-      value: defaults.salesEmail || "sales@dynasas.com",
-      description: defaults.salesDescription || "For product inquiries and enterprise sales."
+      icon: Mail,
+      title: "Enquiry",
+      value: data?.enquiryEmail || "enquiry@dynasas.com",
+      description: defaults.salesDescription || "For general product and enterprise inquiries."
     },
     {
       icon: Handshake,
-      title: defaults.partnershipsLabel || "Partnerships",
-      value: defaults.partnershipsEmail || "partner@dynasas.com",
+      title: "Partnerships",
+      value: data?.partnersEmail || "partner@dynasas.com",
       description: defaults.partnershipsDescription || "For strategic partnerships and alliances."
     },
     {
       icon: Headset,
-      title: defaults.supportLabel || "Technical Support",
-      value: defaults.supportEmail || "technical@dynasas.com",
+      title: "Technical Support",
+      value: data?.technicalEmail || "technical@dynasas.com",
       description: defaults.supportDescription || "For technical assistance and product support."
     }
   ];

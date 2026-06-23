@@ -34,6 +34,11 @@ const createFooterSchema = z.object({
   address: z
     .string()
     .min(5, "Address must be at least 5 characters"),
+  city: z.string().optional().nullable(),
+  state: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
+  postalCode: z.string().optional().nullable(),
+  fullAddress: z.string().optional().nullable(),
 
   phone: z
     .string()

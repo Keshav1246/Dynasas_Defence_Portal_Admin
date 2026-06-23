@@ -54,9 +54,18 @@ const CompanyProfilePage = () => {
         contact: {
           generalEmail: data.generalEmail || '',
           securityEmail: data.securityEmail || '',
+          hrEmail: data.hrEmail || '',
+          enquiryEmail: data.enquiryEmail || '',
+          partnersEmail: data.partnersEmail || '',
+          technicalEmail: data.technicalEmail || '',
           mainPhone: data.mainPhone || '',
           defenseContracts: data.defenseContractsPhone || '',
           address: data.mailingAddress || '',
+          city: data.city || '',
+          state: data.state || '',
+          country: data.country || '',
+          postalCode: data.postalCode || '',
+          fullAddress: data.fullAddress || '',
           website: data.website || ''
         }
       });
@@ -143,9 +152,18 @@ const CompanyProfilePage = () => {
         await updateCompanyProfile(profileData.id, {
           generalEmail: sectionData.generalEmail,
           securityEmail: sectionData.securityEmail,
+          hrEmail: sectionData.hrEmail,
+          enquiryEmail: sectionData.enquiryEmail,
+          partnersEmail: sectionData.partnersEmail,
+          technicalEmail: sectionData.technicalEmail,
           mainPhone: sectionData.mainPhone,
           defenseContractsPhone: sectionData.defenseContracts,
           mailingAddress: sectionData.address,
+          city: sectionData.city,
+          state: sectionData.state,
+          country: sectionData.country,
+          postalCode: sectionData.postalCode,
+          fullAddress: sectionData.fullAddress,
           website: sectionData.website
         });
       }

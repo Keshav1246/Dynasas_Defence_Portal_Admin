@@ -124,9 +124,18 @@ model CompanyProfile {
   // New Contact fields
   generalEmail          String?
   securityEmail         String?
+  hrEmail               String?
+  enquiryEmail          String?
+  partnersEmail         String?
+  technicalEmail        String?
   mainPhone             String?
   defenseContractsPhone String?
   mailingAddress        String?
+  city                  String?
+  state                 String?
+  country               String?
+  postalCode            String?
+  fullAddress           String?
   website               String?
 
   // Relations
@@ -187,6 +196,11 @@ model ServicesPageContent {
 model FooterContent {
   id      String @id @default(uuid())
   address String
+  city        String?
+  state       String?
+  country     String?
+  postalCode  String?
+  fullAddress String?
   phone   String
   email   String
 

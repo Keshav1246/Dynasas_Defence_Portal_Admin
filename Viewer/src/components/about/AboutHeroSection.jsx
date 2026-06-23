@@ -10,11 +10,7 @@ const AboutHeroSection = ({ data }) => {
   const foundedYear = data?.details?.foundedYear;
   const headquarters = data?.details?.headquarters;
 
-  const getCityOnly = (address) => {
-    if (!address) return '';
-    const parts = address.split(',').map(p => p.trim());
-    return parts[0];
-  };
+  const yearsOfLegacy = data?.details?.yearsOfLegacy;
   
   const sectionLabel = defaults.sectionLabel;
   const sectionTitle = defaults.sectionTitle;
@@ -107,7 +103,7 @@ const AboutHeroSection = ({ data }) => {
               </div>
               <div>
                 <h4 className="text-brand-white/40 text-[10px] font-heading tracking-widest uppercase mb-0.5">Headquarters</h4>
-                <p className="text-brand-white font-mono font-bold text-lg">{getCityOnly(headquarters)}</p>
+                <p className="text-brand-white font-mono font-bold text-lg">{[data?.details?.city, data?.details?.state].filter(Boolean).join(', ') || headquarters}</p>
               </div>
             </div>
           </div>

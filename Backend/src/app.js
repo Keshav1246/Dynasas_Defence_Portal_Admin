@@ -20,6 +20,7 @@ const settingsRoutes = require("./routes/settings.routes");
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const adminUsersRoutes = require('./routes/adminUsers.routes');
 const searchRoutes = require('./routes/search.routes');
+const officeRoutes = require('./routes/office.routes');
 
 
 // Import global error middleware
@@ -86,11 +87,12 @@ app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/partners", partnerRouter);
 app.use("/api/v1/inquiries", inquiryRouter);
 app.use("/api/v1/contact", contactRouter);
+app.use("/api/v1/offices", officeRoutes);
+app.use("/api/v1/settings", settingsRoutes);
 
 // Protected Admin Routes
 app.use("/api/v1/dashboard", authMiddleware, dashboardRoutes);
 app.use("/api/v1/activity-logs", authMiddleware, activityLogRoutes);
-app.use("/api/v1/settings", authMiddleware, settingsRoutes);
 app.use('/api/v1/analytics', authMiddleware, analyticsRoutes);
 app.use('/api/v1/admin-users', authMiddleware, adminUsersRoutes);
 app.use('/api/v1/search', authMiddleware, searchRoutes);

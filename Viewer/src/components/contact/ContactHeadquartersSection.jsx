@@ -168,7 +168,9 @@ const ContactHeadquartersSection = ({ data }) => {
                     <div className="mb-6">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className={`text-xl font-heading font-bold transition-colors ${office.officeType === 'HQ' ? 'text-brand-primary' : 'text-white group-hover:text-brand-primary'}`}>
-                          {office.officeName}
+                          {office.city ? `${office.city}, ${office.country}` : 
+                           office.state ? `${office.state}, ${office.country}` : 
+                           office.country}
                         </h4>
                         {office.officeType && (
                           <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm ${office.officeType === 'HQ' ? 'text-brand-primary bg-brand-primary/10' : 'text-brand-white/40 bg-white/5'}`}>
@@ -176,11 +178,6 @@ const ContactHeadquartersSection = ({ data }) => {
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-brand-white/60 font-body">
-                        {office.city ? `${office.city}, ${office.country}` : 
-                         office.state ? `${office.state}, ${office.country}` : 
-                         office.country}
-                      </p>
                     </div>
 
                     <div className="space-y-4 mb-8">

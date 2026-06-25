@@ -74,10 +74,10 @@ const FooterSection = ({ data, siteData }) => {
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
           
           {/* Column 1: Brand & Contact */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 md:col-span-12 lg:col-span-6 pr-0 lg:pr-12">
             <Link to="/" className="inline-block">
               {logoUrl ? (
                 <img src={logoUrl} alt="Logo" className="h-12 opacity-90 object-contain" />
@@ -96,9 +96,9 @@ const FooterSection = ({ data, siteData }) => {
               )}
 
               {offices.length > 0 ? (
-                <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 mt-4">
                   {offices.map((office) => (
-                    <div key={office.id} className={`flex flex-col gap-1 ${office.officeType === 'HQ' ? 'border-l-2 border-brand-primary pl-4 py-1' : ''}`}>
+                    <div key={office.id} className={`flex flex-col gap-1 ${office.officeType === 'HQ' ? 'border-l-2 border-brand-primary pl-3 py-1' : 'border-l-2 border-brand-white/10 pl-3 py-1'}`}>
                       <span className={`font-bold text-sm ${office.officeType === 'HQ' ? 'text-brand-primary' : 'text-brand-white'}`}>
                         {office.officeName}
                         {office.officeType && <span className={`text-xs ml-2 ${office.officeType === 'HQ' ? 'text-brand-primary font-bold' : 'text-brand-white/50'}`}>({office.officeType})</span>}
@@ -108,7 +108,7 @@ const FooterSection = ({ data, siteData }) => {
                          office.state ? `${office.state}, ${office.country}` : 
                          office.country}
                       </span>
-                      <span className="text-xs text-brand-white/50">{office.fullAddress}</span>
+                      <span className="text-xs text-brand-white/50 pr-4">{office.fullAddress}</span>
                     </div>
                   ))}
                 </div>
@@ -121,7 +121,7 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 2: Company */}
-          <div>
+          <div className="md:col-span-4 lg:col-span-2">
             <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6">Company</h4>
             <ul className="flex flex-col gap-3.5">
               {data.links?.company?.length > 0 ? (
@@ -143,7 +143,7 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 3: Solutions */}
-          <div>
+          <div className="md:col-span-4 lg:col-span-2">
             <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6">Solutions</h4>
             <ul className="flex flex-col gap-3.5">
               {data.links?.solutions?.length > 0 ? (
@@ -159,9 +159,9 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 4: Follow Us */}
-          <div className="flex flex-col items-center">
-            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6 text-center">Follow Us</h4>
-            <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-col items-center lg:items-start md:col-span-4 lg:col-span-2">
+            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6 text-center lg:text-left">Follow Us</h4>
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               {siteData?.socialLinks?.linkedin ? (
                 <a href={siteData.socialLinks.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <LinkedinIcon className="w-4 h-4" />

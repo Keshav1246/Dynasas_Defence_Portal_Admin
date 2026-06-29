@@ -253,7 +253,7 @@ const ServicesSection = ({ data }) => {
   return (
     <section
       ref={sectionRef}
-      className={`w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black ${!isDesktop ? 'py-16 md:py-20' : ''}`}
+      className={`w-full text-brand-white relative z-10 bg-brand-black ${!isDesktop ? 'py-16 md:py-20' : ''}`}
       style={isDesktop ? { height: `calc(100vh - ${navbarHeight}px)` } : {}}
     >
       <div className="container mx-auto px-6 h-full flex flex-col py-6 md:py-8">

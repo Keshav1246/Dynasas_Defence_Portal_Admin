@@ -19,7 +19,6 @@ export const apiClient = {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error(`Error fetching ${endpoint}:`, error);
       throw error;
     }
   },
@@ -42,7 +41,6 @@ export const apiClient = {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error(`Error posting to ${endpoint}:`, error);
       throw error;
     }
   }

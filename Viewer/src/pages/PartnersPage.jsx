@@ -50,7 +50,7 @@ const PartnersPage = () => {
       <Header siteData={siteData} />
 
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center pt-32 pb-16 overflow-hidden bg-brand-black">
+      <section className="relative min-h-[50vh] flex items-center pt-48 pb-16 overflow-hidden bg-brand-black">
         {/* Subtle Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] left-[-5%] w-1/2 h-full bg-brand-primary/5 blur-[120px] rounded-full pointer-events-none" />

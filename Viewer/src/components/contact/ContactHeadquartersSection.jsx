@@ -21,7 +21,7 @@ const ContactHeadquartersSection = ({ data }) => {
   };
 
   return (
-    <section className="py-24 bg-[#050505] relative border-t border-[rgba(255,255,255,0.06)] overflow-hidden">
+    <section className="py-24 bg-brand-black relative border-t border-brand-white/10 overflow-hidden">
       <div className="container mx-auto px-6 max-w-[1400px]">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-8 mb-16">
 
@@ -73,7 +73,7 @@ const ContactHeadquartersSection = ({ data }) => {
                 {/* Website Card */}
                 <div
                   onClick={handleWebsiteClick}
-                  className="group flex items-center justify-between p-6 border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.05)] hover:border-brand-primary/30 transition-all duration-300 cursor-pointer rounded-sm"
+                  className="group flex items-center justify-between p-6 border border-brand-white/10 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.05)] hover:border-brand-primary/30 transition-all duration-300 cursor-pointer rounded-sm"
                 >
                   <div className="flex gap-5 items-center">
                     <Globe size={24} className="text-brand-white/50 group-hover:text-brand-primary transition-colors duration-300" />
@@ -94,16 +94,15 @@ const ContactHeadquartersSection = ({ data }) => {
           </div>
 
           {/* RIGHT VISUAL (60%) */}
-          <div className="w-full lg:w-[60%] min-h-[400px] lg:min-h-[500px] relative border border-[rgba(255,255,255,0.06)] bg-[#0a0a0a] overflow-hidden">
-            <div className="absolute inset-0 bg-cover bg-center opacity-80"
+          <div className="w-full lg:w-[60%] min-h-[400px] lg:min-h-[500px] relative border border-brand-white/10 bg-brand-dark-secondary overflow-hidden">
+            <div className="absolute inset-0 bg-cover bg-center opacity-100"
               style={{ backgroundImage: `url('${DEFAULT_ASSETS.COMMAND_AND_CONTROL_HQ}')` }}>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] to-transparent"></div>
           </div>
         </div>
 
         {/* BOTTOM FEATURE BAR */}
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-[rgba(255,255,255,0.06)] divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.06)]">
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-brand-white/10 divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.06)]">
           <div className="p-6 flex items-start gap-4 hover:bg-[rgba(255,255,255,0.02)] transition-colors">
             <Building2 size={24} className="text-brand-primary shrink-0 mt-1" />
             <div>

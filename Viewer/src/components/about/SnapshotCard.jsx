@@ -8,7 +8,7 @@ const SnapshotCard = ({ icon: Icon, value, label, description, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group relative bg-[#050505] border border-[rgba(255,255,255,0.06)] p-8 lg:p-10 overflow-hidden hover:-translate-y-1 transition-transform duration-500"
+      className="group relative bg-brand-black border border-brand-white/10 p-8 lg:p-10 overflow-hidden hover:-translate-y-1 transition-transform duration-500"
     >
       {/* Glow Effect */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/10 blur-[50px] group-hover:bg-brand-primary/20 transition-colors duration-500 rounded-full pointer-events-none"></div>
@@ -27,7 +27,7 @@ const SnapshotCard = ({ icon: Icon, value, label, description, index }) => {
           {/* Outer dashed ring */}
           <div className="absolute inset-[-10px] border border-dashed border-brand-primary/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
           {/* Inner solid ring */}
-          <div className="w-14 h-14 flex items-center justify-center bg-[#050505] border border-brand-primary/30 rounded-full group-hover:bg-brand-primary/10 transition-colors duration-300 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.1)]">
+          <div className="w-14 h-14 flex items-center justify-center bg-brand-black border border-brand-primary/30 rounded-full group-hover:bg-brand-primary/10 transition-colors duration-300 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.1)]">
             <Icon size={24} className="text-brand-primary" />
           </div>
         </div>

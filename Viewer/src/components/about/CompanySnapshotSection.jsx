@@ -15,7 +15,7 @@ const CompanySnapshotSection = ({ data }) => {
 
 
   return (
-    <section className="py-24 bg-[#050505] relative z-10 border-t border-[rgba(255,255,255,0.06)] overflow-hidden">
+    <section className="py-24 bg-brand-black relative z-10 border-t border-brand-white/10 overflow-hidden">
       {/* Background Subtle Grid */}
       <div className="absolute inset-0 opacity-100 pointer-events-none" 
            style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>

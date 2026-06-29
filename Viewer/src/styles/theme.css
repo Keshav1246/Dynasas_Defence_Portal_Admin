@@ -2,18 +2,18 @@
 
 @theme {
   /* Colors */
-  --color-brand-primary: var(--color-brand-primary, #FF6A00);
-  --color-brand-primary-hover: var(--color-brand-primary-hover, #FF7A45);
+  --color-brand-primary: var(--dynasas-primary);
+  --color-brand-primary-hover: var(--dynasas-primary-hover);
   
-  --color-brand-black: var(--color-brand-black, #050505);
-  --color-brand-dark: var(--color-brand-dark, #0A0A0A);
-  --color-brand-dark-secondary: var(--color-brand-dark-secondary, #111111);
+  --color-brand-black: var(--dynasas-black);
+  --color-brand-dark: var(--dynasas-dark);
+  --color-brand-dark-secondary: var(--dynasas-dark-secondary);
   
-  --color-brand-white: var(--color-brand-white, #FFFFFF);
-  --color-brand-light-gray: var(--color-brand-light-gray, #D9D9D9);
-  --color-brand-gray: var(--color-brand-gray, #A0A0A0);
+  --color-brand-white: var(--dynasas-white);
+  --color-brand-light-gray: var(--dynasas-light-gray);
+  --color-brand-gray: var(--dynasas-gray);
   
-  --color-brand-border: var(--color-brand-border, rgba(255, 255, 255, 0.06));
+  --color-brand-border: var(--dynasas-border);
 
   /* Typography */
   --font-heading: 'Space Grotesk', sans-serif;
@@ -24,13 +24,53 @@
   --spacing-component-gap: 2rem;
 }
 
+:root {
+  --dynasas-primary: #FF6A00;
+  --dynasas-primary-hover: #FF7A45;
+  --dynasas-black: #050505;
+  --dynasas-dark: #0A0A0A;
+  --dynasas-dark-secondary: #111111;
+  --dynasas-white: #FFFFFF;
+  --dynasas-light-gray: #D9D9D9;
+  --dynasas-gray: #A0A0A0;
+  --dynasas-border: rgba(255, 255, 255, 0.06);
+  --dynasas-partner-bg: rgba(10, 10, 10, 0.3);
+}
+
+[data-theme='light'] {
+  --dynasas-primary: #FF6A00;
+  --dynasas-primary-hover: #FF7A45;
+  --dynasas-black: #F4F6F8;
+  --dynasas-dark: #FFFFFF;
+  --dynasas-dark-secondary: #E9ECEF;
+  --dynasas-white: #1A1A1A;
+  --dynasas-light-gray: #4A4A4A;
+  --dynasas-gray: #6B7280;
+  --dynasas-border: rgba(0, 0, 0, 0.08);
+  --dynasas-partner-bg: #FFFFFF;
+}
+
 @layer base {
   body {
-    background-color: var(--color-brand-black, #050505);
-    color: var(--color-brand-white, #FFFFFF);
+    background-color: var(--dynasas-black);
+    color: var(--dynasas-white);
     font-family: var(--font-body, 'Inter', sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  .theme-logo-light {
+    display: none !important;
+  }
+  .theme-logo-dark {
+    display: block !important;
+  }
+  [data-theme='light'] .theme-logo-light {
+    display: block !important;
+  }
+  [data-theme='light'] .theme-logo-dark {
+    display: none !important;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -14,12 +14,12 @@ const CompanyJourneySection = ({ data }) => {
   const { label, heading, description, achievement, milestones, values } = data?.journey || {};
 
   return (
-    <section className="relative py-24 lg:py-32 bg-[#050505] overflow-hidden border-t border-[rgba(255,255,255,0.06)]">
+    <section className="relative py-24 lg:py-32 bg-brand-black overflow-hidden border-t border-brand-white/10">
       
       {/* Tactical Defense Background Placeholder */}
       <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         {/* Dark terrain / topographic lines placeholder effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-primary/5 via-[#050505]/50 to-[#050505]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-primary/5 via-brand-black/50 to-brand-black"></div>
         <div className="absolute inset-0" 
              style={{ 
                backgroundImage: `url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`,
@@ -64,7 +64,7 @@ const CompanyJourneySection = ({ data }) => {
               {/* Achievement Card */}
               <div className="p-6 border border-brand-primary/20 bg-brand-primary/5 rounded-sm flex items-start gap-5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/10 blur-[40px] rounded-full group-hover:bg-brand-primary/20 transition-colors"></div>
-                <div className="p-3 bg-brand-dark border border-[rgba(255,255,255,0.1)] text-brand-primary shrink-0 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.2)]">
+                <div className="p-3 bg-brand-dark border border-brand-white/10 text-brand-primary shrink-0 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.2)]">
                   <Trophy size={24} />
                 </div>
                 <div className="relative z-10">
@@ -116,12 +116,12 @@ const CompanyJourneySection = ({ data }) => {
                     </div>
 
                     {/* Milestone Card */}
-                    <div className="bg-[#0a0a0a]/80 backdrop-blur-md border border-[rgba(255,255,255,0.06)] p-5 relative overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:border-brand-primary/40 hover:shadow-[0_10px_30px_rgba(255,106,0,0.1)] hover:z-30">
+                    <div className="bg-brand-dark-secondary/80 backdrop-blur-md border border-brand-white/10 p-5 relative overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:border-brand-primary/40 hover:shadow-[0_10px_30px_rgba(255,106,0,0.1)] hover:z-30">
                       {/* Glow effect */}
                       <div className="absolute top-0 right-0 w-16 h-16 bg-brand-primary/10 blur-[20px] rounded-full group-hover:bg-brand-primary/20 transition-colors"></div>
                       
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2 border border-[rgba(255,255,255,0.1)] text-brand-primary bg-brand-black/50">
+                        <div className="p-2 border border-brand-white/10 text-brand-primary bg-brand-black/50">
                           <Icon size={16} />
                         </div>
                         <span className="text-xl font-heading font-bold text-brand-primary drop-shadow-[0_0_8px_rgba(255,106,0,0.4)]">
@@ -153,7 +153,7 @@ const CompanyJourneySection = ({ data }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-20 lg:mt-32 pt-8 border-t border-[rgba(255,255,255,0.06)] flex flex-wrap justify-center items-center gap-4 lg:gap-8"
+          className="mt-20 lg:mt-32 pt-8 border-t border-brand-white/10 flex flex-wrap justify-center items-center gap-4 lg:gap-8"
         >
           {(values || []).map((val, idx) => (
             <React.Fragment key={idx}>

@@ -40,9 +40,10 @@ const FooterSection = ({ data, siteData }) => {
 
   // Prefer data.logo, but fallback to a static path if needed, though data.logo is mapped in index.js
   const logoUrl = data.logo || '/assets/logo.png';
+  const logoLightUrl = data.logoLight || '/assets/logo-light.png';
 
   return (
-    <footer className="pt-24 pb-8 w-full border-t border-brand-white/10 bg-[#060608] relative overflow-hidden">
+    <footer className="pt-24 pb-8 w-full border-t border-brand-border bg-brand-dark relative overflow-hidden">
       {/* Subtle grid texture background */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
 
@@ -53,7 +54,10 @@ const FooterSection = ({ data, siteData }) => {
           <div className="flex flex-col gap-6">
             <Link to="/" className="inline-block">
               {logoUrl ? (
-                <img src={logoUrl} alt="Logo" className="h-12 opacity-90 object-contain" />
+                <>
+                  <img src={logoUrl} alt="Logo" className="h-12 opacity-90 object-contain theme-logo-dark" />
+                  <img src={logoLightUrl} alt="Logo" className="h-12 opacity-90 object-contain theme-logo-light" />
+                </>
               ) : (
                 <span className="text-2xl font-bold text-brand-white tracking-wide">
                   {siteData?.siteName || "Dynasas"}
@@ -146,7 +150,7 @@ const FooterSection = ({ data, siteData }) => {
         </div>
 
         {/* Bottom Row */}
-        <div className="border-t border-[rgba(255,255,255,0.06)] pt-8 mt-16 text-center">
+        <div className="border-t border-brand-white/10 pt-8 mt-16 text-center">
           <p className="text-[14px] text-brand-white/40">
             {data.copyright || `© ${new Date().getFullYear()} Dynasas. All Rights Reserved.`}
           </p>

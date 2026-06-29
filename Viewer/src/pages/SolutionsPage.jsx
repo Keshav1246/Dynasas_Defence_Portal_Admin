@@ -8,6 +8,7 @@ import Header from '../components/layout/Header';
 import FooterSection from '../components/layout/FooterSection';
 import { ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucide-react';
 import { DEFAULT_SOLUTIONS } from '../defaults/solutions';
+import ScrollIndicator from '../components/layout/ScrollIndicator';
 
 // Import local assets
 import solutionsHeroImage from '../../src/assets/solutions/solutions-hero.png';
@@ -112,18 +113,15 @@ const SolutionsPage = () => {
       <Header siteData={siteData} />
 
       {/* 1. Premium Hero Background Section */}
-      <section className="relative min-h-[75vh] flex items-center pt-32 pb-24 overflow-hidden">
+      <section className="relative min-h-[75vh] flex items-center pt-48 pb-24 overflow-hidden">
         {/* Defence Command Center Background Image & Overlays */}
         <div className="absolute inset-0 z-0 w-full h-full">
           <img
+            key={location.pathname}
             src={solutionsHeroImage}
             alt="Defence Operations Command Center"
             className="w-full h-full object-cover"
-            onError={(e) => { e.target.style.display = 'none'; }}
           />
-          {/* Black overlay at 60% to preserve readability and match defence aesthetic */}
-          <div className="absolute inset-0 bg-brand-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-brand-black/80" />
         </div>
 
         <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -145,13 +143,13 @@ const SolutionsPage = () => {
                   </h4>
                 </div>
 
-                <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-brand-white tracking-tight">
+                <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-[#1a1a1a] tracking-tight">
                   {renderHeroTitle(DEFAULT_SOLUTIONS.hero.title)}
                 </h1>
 
                 <div className="w-16 h-1 bg-brand-primary mb-8" />
 
-                <p className="text-brand-white/70 text-lg lg:text-xl leading-relaxed max-w-2xl font-body">
+                <p className="text-brand-white/90 text-lg lg:text-xl leading-relaxed max-w-2xl font-body drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                   {DEFAULT_SOLUTIONS.hero.description}
                 </p>
               </motion.div>
@@ -213,6 +211,7 @@ const SolutionsPage = () => {
 
           </div>
         </div>
+        <ScrollIndicator />
       </section>
 
       {/* 3. Dynamic Solution Sections */}
@@ -270,24 +269,7 @@ const SolutionsPage = () => {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="relative z-[1] w-full h-full xl:w-[115%] xl:-ml-4 flex flex-col items-center justify-center overflow-visible"
                       >
-                        {/* Top Watermark = 1 */}
-                        {topWord && (
-                          <div className="absolute top-0 -translate-y-[45%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2
-                              className="font-heading font-black uppercase m-0 p-0 text-center"
-                              style={{
-                                fontSize: 'clamp(80px, 8vw, 140px)',
-                                lineHeight: '0.85',
-                                letterSpacing: '-4px',
-                                opacity: 0.08,
-                                color: '#202020',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {topWord}
-                            </h2>
-                          </div>
-                        )}
+
 
                         {/* Grid/Glow Base (simulate 3D floating effect underneath the image) */}
                         <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 w-3/4 aspect-[2/1] rounded-full border border-brand-primary/20 bg-brand-primary/5 blur-[2px] z-[1]" style={{ transform: 'translateX(-50%) perspective(500px) rotateX(75deg)' }}>
@@ -303,24 +285,7 @@ const SolutionsPage = () => {
                           onError={(e) => { e.target.style.display = 'none'; }}
                         />
 
-                        {/* Bottom Watermark = 1 */}
-                        {bottomWords && (
-                          <div className="absolute bottom-[5%] translate-y-[60%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2
-                              className="font-heading font-black uppercase m-0 p-0 text-center"
-                              style={{
-                                fontSize: 'clamp(80px, 8vw, 140px)',
-                                lineHeight: '0.85',
-                                letterSpacing: '-4px',
-                                opacity: 0.08,
-                                color: '#202020',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {bottomWords}
-                            </h2>
-                          </div>
-                        )}
+
                       </motion.div>
                     </div>
 
@@ -331,13 +296,13 @@ const SolutionsPage = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-[#0f0f11] transition-all duration-500 overflow-hidden"
+                        className="group relative bg-brand-dark border border-brand-border rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-brand-dark-secondary transition-all duration-500 overflow-hidden"
                       >
                         {/* Glow Effect */}
                         <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
 
                         {/* Tactical Top Accent Line */}
-                        <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-border" />
                         <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
 
                         {/* Corner Accents */}
@@ -349,12 +314,12 @@ const SolutionsPage = () => {
                             {solution.title}
                           </h2>
 
-                          <p className="text-brand-white/60 leading-relaxed mb-10 text-[15px] group-hover:text-brand-white/80 transition-colors duration-300">
+                          <p className="text-brand-light-gray leading-relaxed mb-10 text-[15px] group-hover:text-brand-light-gray/80 transition-colors duration-300">
                             {solution.description}
                           </p>
 
                           {solution.features && solution.features.length > 0 && (
-                            <div className="mb-10 space-y-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
+                            <div className="mb-10 space-y-8 border-t border-brand-border pt-10 group-hover:border-brand-border transition-colors duration-300">
                               {solution.features.map((feature, fIndex) => (
                                 <div key={fIndex} className="flex items-center gap-6">
                                   <div className="shrink-0 p-2.5 rounded-full bg-brand-primary/10 border border-brand-primary/20">
@@ -362,7 +327,7 @@ const SolutionsPage = () => {
                                   </div>
                                   <div className="flex flex-col">
                                     <span className="font-heading font-bold text-brand-white text-base mb-1">{feature.title}</span>
-                                    <span className="text-brand-white/60 text-sm leading-relaxed">{feature.description}</span>
+                                    <span className="text-brand-light-gray text-sm leading-relaxed">{feature.description}</span>
                                   </div>
                                 </div>
                               ))}

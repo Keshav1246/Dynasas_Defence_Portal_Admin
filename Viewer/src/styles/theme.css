@@ -73,6 +73,17 @@
     display: none !important;
   }
 
+  /* Service Image Light Theme Overrides */
+  [data-theme='light'] .service-image-clarity {
+    opacity: 1 !important;
+  }
+  [data-theme='light'] .service-image-vignette {
+    display: none !important;
+  }
+  [data-theme='light'] .service-image-fallback {
+    opacity: 0 !important;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading, 'Space Grotesk', sans-serif);
     letter-spacing: -0.02em;

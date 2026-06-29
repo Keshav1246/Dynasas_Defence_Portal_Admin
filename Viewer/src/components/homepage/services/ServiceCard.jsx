@@ -101,9 +101,9 @@ const ServiceCard = ({ service, index, position, setActiveIndex }) => {
                 <img 
                   src={imageUrl} 
                   alt={service.imageAlt || service.title} 
-                  className="w-full h-auto object-contain object-center opacity-60"
+                  className="w-full h-auto object-contain object-center opacity-60 service-image-clarity"
                 />
-                <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(10,10,10,0.9)] z-10 pointer-events-none" />
+                <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(10,10,10,0.9)] z-10 pointer-events-none service-image-vignette" />
               </div>
 
               <p className="text-lg text-brand-white/80 font-body leading-relaxed mb-8 max-w-2xl">

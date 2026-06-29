@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { MapPin, Globe, Building2, ShieldCheck, Users } from 'lucide-react';
+import { MapPin, Globe, Building2, ShieldCheck, Users, Phone, Mail, Navigation } from 'lucide-react';
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
 import { DEFAULT_CONTACT } from '../../defaults/contact';
 import { DEFAULT_ASSETS } from '../../defaults/assets';
@@ -115,10 +115,9 @@ const ContactHeadquartersSection = ({ data }) => {
           </div>
         </div>
 
- 
- {/* BOTTOM FEATURE BAR */}
-       <div className="grid grid-cols-1 md:grid-cols-3 border border-brand-white/10 divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.06)] mb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-brand-white/10 divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.06)]">
+
+        {/* BOTTOM FEATURE BAR */}
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-brand-white/10 divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.06)] mb-20">
 
           <div className="p-6 flex items-start gap-4 hover:bg-[rgba(255,255,255,0.02)] transition-colors">
             <Building2 size={24} className="text-brand-primary shrink-0 mt-1" />
@@ -145,81 +144,118 @@ const ContactHeadquartersSection = ({ data }) => {
 
         {/* GLOBAL OFFICES SECTION */}
         {offices.length > 0 && (
-          <div className="mt-24">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="w-6 h-10 border border-brand-primary/40 flex items-center justify-center bg-brand-primary/10">
-                <span className="text-[10px] text-brand-primary font-mono">01</span>
+          <div className="mt-32">
+            {/* Redesigned Premium Header */}
+            <div className="flex flex-col items-center justify-center mb-16 text-center">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-[1px] bg-brand-primary/50" />
+                <span className="text-[10px] text-brand-primary font-mono tracking-[0.2em] uppercase">Global Reach</span>
+                <div className="w-12 h-[1px] bg-brand-primary/50" />
               </div>
-              <h3 className="text-2xl font-heading font-bold text-brand-white uppercase tracking-widest">
-                OUR GLOBAL OFFICES
+              <h3 className="text-3xl md:text-4xl font-heading font-bold text-brand-white uppercase tracking-wider">
+                Our Global Offices
               </h3>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {/* Premium Grid Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
               {offices.map((office) => {
                 const mapQuery = encodeURIComponent(office.fullAddress.replace(/\n/g, ', '));
-                const mapUrl = office.latitude && office.longitude 
+                const mapUrl = office.latitude && office.longitude
                   ? `https://www.google.com/maps/search/?api=1&query=${office.latitude},${office.longitude}`
                   : `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
-                  
+
+                const isHQ = office.officeType === 'HQ';
+
                 return (
-                  <div key={office.id} className={`group p-8 transition-all duration-300 relative overflow-hidden ${office.officeType === 'HQ' ? 'border border-brand-primary/50 bg-[#16110f] shadow-[0_0_30px_rgba(255,90,54,0.1)]' : 'border border-white/10 bg-[#0a0a0a] hover:bg-[#111] hover:border-brand-primary/40'}`}>
-                    {/* Decorative gradient */}
-                    <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-opacity duration-500 ${office.officeType === 'HQ' ? 'bg-brand-primary/20 opacity-100' : 'bg-brand-primary/10 opacity-0 group-hover:opacity-100'}`} />
-                    
-                    <div className="mb-6">
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className={`text-xl font-heading font-bold transition-colors ${office.officeType === 'HQ' ? 'text-brand-primary' : 'text-white group-hover:text-brand-primary'}`}>
-                          {office.city ? `${office.city}, ${office.country}` : 
-                           office.state ? `${office.state}, ${office.country}` : 
-                           office.country}
-                        </h4>
+                  <div 
+                    key={office.id} 
+                    className={`group flex flex-col p-8 transition-all duration-500 relative overflow-hidden rounded-2xl border ${
+                      isHQ 
+                        ? 'border-brand-primary/50 bg-brand-primary/5 shadow-[0_15px_40px_rgba(255,106,0,0.08)] hover:shadow-[0_20px_50px_rgba(255,106,0,0.15)] hover:bg-brand-primary/10 hover:-translate-y-1' 
+                        : 'border-brand-border bg-brand-dark shadow-sm hover:border-brand-primary/40 hover:bg-brand-dark-secondary hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:-translate-y-1'
+                    }`}
+                  >
+                    {/* Soft Glow behind HQ or on hover */}
+                    <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[80px] pointer-events-none transition-opacity duration-700 ${isHQ ? 'bg-brand-primary/40 opacity-100' : 'bg-brand-primary/20 opacity-0 group-hover:opacity-100'}`} />
+
+                    {/* Content Wrapper */}
+                    <div className="relative z-10 flex-1 flex flex-col">
+                      
+                      {/* Card Header */}
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="flex flex-col gap-1 pr-4">
+                          <h4 className={`text-2xl font-heading font-bold transition-colors duration-300 ${isHQ ? 'text-brand-primary' : 'text-brand-white group-hover:text-brand-primary'}`}>
+                            {office.city ? `${office.city}, ${office.country}` : office.state ? `${office.state}, ${office.country}` : office.country}
+                          </h4>
+                          {office.city && <span className="text-sm font-body text-brand-light-gray">{office.country}</span>}
+                        </div>
+                        
                         {office.officeType && (
-                          <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm ${office.officeType === 'HQ' ? 'text-brand-primary bg-brand-primary/10' : 'text-brand-white/40 bg-white/5'}`}>
+                          <span className={`shrink-0 ml-auto text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full whitespace-nowrap transition-colors duration-300 ${
+                            isHQ 
+                              ? 'text-brand-white bg-brand-primary shadow-[0_4px_12px_rgba(255,106,0,0.3)]' 
+                              : 'text-brand-light-gray bg-brand-black border border-brand-border'
+                          }`}>
                             {office.officeType}
                           </span>
                         )}
                       </div>
-                    </div>
 
-                    <div className="space-y-4 mb-8">
-                      <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-brand-white/40 shrink-0 mt-0.5" />
-                        <p className="text-sm text-brand-white/70 whitespace-pre-line leading-relaxed">
-                          {office.fullAddress}
-                          {office.postalCode && <><br/>{office.postalCode}</>}
-                        </p>
-                      </div>
-                      
-                      {(office.phone || office.email) && (
-                        <div className="pt-4 border-t border-white/5 space-y-2">
-                          {office.phone && (
-                            <p className="text-sm text-brand-white/70 flex items-center gap-3">
-                              <span className="text-brand-white/40 font-mono text-[10px] uppercase">TEL</span>
-                              {office.phone}
-                            </p>
-                          )}
-                          {office.email && (
-                            <p className="text-sm text-brand-white/70 flex items-center gap-3">
-                              <span className="text-brand-white/40 font-mono text-[10px] uppercase">MAIL</span>
-                              <a href={`mailto:${office.email}`} className="hover:text-brand-primary transition-colors">
-                                {office.email}
-                              </a>
-                            </p>
-                          )}
+                      {/* Card Details */}
+                      <div className="space-y-5 mb-8 flex-1">
+                        <div className="flex items-start gap-4">
+                          <div className="p-2 rounded-lg bg-brand-primary/10 border border-brand-primary/20 shrink-0 mt-0.5">
+                            <MapPin className="w-4 h-4 text-brand-primary" />
+                          </div>
+                          <p className="text-[15px] text-brand-light-gray whitespace-pre-line leading-relaxed font-body">
+                            {office.fullAddress}
+                            {office.postalCode && <><br />{office.postalCode}</>}
+                          </p>
                         </div>
-                      )}
-                    </div>
 
-                    <a 
-                      href={mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary tracking-wider uppercase hover:text-white transition-colors"
-                    >
-                      <Globe className="w-4 h-4" />
-                      View on Map
-                    </a>
+                        {(office.phone || office.email) && (
+                          <div className="pt-5 border-t border-brand-border space-y-4">
+                            {office.phone && (
+                              <div className="flex items-center gap-4 group/item">
+                                <div className="p-2 rounded-lg bg-brand-black border border-brand-border shrink-0 group-hover/item:bg-brand-primary/10 group-hover/item:border-brand-primary/30 transition-colors">
+                                  <Phone className="w-4 h-4 text-brand-light-gray group-hover/item:text-brand-primary transition-colors" />
+                                </div>
+                                <p className="text-[15px] text-brand-light-gray font-body font-medium">
+                                  {office.phone}
+                                </p>
+                              </div>
+                            )}
+                            {office.email && (
+                              <div className="flex items-center gap-4 group/item">
+                                <div className="p-2 rounded-lg bg-brand-black border border-brand-border shrink-0 group-hover/item:bg-brand-primary/10 group-hover/item:border-brand-primary/30 transition-colors">
+                                  <Mail className="w-4 h-4 text-brand-light-gray group-hover/item:text-brand-primary transition-colors" />
+                                </div>
+                                <a href={`mailto:${office.email}`} className="text-[15px] text-brand-light-gray font-body font-medium hover:text-brand-primary transition-colors">
+                                  {office.email}
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card CTA */}
+                      <div className="mt-auto pt-6 border-t border-brand-border">
+                        <a
+                          href={mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center gap-3 text-sm font-heading font-bold tracking-[0.15em] uppercase transition-colors group/btn ${
+                            isHQ ? 'text-brand-primary hover:text-brand-primary/80' : 'text-brand-light-gray hover:text-brand-primary'
+                          }`}
+                        >
+                          <Navigation className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                          View on Map
+                        </a>
+                      </div>
+
+                    </div>
                   </div>
                 );
               })}

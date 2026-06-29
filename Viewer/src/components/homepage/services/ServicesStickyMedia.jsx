@@ -10,7 +10,7 @@ const ServicesStickyMedia = ({ activeService }) => {
   return (
     <div className="relative w-full bg-brand-black">
       {/* Fallback tactical gradient in case images fail to load */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-dark to-brand-black opacity-50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-dark to-brand-black opacity-50 service-image-fallback" />
       <AnimatePresence mode="wait">
         <motion.div
           key={activeService.id}
@@ -23,14 +23,14 @@ const ServicesStickyMedia = ({ activeService }) => {
           <img
             src={imageUrl}
             alt={activeService.imageAlt || activeService.title}
-            className="w-full h-auto object-contain object-center opacity-60"
+            className="w-full h-auto object-contain object-center opacity-60 service-image-clarity"
             onError={(e) => {
               // Basic fallback if the image fails to load
               e.target.style.display = 'none';
             }}
           />
           {/* Tactical HUD Overlay Elements */}
-          <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(10,10,10,0.9)] z-10 pointer-events-none" />
+          <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(10,10,10,0.9)] z-10 pointer-events-none service-image-vignette" />
           <div className="absolute top-4 left-4 border-t border-l border-brand-primary/50 w-8 h-8 z-10" />
           <div className="absolute bottom-4 right-4 border-b border-r border-brand-primary/50 w-8 h-8 z-10" />
 

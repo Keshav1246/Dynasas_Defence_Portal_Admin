@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const ScrollIndicator = () => {
+const ScrollIndicator = ({ className }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const ScrollIndicator = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.3 } }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-50 pointer-events-none"
+          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-50 pointer-events-none ${className || 'bottom-8'}`}
         >
           <div className="w-[22px] h-[36px] rounded-full border border-brand-white/40 flex justify-center p-1">
             <motion.div

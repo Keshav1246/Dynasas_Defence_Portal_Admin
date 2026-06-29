@@ -114,14 +114,14 @@ const SolutionsPage = () => {
       <Header siteData={siteData} />
 
       {/* 1. Premium Hero Background Section */}
-      <section className="relative min-h-[75vh] flex items-center pt-48 pb-24 overflow-hidden">
-        <TacticalMap />
+      <section className="relative min-h-[75vh] flex items-center pt-40 pb-24 lg:pb-32">
 
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+        <div className="container mx-auto px-6 lg:pl-24 lg:pr-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
 
             {/* Left Hero Content */}
-            <div className="lg:col-span-6 lg:col-start-2 xl:col-span-5 xl:col-start-2 relative z-20">
+            <div className="lg:col-span-5 relative z-20">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -150,9 +150,14 @@ const SolutionsPage = () => {
 
             {/* Solutions Navigator Card has been removed to open up the layout */}
 
+            {/* Right Hero Content (Image) */}
+            <div className="lg:col-span-7 relative z-0 flex justify-end">
+              <TacticalMap />
+            </div>
+
           </div>
         </div>
-        <ScrollIndicator />
+        <ScrollIndicator className="bottom-4 lg:bottom-12" />
       </section>
 
       {/* 3. Dynamic Solution Sections */}

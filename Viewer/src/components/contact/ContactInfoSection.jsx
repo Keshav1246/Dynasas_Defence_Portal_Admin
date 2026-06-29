@@ -75,7 +75,7 @@ const ContactInfoSection = ({ data }) => {
     {
       icon: Handshake,
       title: "Partnerships",
-      value: data?.partnersEmail || "partner@dynasas.com",
+      value: data?.partnersEmail || "partners@dynasas.com",
       description: defaults.partnershipsDescription || "For strategic partnerships and alliances."
     },
     {

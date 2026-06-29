@@ -8,6 +8,7 @@ import Header from '../components/layout/Header';
 import FooterSection from '../components/layout/FooterSection';
 import { RefreshCw, ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucide-react';
 import { getServiceImage } from '../utils/serviceAssetResolver';
+import RFSpectrumAnalyzer from '../components/visualizations/RFSpectrumAnalyzer';
 
 // Import local assets
 import servicesHeroImage from '../../src/assets/services/hero-services.png';
@@ -24,6 +25,24 @@ const ServicesPage = () => {
   const location = useLocation();
   const [activeServiceId, setActiveServiceId] = useState('');
   const [activeSubserviceIndexes, setActiveSubserviceIndexes] = useState({});
+
+  const [theme, setTheme] = useState(
+    () => typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') || 'dark') : 'dark'
+  );
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   const services = content?.servicesData?.items || [];
 
@@ -163,15 +182,6 @@ const ServicesPage = () => {
 
       {/* 1. Premium Hero Background Section */}
       <section className="relative min-h-[75vh] flex items-center pt-32 pb-24 overflow-hidden">
-        {/* Defence Command Center Background Image & Overlays */}
-        <div className="absolute inset-0 z-0 w-full h-full">
-          <img
-            key={location.pathname} // Ensure re-render on route change to prevent stale display state
-            src={servicesHeroImage}
-            alt="Defence Operations Command Center"
-            className="w-full h-full object-cover"
-          />
-        </div>
 
         <div className="container mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -192,20 +202,20 @@ const ServicesPage = () => {
                   </h4>
                 </div>
 
-                <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-brand-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                <h1 className={`text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-brand-white tracking-tight ${theme === 'dark' ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : ''}`}>
                   {renderHeroTitle(servicesPageData?.heroTitle || "Mission-Critical Defence Services")}
                 </h1>
 
                 <div className="w-16 h-1 bg-brand-primary mb-8" />
 
-                <p className="text-brand-white/90 text-lg lg:text-xl leading-relaxed max-w-2xl font-body drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                <p className={`text-brand-white/90 text-lg lg:text-xl leading-relaxed max-w-2xl font-body ${theme === 'dark' ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : ''}`}>
                   {servicesPageData?.heroDescription || "We deliver advanced technological superiority platforms to defense, intelligence, and national security organizations worldwide."}
                 </p>
               </motion.div>
             </div>
 
             {/* 2. Services Navigator Card (Floating Right) */}
-            <div className="lg:col-span-4 lg:col-start-9 hidden lg:block">
+            <div className="lg:col-span-4 lg:col-start-9 hidden lg:block lg:mt-16">
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -268,6 +278,9 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Real-time RF Visualization */}
+      <RFSpectrumAnalyzer />
 
       {/* 3. Dynamic Service Sections */}
       <main className="relative pb-32">

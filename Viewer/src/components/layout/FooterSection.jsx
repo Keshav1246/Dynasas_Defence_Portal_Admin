@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 const LinkedinIcon = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -36,9 +37,35 @@ const YoutubeIcon = ({ className }) => (
 );
 
 const FooterSection = ({ data, siteData }) => {
+  const [offices, setOffices] = useState([]);
+
+  useEffect(() => {
+    const fetchOffices = async () => {
+      try {
+        const response = await axios.get('/api/v1/offices?publicView=true');
+        if (response.data?.success && response.data.data?.length > 0) {
+          setOffices(response.data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch offices for footer', error);
+      }
+    };
+    // Adjust base URL if needed, since it's viewer and backend might be on different ports
+    // Let's use the env variable or fallback
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+    
+    axios.get(`${baseUrl}/offices?publicView=true`)
+      .then(res => {
+        if (res.data?.success && res.data.data?.length > 0) {
+          setOffices(res.data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch offices:', err));
+  }, []);
+
   if (!data) return null;
 
-  // Prefer data.logo, but fallback to a static path if needed, though data.logo is mapped in index.js
+  // Prefer data.logo, but fallback to a static path if needed
   const logoUrl = data.logo || '/assets/logo.png';
   const logoLightUrl = data.logoLight || '/assets/logo-light.png';
 
@@ -48,10 +75,10 @@ const FooterSection = ({ data, siteData }) => {
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
           
           {/* Column 1: Brand & Contact */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 md:col-span-12 lg:col-span-6 pr-0 lg:pr-12">
             <Link to="/" className="inline-block">
               {logoUrl ? (
                 <>
@@ -65,21 +92,40 @@ const FooterSection = ({ data, siteData }) => {
               )}
             </Link>
             
-            <div className="flex flex-col gap-2 text-[15px] text-brand-white/70 mt-2">
+            <div className="flex flex-col gap-4 text-[15px] text-brand-white/70 mt-2">
               {data.contact?.email && (
-                <a href={`mailto:${data.contact.email}`} className="hover:text-brand-primary transition-colors">
+                <a href={`mailto:${data.contact.email}`} className="hover:text-brand-primary transition-colors inline-block mb-2">
                   {data.contact.email}
                 </a>
               )}
 
-              {(data.contact?.fullAddress || data.contact?.address) && (
-                <span className="whitespace-pre-line">{data.contact.fullAddress || data.contact.address}</span>
+              {offices.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 mt-4">
+                  {offices.map((office) => (
+                    <div key={office.id} className={`flex flex-col gap-1 ${office.officeType === 'HQ' ? 'border-l-2 border-brand-primary pl-3 py-1' : 'border-l-2 border-brand-white/10 pl-3 py-1'}`}>
+                      <span className={`font-bold text-sm ${office.officeType === 'HQ' ? 'text-brand-primary' : 'text-brand-white'}`}>
+                        {office.officeName}
+                        {office.officeType && <span className={`text-xs ml-2 ${office.officeType === 'HQ' ? 'text-brand-primary font-bold' : 'text-brand-white/50'}`}>({office.officeType})</span>}
+                      </span>
+                      <span className="text-sm">
+                        {office.city ? `${office.city}, ${office.country}` : 
+                         office.state ? `${office.state}, ${office.country}` : 
+                         office.country}
+                      </span>
+                      <span className="text-xs text-brand-white/50 pr-4">{office.fullAddress}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                (data.contact?.fullAddress || data.contact?.address) && (
+                  <span className="whitespace-pre-line">{data.contact.fullAddress || data.contact.address}</span>
+                )
               )}
             </div>
           </div>
 
           {/* Column 2: Company */}
-          <div>
+          <div className="md:col-span-4 lg:col-span-2">
             <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6">Company</h4>
             <ul className="flex flex-col gap-3.5">
               {data.links?.company?.length > 0 ? (
@@ -101,7 +147,7 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 3: Solutions */}
-          <div>
+          <div className="md:col-span-4 lg:col-span-2">
             <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6">Solutions</h4>
             <ul className="flex flex-col gap-3.5">
               {data.links?.solutions?.length > 0 ? (
@@ -117,9 +163,9 @@ const FooterSection = ({ data, siteData }) => {
           </div>
 
           {/* Column 4: Follow Us */}
-          <div className="flex flex-col items-center">
-            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6 text-center">Follow Us</h4>
-            <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-col items-center lg:items-start md:col-span-4 lg:col-span-2">
+            <h4 className="text-sm font-heading font-bold text-brand-white tracking-widest uppercase mb-6 text-center lg:text-left">Follow Us</h4>
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               {siteData?.socialLinks?.linkedin ? (
                 <a href={siteData.socialLinks.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center text-brand-white/60 hover:text-brand-primary hover:border-brand-primary hover:bg-brand-primary/10 hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] transition-all duration-300">
                   <LinkedinIcon className="w-4 h-4" />

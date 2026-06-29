@@ -18,66 +18,41 @@ model Media {
   createdAt    DateTime  @default(now())
 }
 
-enum PartnerStatus {
-  ACTIVE
-  INACTIVE
-}
-
 model Partner {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String?
-  logo        String?
-  website     String?
-  status      PartnerStatus @default(ACTIVE)
-  displayOrder Int          @default(0)
-  isDeleted   Boolean       @default(false)
-  deletedAt   DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-}
-
-enum InquiryStatus {
-  NEW
-  IN_PROGRESS
-  CLOSED
-}
-
-enum InquiryType {
-  CONTACT
-  DEMO_REQUEST
-  QUOTE
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  logo         String?
+  website      String?
+  status       PartnerStatus @default(ACTIVE)
+  isDeleted    Boolean       @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  displayOrder Int           @default(0)
 }
 
 model Inquiry {
-  id              Int           @id @default(autoincrement())
-  fullName        String
-  email           String
-  phone           String?
-  organization    String?
-  subject         String
-  message         String
-  inquiryType     InquiryType   @default(CONTACT)
-  status          InquiryStatus @default(NEW)
-  assignedTeam    String?
-  internalNote    String?
-  isDeleted       Boolean       @default(false)
-  deletedAt       DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  emailSent       Boolean       @default(false)
-  sentAt          DateTime?
-  emailStatus     String?       @default("PENDING") // PENDING, SENT, FAILED
-  emailError      String?
+  id           Int           @id @default(autoincrement())
+  fullName     String
+  email        String
+  phone        String?
+  organization String?
+  subject      String
+  message      String
+  status       InquiryStatus @default(NEW)
+  isDeleted    Boolean       @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  inquiryType  InquiryType   @default(CONTACT)
+  assignedTeam String?
+  internalNote String?
+  emailError   String?
+  emailSent    Boolean       @default(false)
+  emailStatus  String?       @default("PENDING")
+  sentAt       DateTime?
 }
-
-
-enum UserStatus {
-  ACTIVE
-  INACTIVE
-}
-
-
 
 model ActivityLog {
   id         Int      @id @default(autoincrement())
@@ -89,58 +64,48 @@ model ActivityLog {
 }
 
 model User {
-  id                String    @id @default(uuid())
-  name              String
-  email             String    @unique
-  password          String
-  status            UserStatus @default(ACTIVE)
-  lastLogin         DateTime?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @default(now()) @updatedAt
-  invitationsSent   UserInvitation[] @relation("InvitedBy")
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  createdAt       DateTime         @default(now())
+  lastLogin       DateTime?
+  status          UserStatus       @default(ACTIVE)
+  updatedAt       DateTime         @default(now()) @updatedAt
+  invitationsSent UserInvitation[] @relation("InvitedBy")
 }
 
 model CompanyProfile {
-  id          String @id @default(uuid())
-  companyName String
-  overview    String
-
-  // New About Us fields
-  foundedYear        String?
-  headquarters       String?
-  registrationNumber String?
-  logo               String?
-
-  // New Mission fields
-  missionTitle     String?
-  missionStatement String?
-
-  // New Vision fields
-  visionTitle            String?
-  visionStatement        String?
+  id                     String             @id @default(uuid())
+  companyName            String
+  overview               String
+  defenseContractsPhone  String?
+  foundedYear            String?
+  generalEmail           String?
+  headquarters           String?
+  logo                   String?
   longTermGoals          String?
-  visionFuturePriorities String[] @default([])
-
-  // New Contact fields
-  generalEmail          String?
-  securityEmail         String?
-  hrEmail               String?
-  enquiryEmail          String?
-  partnersEmail         String?
-  technicalEmail        String?
-  mainPhone             String?
-  defenseContractsPhone String?
-  mailingAddress        String?
-  city                  String?
-  state                 String?
-  country               String?
-  postalCode            String?
-  fullAddress           String?
-  website               String?
-
-  // Relations
-  statistics     CompanyStatistic[]
-  missionPillars MissionPillar[]
+  mailingAddress         String?
+  mainPhone              String?
+  missionStatement       String?
+  missionTitle           String?
+  registrationNumber     String?
+  securityEmail          String?
+  visionStatement        String?
+  visionTitle            String?
+  website                String?
+  visionFuturePriorities String[]           @default([])
+  city                   String?
+  state                  String?
+  country                String?
+  postalCode             String?
+  fullAddress            String?
+  hrEmail                String?
+  enquiryEmail           String?
+  partnersEmail          String?
+  technicalEmail         String?
+  statistics             CompanyStatistic[]
+  missionPillars         MissionPillar[]
 }
 
 model CompanyStatistic {
@@ -161,28 +126,25 @@ model MissionPillar {
 }
 
 model HomepageContent {
-  id           String @id @default(uuid())
-  heroTitle    String
-  heroSubtitle String
-  heroDescription String @default("")
-  ctaText      String
-  ctaLink      String
-  heroImage    String
-
-  secondaryCtaText           String?
+  id                         String   @id @default(uuid())
+  heroTitle                  String
+  heroSubtitle               String
+  ctaText                    String
+  ctaLink                    String
+  heroImage                  String
   secondaryCtaLink           String?
-  servicesSectionTitle       String?
-  servicesSectionDescription String?
-  statisticsSectionTitle     String?
-
+  secondaryCtaText           String?
   sectionOrder               String[] @default(["hero", "services", "statistics"])
-  trustBarItems              String[] @default([])
-
+  servicesSectionDescription String?
+  servicesSectionTitle       String?
+  statisticsSectionTitle     String?
+  heroDescription            String   @default("")
+  partnersButtonLink         String?
+  partnersButtonText         String?
+  partnersSectionDescription String?
   partnersSectionLabel       String?
   partnersSectionTitle       String?
-  partnersSectionDescription String?
-  partnersButtonText         String?
-  partnersButtonLink         String?
+  trustBarItems              String[] @default([])
 }
 
 model ServicesPageContent {
@@ -194,40 +156,38 @@ model ServicesPageContent {
 }
 
 model FooterContent {
-  id      String @id @default(uuid())
-  address String
-  city        String?
-  state       String?
-  country     String?
-  postalCode  String?
-  fullAddress String?
-  phone   String
-  email   String
-
-  footerTagline     String?
+  id                String   @id @default(uuid())
+  address           String
+  phone             String
+  email             String
+  companyLinks      String[]
   footerDescription String?
-
-  companyLinks  String[]
-  solutionLinks String[]
-  resourceLinks String[]
-  legalLinks    String[]
+  footerTagline     String?
+  legalLinks        String[]
+  resourceLinks     String[]
+  solutionLinks     String[]
+  city              String?
+  state             String?
+  country           String?
+  postalCode        String?
+  fullAddress       String?
 }
 
 model Service {
-  id           String   @id @default(uuid())
-  title        String
-  subtitle     String?
-  description  String
-  image        String?
-  features     String[]
+  id             String   @id @default(uuid())
+  title          String
+  description    String
+  image          String?
+  status         String   @default("published")
+  displayOrder   Int      @default(0)
+  createdAt      DateTime @default(now())
+  ctaLink        String?
+  ctaText        String?
+  features       String[]
+  isActive       Boolean  @default(true)
+  subtitle       String?
   hasSubservices Boolean  @default(false)
   subservices    Json?
-  ctaText      String?
-  ctaLink      String?
-  status       String   @default("published")
-  isActive     Boolean  @default(true)
-  displayOrder Int      @default(0)
-  createdAt    DateTime @default(now())
 }
 
 model WebsiteAnalytics {
@@ -241,61 +201,89 @@ model WebsiteAnalytics {
 }
 
 model UserInvitation {
-  id              String    @id @default(uuid())
-  email           String    @unique
+  id              String   @id @default(uuid())
+  email           String   @unique
   name            String
-  invitationToken String    @unique
+  invitationToken String   @unique
   expiresAt       DateTime
-  status          String    @default("PENDING") // PENDING, ACCEPTED, CANCELLED
+  status          String   @default("PENDING")
   invitedById     String
-  invitedBy       User      @relation("InvitedBy", fields: [invitedById], references: [id])
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  invitedBy       User     @relation("InvitedBy", fields: [invitedById], references: [id])
 }
 
-
-
 model Settings {
-  id String @id @default(uuid())
-
-  // Branding
-  primaryColor   String?
-  accentColor    String?
-  backgroundDark String?
-  textColor      String?
-
-  primaryLogo String?
-  darkLogo    String?
-  favicon     String?
-
-  headingFont String?
-  bodyFont    String?
-
-  // Social Media
-  linkedinUrl  String?
-  twitterUrl   String?
-  youtubeUrl   String?
-  facebookUrl  String?
-  instagramUrl String?
-
-  // Site Settings
+  id              String   @id @default(uuid())
+  primaryColor    String?
+  accentColor     String?
+  backgroundDark  String?
+  textColor       String?
+  primaryLogo     String?
+  darkLogo        String?
+  favicon         String?
+  headingFont     String?
+  bodyFont        String?
+  linkedinUrl     String?
+  twitterUrl      String?
+  youtubeUrl      String?
+  facebookUrl     String?
+  instagramUrl    String?
   portalName      String?
   siteName        String?
   siteDescription String?
   supportEmail    String?
   supportPhone    String?
-
-  defaultLanguage String? @default("English")
-  timezone        String? @default("Asia/Kolkata")
-  maintenanceMode Boolean @default(false)
-
-  // SEO Settings
-  seoTitle        String?
+  defaultLanguage String?  @default("English")
+  timezone        String?  @default("Asia/Kolkata")
+  maintenanceMode Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   seoDescription  String?
   seoKeywords     String?
   seoOgImage      String?
+  seoTitle        String?
   seoTwitterImage String?
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Office {
+  id           String   @id @default(uuid())
+  officeName   String
+  officeType   String?
+  city         String?
+  state        String?
+  country      String?
+  postalCode   String?
+  fullAddress  String
+  phone        String?
+  email        String?
+  latitude     Float?
+  longitude    Float?
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  isDeleted    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum PartnerStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  CLOSED
+}
+
+enum InquiryType {
+  CONTACT
+  DEMO_REQUEST
+  QUOTE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }

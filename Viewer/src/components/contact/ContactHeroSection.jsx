@@ -2,11 +2,37 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Lock, Globe2 } from 'lucide-react';
 import { CONTACT_PAGE_DEFAULTS } from '../../data/contactPageDefaults';
+import ScrollIndicator from '../layout/ScrollIndicator';
+import darkThemeContactHero from '../../assets/contact/dark-theme-contact-hero.png';
 
 const ContactHeroSection = ({ data, inquiryRef }) => {
   const defaults = data?.hero || {};
   const primaryCTA = defaults.primaryCTA || 'Contact Experts';
   const secondaryCTA = defaults.secondaryCTA || 'View Headquarters';
+
+  const [isLightMode, setIsLightMode] = React.useState(
+    () => typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light'
+  );
+
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setIsLightMode(document.documentElement.getAttribute('data-theme') === 'light');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const currentHeroImage = isLightMode ? defaults.image : darkThemeContactHero;
 
   // Use CMS data if available, fallback to defaults
   const addressQuery = encodeURIComponent(data?.fullAddress || data?.headquarters || 'Gurugram, Haryana, India');
@@ -30,14 +56,14 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-brand-black">
+    <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-brand-black">
 
       {/* Cinematic Right-Side Visual Composition */}
       <div className="absolute inset-0 z-0 w-full h-full">
         <div className="w-full h-full relative">
           {/* Main Defense Image */}
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('${defaults.image}')` }}>
+            style={{ backgroundImage: `url('${currentHeroImage}')` }}>
           </div>
         </div>
       </div>
@@ -59,14 +85,14 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
           </div>
 
           {/* Large Heading */}
-          <h1 className="text-5xl md:text-6xl font-heading font-bold text-[#1a1a1a] leading-[1.1] mb-8">
+          <h1 className="text-5xl md:text-6xl font-heading font-bold text-brand-white leading-[1.1] mb-8">
             {defaults.heading} <br />
             <span className="text-brand-primary">{defaults.headingHighlight}</span> <br />
             {defaults.headingEnd}
           </h1>
 
           {/* Body Text */}
-          <p className="text-xl text-[#1a1a1a] font-body leading-relaxed mb-12 max-w-lg">
+          <p className="text-xl text-brand-white font-body leading-relaxed mb-12 max-w-lg">
             {defaults.description}
           </p>
 
@@ -91,6 +117,8 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
           </div>
         </motion.div>
       </div>
+      
+      <ScrollIndicator />
     </section>
   );
 };

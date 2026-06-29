@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar } from 'lucide-react';
 import { ABOUT_PAGE_DEFAULTS } from '../../data/aboutPageDefaults';
+import ScrollIndicator from '../layout/ScrollIndicator';
 
 const AboutHeroSection = ({ data }) => {
   const defaults = data?.hero || {};
@@ -104,6 +105,8 @@ const AboutHeroSection = ({ data }) => {
 
         </div>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 };

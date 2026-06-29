@@ -4,11 +4,40 @@ import { ArrowRight, ImagePlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeroSection = ({ data }) => {
-  const [imgError, setImgError] = React.useState(false);
+  const [imgState, setImgState] = React.useState('preferred'); // 'preferred', 'fallback', 'error'
+  const [isLightMode, setIsLightMode] = React.useState(
+    () => document.documentElement.getAttribute('data-theme') === 'light'
+  );
 
   React.useEffect(() => {
-    setImgError(false);
-  }, [data?.backgroundImage]);
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setIsLightMode(document.documentElement.getAttribute('data-theme') === 'light');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const preferredAsset = isLightMode ? '/assets/light-theme-mainhero.png' : '/assets/dark-theme-mainhero.png';
+
+  React.useEffect(() => {
+    setImgState('preferred');
+  }, [preferredAsset]);
+
+  let currentSrc = null;
+  if (imgState === 'preferred') {
+    currentSrc = preferredAsset;
+  } else if (imgState === 'fallback') {
+    currentSrc = data?.backgroundImage;
+  }
 
   if (!data) return null;
 
@@ -18,8 +47,12 @@ const HeroSection = ({ data }) => {
       <div
         className="absolute inset-0 z-0"
         style={{
-          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)'
+          maskImage: isLightMode 
+            ? 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)'
+            : 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: isLightMode
+            ? 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)'
+            : 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)'
         }}
       >
         {data.backgroundVideo ? (
@@ -32,12 +65,18 @@ const HeroSection = ({ data }) => {
           >
             <source src={data.backgroundVideo} type="video/mp4" />
           </video>
-        ) : !imgError ? (
+        ) : currentSrc ? (
           <img
-            src={data.backgroundImage}
+            src={currentSrc}
             alt="Hero Background"
             className="w-full h-full object-cover object-center"
-            onError={() => setImgError(true)}
+            onError={() => {
+              if (imgState === 'preferred') {
+                setImgState('fallback');
+              } else if (imgState === 'fallback') {
+                setImgState('error');
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full bg-brand-dark flex flex-col items-center justify-center text-white/30">
@@ -49,6 +88,11 @@ const HeroSection = ({ data }) => {
         <div className="absolute inset-0 bg-black/40 mix-blend-multiply z-[1]"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 z-[2]"></div>
       </div>
+
+      {/* Light Theme Transition Smoother */}
+      {isLightMode && (
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[var(--dynasas-black)] via-[var(--dynasas-dark-secondary)] to-transparent z-[1] pointer-events-none opacity-90"></div>
+      )}
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center text-white flex flex-col items-center">

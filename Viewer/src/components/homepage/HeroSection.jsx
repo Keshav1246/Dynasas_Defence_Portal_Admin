@@ -165,12 +165,12 @@ const HeroSection = ({ data }) => {
             )}
 
             {/* Content */}
-            <div className="relative z-10 container mx-auto px-6 text-center text-white flex flex-col items-center mt-12 lg:mt-20">
+            <div className="relative z-10 container mx-auto px-6 text-center text-white flex flex-col items-center mt-32 md:mt-16 lg:mt-20">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="mb-6 inline-block"
+                    className="mb-4 md:mb-6 inline-block"
                 >
 
                     {data.heroTitle && (
@@ -185,7 +185,7 @@ const HeroSection = ({ data }) => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 tracking-tight max-w-4xl leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+                    className="text-[40px] sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-4 md:mb-6 tracking-tight max-w-4xl leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                 >
                     {data.heroSubtitle && data.heroSubtitle.includes("safer") && data.heroSubtitle.includes("for a") ? (
                         <>
@@ -208,7 +208,7 @@ const HeroSection = ({ data }) => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
-                    className="text-lg md:text-xl text-white/90 max-w-2xl mb-12 font-body font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+                    className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-8 md:mb-12 font-body font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                 >
                     {data.heroDescription}
                 </motion.p>
@@ -222,7 +222,7 @@ const HeroSection = ({ data }) => {
                     {data.primaryCTA?.text && (
                         <Link
                             to={data.primaryCTA.link}
-                            className="group bg-brand-primary text-white px-8 py-4 font-semibold uppercase tracking-wider text-sm flex items-center justify-center gap-3 hover:bg-brand-primary-hover hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
+                            className="group bg-brand-primary text-white px-6 py-3 sm:px-8 sm:py-4 font-semibold uppercase tracking-wider text-xs sm:text-sm flex items-center justify-center gap-3 hover:bg-brand-primary-hover hover:shadow-[0_0_15px_rgba(255,106,0,0.5)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
                         >
                             {data.primaryCTA.text}
                             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -231,7 +231,7 @@ const HeroSection = ({ data }) => {
                     {data.secondaryCTA?.text && (
                         <Link
                             to={data.secondaryCTA.link}
-                            className="px-8 py-4 font-semibold uppercase tracking-wider text-sm border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.4)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center w-full sm:w-auto"
+                            className="px-6 py-3 sm:px-8 sm:py-4 font-semibold uppercase tracking-wider text-xs sm:text-sm border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.4)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center w-full sm:w-auto"
                         >
                             {data.secondaryCTA.text}
                         </Link>

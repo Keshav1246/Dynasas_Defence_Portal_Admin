@@ -9,7 +9,7 @@ const PartnerCard = ({ partner, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: "easeOut" }}
-      className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full hover:bg-[#0f0f11]"
+      className="group relative bg-brand-dark border border-brand-border rounded-2xl p-8 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full hover:bg-brand-dark-secondary"
     >
       {/* Background Glow Effect */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 blur-[50px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
@@ -22,7 +22,7 @@ const PartnerCard = ({ partner, index }) => {
       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-brand-primary/30 group-hover:border-brand-primary transition-colors" />
 
       {/* Logo Container */}
-      <div className="h-20 mb-8 flex items-center justify-start border-b border-brand-white/10 pb-6 group-hover:border-brand-white/20 transition-colors">
+      <div className="h-20 mb-8 flex items-center justify-start border-b border-brand-border pb-6 group-hover:border-brand-border transition-colors">
         {partner.logo && partner.logo !== '/assets/placeholder-logo.svg' ? (
           <img 
             src={partner.logo} 
@@ -30,7 +30,7 @@ const PartnerCard = ({ partner, index }) => {
             className="max-h-full max-w-[70%] object-contain transition-all duration-500"
           />
         ) : (
-          <span className="text-xl font-bold font-heading text-brand-white/80 group-hover:text-brand-primary transition-colors">
+          <span className="text-xl font-bold font-heading text-brand-light-gray group-hover:text-brand-primary transition-colors">
             {partner.name}
           </span>
         )}
@@ -43,7 +43,7 @@ const PartnerCard = ({ partner, index }) => {
         </h3>
         
         {partner.description && (
-          <p className="text-brand-white/60 leading-relaxed text-sm mb-8 group-hover:text-brand-white/80 transition-colors">
+          <p className="text-brand-light-gray leading-relaxed text-sm mb-8 transition-colors">
             {partner.description}
           </p>
         )}
@@ -61,7 +61,7 @@ const PartnerCard = ({ partner, index }) => {
               <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
             </a>
           ) : (
-            <span className="text-xs font-bold font-heading uppercase tracking-widest text-brand-white/20">
+            <span className="text-xs font-bold font-heading uppercase tracking-widest text-brand-light-gray">
               Active Partner
             </span>
           )}

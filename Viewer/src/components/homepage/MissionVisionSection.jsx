@@ -10,7 +10,7 @@ const MissionVisionSection = ({ data }) => {
   const vision = data?.vision;
 
   return (
-    <section id="mission" className="py-24 w-full text-brand-white relative z-10 border-t border-brand-border bg-brand-black">
+    <section id="mission" className="py-24 w-full text-brand-white relative z-10 bg-brand-black">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Mission & Vision Cards Row */}
@@ -39,7 +39,7 @@ const MissionVisionSection = ({ data }) => {
             </p>
 
             <div>
-              <h4 className="text-sm text-brand-primary font-heading tracking-widest uppercase mb-6 border-b border-brand-border pb-4">
+              <h4 className="text-sm text-brand-primary font-heading tracking-widest uppercase mb-6 pb-4">
                 {mission.listTitle}
               </h4>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
@@ -77,7 +77,7 @@ const MissionVisionSection = ({ data }) => {
             </p>
 
             <div>
-              <h4 className="text-sm text-brand-primary font-heading tracking-widest uppercase mb-6 border-b border-brand-border pb-4">
+              <h4 className="text-sm text-brand-primary font-heading tracking-widest uppercase mb-6 pb-4">
                 {vision.listTitle}
               </h4>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">

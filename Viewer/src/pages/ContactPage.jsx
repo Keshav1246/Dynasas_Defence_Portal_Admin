@@ -20,7 +20,7 @@ const ContactPage = () => {
 
   if (error) {
     return (
-      <div className="w-full min-h-screen bg-[#050505] flex flex-col items-center justify-center text-brand-white p-6">
+      <div className="w-full min-h-screen bg-brand-black flex flex-col items-center justify-center text-brand-white p-6">
         <h2 className="text-3xl font-bold mb-4 font-heading text-brand-primary">Connection Lost</h2>
         <p className="text-brand-white/60 mb-8 max-w-md text-center font-body">{error}</p>
         <button 
@@ -45,13 +45,13 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#050505] text-brand-white font-body">
+    <div className="min-h-screen overflow-x-hidden bg-brand-black text-brand-white font-body">
       <SEOManager seoData={contactSeoData} />
       <ScrollProgress primaryColor="var(--color-brand-primary)" />
       
       <Header siteData={siteData} />
       
-      <main className="pt-[100px] md:pt-[120px]">
+      <main>
         <ContactHeroSection data={contactData} inquiryRef={inquirySectionRef} />
         <ContactInfoSection data={contactData} />
         <ContactHeadquartersSection data={contactData} />

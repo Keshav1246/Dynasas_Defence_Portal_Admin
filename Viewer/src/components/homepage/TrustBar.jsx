@@ -7,7 +7,7 @@ const TrustBar = ({ data }) => {
   if (items.length === 0) return null;
 
   return (
-    <div className="w-full py-8 border-y border-brand-border relative z-10 backdrop-blur-sm bg-brand-dark/30">
+    <div className="w-full py-8 relative z-10 backdrop-blur-sm bg-brand-dark/30">
       <div className="container mx-auto px-6">
         <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60">
           {items.map((text, idx) => (

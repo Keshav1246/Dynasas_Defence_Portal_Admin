@@ -17,14 +17,9 @@ export const getThemeColors = (cmsData = {}) => {
   return {
     primary: cmsData.primaryColor || brand.colors.primary || FALLBACK_COLORS.primary,
     primaryHover: cmsData.primaryHoverColor || brand.colors.primaryHover || FALLBACK_COLORS.primaryHover,
-    accent: cmsData.accentColor || brand.colors.accent || FALLBACK_COLORS.accent,
-    black: cmsData.blackColor || brand.colors.black || FALLBACK_COLORS.black,
-    dark: cmsData.darkColor || brand.colors.dark || FALLBACK_COLORS.dark,
-    darkSecondary: cmsData.darkSecondaryColor || brand.colors.darkSecondary || FALLBACK_COLORS.darkSecondary,
-    white: cmsData.whiteColor || brand.colors.white || FALLBACK_COLORS.white,
-    lightGray: cmsData.lightGrayColor || brand.colors.lightGray || FALLBACK_COLORS.lightGray,
-    gray: cmsData.grayColor || brand.colors.gray || FALLBACK_COLORS.gray,
-    border: cmsData.borderColor || brand.colors.border || FALLBACK_COLORS.border
+    accent: cmsData.accentColor || brand.colors.accent || FALLBACK_COLORS.accent
+    // Structural colors (black, dark, white, gray, border) are intentionally omitted here.
+    // They are controlled purely by CSS in theme.css to allow light/dark mode toggling via [data-theme='light'].
   };
 };
 

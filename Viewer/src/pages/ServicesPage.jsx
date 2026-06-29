@@ -8,6 +8,7 @@ import Header from '../components/layout/Header';
 import FooterSection from '../components/layout/FooterSection';
 import { RefreshCw, ArrowRight, Target, Shield, Radar, Camera, Cpu } from 'lucide-react';
 import { getServiceImage } from '../utils/serviceAssetResolver';
+import RFSpectrumAnalyzer from '../components/visualizations/RFSpectrumAnalyzer';
 
 // Import local assets
 import servicesHeroImage from '../../src/assets/services/hero-services.png';
@@ -24,6 +25,24 @@ const ServicesPage = () => {
   const location = useLocation();
   const [activeServiceId, setActiveServiceId] = useState('');
   const [activeSubserviceIndexes, setActiveSubserviceIndexes] = useState({});
+
+  const [theme, setTheme] = useState(
+    () => typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') || 'dark') : 'dark'
+  );
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   const services = content?.servicesData?.items || [];
 
@@ -131,13 +150,13 @@ const ServicesPage = () => {
       return (
         <div className="flex flex-col">
           <span className="font-heading font-bold text-brand-white text-base mb-1">{title}</span>
-          <span className="text-brand-white/60 text-sm leading-relaxed">{desc}</span>
+          <span className="text-brand-light-gray text-sm leading-relaxed">{desc}</span>
         </div>
       );
     }
 
     return (
-      <span className="text-brand-white/80 font-heading font-bold text-base">{text}</span>
+      <span className="text-brand-light-gray font-heading font-bold text-base">{text}</span>
     );
   };
 
@@ -163,18 +182,6 @@ const ServicesPage = () => {
 
       {/* 1. Premium Hero Background Section */}
       <section className="relative min-h-[75vh] flex items-center pt-32 pb-24 overflow-hidden">
-        {/* Defence Command Center Background Image & Overlays */}
-        <div className="absolute inset-0 z-0 w-full h-full">
-          <img
-            src={servicesHeroImage}
-            alt="Defence Operations Command Center"
-            className="w-full h-full object-cover"
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
-          {/* Black overlay at 60% to preserve readability and match defence aesthetic */}
-          <div className="absolute inset-0 bg-brand-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-brand-black/80" />
-        </div>
 
         <div className="container mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -195,20 +202,20 @@ const ServicesPage = () => {
                   </h4>
                 </div>
 
-                <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-brand-white tracking-tight">
+                <h1 className={`text-5xl lg:text-7xl font-heading font-bold mb-8 leading-[1.1] text-brand-white tracking-tight ${theme === 'dark' ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : ''}`}>
                   {renderHeroTitle(servicesPageData?.heroTitle || "Mission-Critical Defence Services")}
                 </h1>
 
                 <div className="w-16 h-1 bg-brand-primary mb-8" />
 
-                <p className="text-brand-white/70 text-lg lg:text-xl leading-relaxed max-w-2xl font-body">
+                <p className={`text-brand-white/90 text-lg lg:text-xl leading-relaxed max-w-2xl font-body ${theme === 'dark' ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : ''}`}>
                   {servicesPageData?.heroDescription || "We deliver advanced technological superiority platforms to defense, intelligence, and national security organizations worldwide."}
                 </p>
               </motion.div>
             </div>
 
             {/* 2. Services Navigator Card (Floating Right) */}
-            <div className="lg:col-span-4 lg:col-start-9 hidden lg:block">
+            <div className="lg:col-span-4 lg:col-start-9 hidden lg:block lg:mt-16">
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -272,6 +279,9 @@ const ServicesPage = () => {
         </div>
       </section>
 
+      {/* Real-time RF Visualization */}
+      <RFSpectrumAnalyzer />
+
       {/* 3. Dynamic Service Sections */}
       <main className="relative pb-32">
         {services.length === 0 ? (
@@ -330,24 +340,7 @@ const ServicesPage = () => {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="relative z-[1] w-full xl:w-[115%] xl:-ml-4 flex flex-col items-center justify-center overflow-visible"
                       >
-                        {/* Top Watermark = 1 */}
-                        {topWord && (
-                          <div className="absolute top-0 -translate-y-[45%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2
-                              className="font-heading font-black uppercase m-0 p-0 text-center"
-                              style={{
-                                fontSize: 'clamp(80px, 8vw, 140px)',
-                                lineHeight: '0.85',
-                                letterSpacing: '-4px',
-                                opacity: 0.08,
-                                color: '#202020',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {topWord}
-                            </h2>
-                          </div>
-                        )}
+
 
                         {/* Grid/Glow Base (simulate 3D floating effect underneath the image) */}
                         <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 w-3/4 aspect-[2/1] rounded-full border border-brand-primary/20 bg-brand-primary/5 blur-[2px] z-[1]" style={{ transform: 'translateX(-50%) perspective(500px) rotateX(75deg)' }}>
@@ -363,24 +356,7 @@ const ServicesPage = () => {
                           onError={(e) => { e.target.style.display = 'none'; }}
                         />
 
-                        {/* Bottom Watermark = 1 */}
-                        {bottomWords && (
-                          <div className="absolute bottom-[5%] translate-y-[60%] w-full flex justify-center pointer-events-none z-[1] select-none">
-                            <h2
-                              className="font-heading font-black uppercase m-0 p-0 text-center"
-                              style={{
-                                fontSize: 'clamp(80px, 8vw, 140px)',
-                                lineHeight: '0.85',
-                                letterSpacing: '-4px',
-                                opacity: 0.08,
-                                color: '#202020',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {bottomWords}
-                            </h2>
-                          </div>
-                        )}
+
                       </motion.div>
                     </div>
 
@@ -392,13 +368,13 @@ const ServicesPage = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-[#0f0f11] transition-all duration-500 overflow-hidden"
+                        className="group relative bg-brand-dark border border-brand-border rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-brand-dark-secondary transition-all duration-500 overflow-hidden"
                       >
                         {/* Glow Effect */}
                         <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
 
                         {/* Tactical Top Accent Line */}
-                        <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-border" />
                         <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
 
                         {/* Corner Accents */}
@@ -416,12 +392,12 @@ const ServicesPage = () => {
                             </h3>
                           )}
 
-                          <p className="text-brand-white/60 leading-relaxed mb-10 text-[15px] group-hover:text-brand-white/80 transition-colors duration-300">
+                          <p className="text-brand-light-gray leading-relaxed mb-10 text-[15px] group-hover:text-brand-light-gray/80 transition-colors duration-300">
                             {service.description}
                           </p>
 
                           {service.features && service.features.length > 0 && (
-                            <div className="mb-10 space-y-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
+                            <div className="mb-10 space-y-8 border-t border-brand-border pt-10 group-hover:border-brand-border transition-colors duration-300">
                               {service.features.map((feature, fIndex) => (
                                 <div key={fIndex} className="flex items-center gap-6">
                                   <div className="shrink-0 p-2.5 rounded-full bg-brand-primary/10 border border-brand-primary/20">
@@ -488,13 +464,13 @@ const ServicesPage = () => {
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.5, ease: "easeOut" }}
-                              className="group relative bg-[#0c0c0e] border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-[#0f0f11] transition-all duration-500 overflow-hidden"
+                              className="group relative bg-brand-dark border border-brand-border rounded-2xl p-8 lg:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:bg-brand-dark-secondary transition-all duration-500 overflow-hidden"
                             >
                               {/* Glow Effect */}
                               <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/5 blur-[60px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none" />
 
                               {/* Tactical Top Accent Line */}
-                              <div className="absolute top-0 left-0 w-full h-[2px] bg-[rgba(255,255,255,0.06)]" />
+                              <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-border" />
                               <div className="absolute top-0 left-0 w-0 h-[2px] bg-brand-primary group-hover:w-full transition-all duration-700 ease-out" />
 
                               {/* Corner Accents */}
@@ -513,17 +489,17 @@ const ServicesPage = () => {
                                 </h2>
 
                                 {activeSubservice.subtitle && (
-                                  <h3 className="text-lg text-brand-white/80 font-heading mb-6">
+                                  <h3 className="text-lg text-brand-light-gray font-heading mb-6">
                                     {activeSubservice.subtitle}
                                   </h3>
                                 )}
 
-                                <p className="text-brand-white/60 leading-relaxed mb-10 text-[15px] group-hover:text-brand-white/80 transition-colors duration-300">
+                                <p className="text-brand-light-gray leading-relaxed mb-10 text-[15px] group-hover:text-brand-light-gray/80 transition-colors duration-300">
                                   {activeSubservice.description}
                                 </p>
 
                                 {activeSubservice.features && activeSubservice.features.length > 0 && (
-                                  <div className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[rgba(255,255,255,0.06)] pt-10 group-hover:border-[rgba(255,255,255,0.1)] transition-colors duration-300">
+                                  <div className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-brand-border pt-10 group-hover:border-brand-border transition-colors duration-300">
                                     {activeSubservice.features.map((feature, fIndex) => (
                                       <div key={fIndex} className="flex items-start gap-4">
                                         <div className="shrink-0 p-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mt-1">

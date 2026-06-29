@@ -11,7 +11,7 @@ const ContactInfoCard = ({ icon: Icon, title, value, description, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group relative bg-[#050505] border border-[rgba(255,255,255,0.06)] p-8 overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center h-full"
+      className="group relative bg-brand-black border border-brand-white/10 p-8 overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center h-full"
     >
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-brand-primary/5 blur-[50px] group-hover:bg-brand-primary/15 transition-colors duration-500 rounded-full pointer-events-none"></div>
@@ -31,7 +31,7 @@ const ContactInfoCard = ({ icon: Icon, title, value, description, index }) => {
         <div className="mb-8 relative inline-flex">
           <div className="absolute inset-[-8px] border border-brand-primary/20 rounded-full group-hover:scale-110 group-hover:border-brand-primary/40 transition-all duration-500"></div>
           <div className="absolute inset-[-14px] border border-dashed border-brand-primary/10 rounded-full animate-[spin_10s_linear_infinite] group-hover:border-brand-primary/30 transition-colors duration-500"></div>
-          <div className="w-16 h-16 flex items-center justify-center bg-[#0a0a0a] border border-brand-primary/30 rounded-full group-hover:bg-brand-primary/10 transition-colors duration-300 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.1)]">
+          <div className="w-16 h-16 flex items-center justify-center bg-brand-dark-secondary border border-brand-primary/30 rounded-full group-hover:bg-brand-primary/10 transition-colors duration-300 relative z-10 shadow-[0_0_15px_rgba(255,106,0,0.1)]">
             <Icon size={28} className="text-brand-primary drop-shadow-[0_0_5px_rgba(255,106,0,0.5)]" />
           </div>
         </div>
@@ -87,7 +87,7 @@ const ContactInfoSection = ({ data }) => {
   ];
 
   return (
-    <section className="py-24 bg-[#050505] relative z-10 border-t border-[rgba(255,255,255,0.06)] overflow-hidden">
+    <section className="py-24 bg-brand-black relative z-10 border-t border-brand-white/10 overflow-hidden">
 
       {/* Subtle Background Grid */}
       <div className="absolute inset-0 opacity-100 pointer-events-none"

@@ -44,7 +44,7 @@ const GlobalImpactSection = ({ data }) => {
               </p>
 
               {/* Trust Badge */}
-              <div className="inline-flex items-center gap-4 py-3 px-5 border border-brand-primary/30 bg-[#050505] rounded-sm group hover:border-brand-primary/60 transition-colors">
+              <div className="inline-flex items-center gap-4 py-3 px-5 border border-brand-primary/30 bg-brand-black rounded-sm group hover:border-brand-primary/60 transition-colors">
                 <LucideIcons.ShieldCheck size={20} className="text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(255,106,0,0.8)] transition-all" />
                 <span className="text-xs font-heading font-bold tracking-widest text-brand-white/90">
                   {trustBadge}
@@ -65,7 +65,7 @@ const GlobalImpactSection = ({ data }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: idx * 0.15 }}
-                    className="group relative bg-[#050505] border border-[rgba(255,255,255,0.06)] p-8 overflow-hidden hover:-translate-y-2 transition-transform duration-500 flex flex-col items-center text-center h-[380px]"
+                    className="group relative bg-brand-black border border-brand-white/10 p-8 overflow-hidden hover:-translate-y-2 transition-transform duration-500 flex flex-col items-center text-center h-[380px]"
                   >
                     {/* Background Glow */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 blur-[50px] group-hover:bg-brand-primary/20 transition-colors duration-500 rounded-full pointer-events-none"></div>

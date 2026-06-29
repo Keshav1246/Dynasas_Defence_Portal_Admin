@@ -5,7 +5,7 @@ const PartnersSection = ({ data }) => {
   if (!data?.items?.length) return null;
 
   return (
-    <section className="py-32 w-full relative z-10 border-t border-brand-border">
+    <section className="py-32 w-full relative z-10">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           
@@ -21,7 +21,7 @@ const PartnersSection = ({ data }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.05 }}
-                className={`flex items-center justify-center p-6 h-32 border border-brand-border hover:shadow-[0_0_15px_rgba(255,106,0,0.2)] hover:border-brand-primary transition-all duration-300 group bg-brand-dark/30 backdrop-blur-sm ${partner.website ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`flex items-center justify-center p-6 h-32 border border-brand-border hover:shadow-[0_0_15px_rgba(255,106,0,0.2)] hover:border-brand-primary transition-all duration-300 group bg-[var(--dynasas-partner-bg)] backdrop-blur-sm ${partner.website ? 'cursor-pointer' : 'cursor-default'}`}
               >
                 {partner.logo ? (
                   <img 

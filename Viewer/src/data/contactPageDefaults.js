@@ -1,3 +1,5 @@
+import { DEFAULT_ASSETS } from '../defaults/assets';
+
 export const CONTACT_PAGE_DEFAULTS = {
   hero: {
     label: "GET IN TOUCH",
@@ -5,7 +7,7 @@ export const CONTACT_PAGE_DEFAULTS = {
     headingHighlight: "Mission-Critical",
     headingEnd: "Technology Solutions",
     description: "Connect with our experts for command & control systems, surveillance platforms, radar integration and defense technology.",
-    image: "https://images.unsplash.com/photo-1544256718-3bcf237f3974?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+    image: DEFAULT_ASSETS.CONTACT_HERO_BACKGROUND,
     headquartersUrl: "https://www.google.com/maps/search/?api=1&query="
   },
   info: {

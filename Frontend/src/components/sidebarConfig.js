@@ -8,7 +8,8 @@ import {
   MessageSquare,
   BarChart2,
   Users,
-  Settings
+  Settings,
+  MapPin
 } from 'lucide-react';
 
 export const sidebarConfig = [
@@ -26,6 +27,11 @@ export const sidebarConfig = [
     title: 'Company Profile',
     icon: Building2,
     path: '/admin/company-profile',
+  },
+  {
+    title: 'Office Management',
+    icon: MapPin,
+    path: '/admin/offices',
   },
   {
     title: 'Content Management',

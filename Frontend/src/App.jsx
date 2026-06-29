@@ -15,6 +15,7 @@ import ServicesPage from './pages/ServicesPage'
 import CompanyProfilePage from './pages/CompanyProfilePage'
 import ContentManagementPage from './pages/ContentManagementPage'
 import SettingsPage from './pages/SettingsPage'
+import OfficeManagementPage from './pages/OfficeManagementPage'
 
 // Auth components
 import { AuthProvider } from './context/AuthContext'
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="services" element={<ServicesPage />} />
             <Route path="company-profile" element={<CompanyProfilePage />} />
             <Route path="content" element={<ContentManagementPage />} />
+            <Route path="offices" element={<OfficeManagementPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>

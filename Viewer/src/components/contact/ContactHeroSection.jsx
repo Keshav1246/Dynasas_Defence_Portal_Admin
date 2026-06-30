@@ -10,9 +10,12 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
   const primaryCTA = defaults.primaryCTA || 'Contact Experts';
   const secondaryCTA = defaults.secondaryCTA || 'View Headquarters';
 
-  const [isLightMode, setIsLightMode] = React.useState(
-    () => typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light'
-  );
+  const [isLightMode, setIsLightMode] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
+    }
+    return false;
+  });
 
   React.useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -114,7 +117,11 @@ const ContactHeroSection = ({ data, inquiryRef }) => {
             {/* Functional Google Maps Link */}
             <button
               onClick={handleMapsClick}
-              className="inline-flex items-center justify-center gap-3 border border-[rgba(0,0,0,0.15)] bg-[rgba(255,255,255,0.4)] text-[#1a1a1a] px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm hover:bg-[rgba(255,255,255,0.6)] hover:border-[rgba(0,0,0,0.3)] transition-all duration-300"
+              className={`inline-flex items-center justify-center gap-3 border px-8 py-4 font-heading font-bold uppercase tracking-widest text-sm transition-all duration-300 ${
+                isLightMode 
+                  ? "border-[rgba(0,0,0,0.15)] bg-[rgba(0,0,0,0.05)] text-[#1a1a1a] hover:bg-[rgba(0,0,0,0.1)] hover:border-[rgba(0,0,0,0.3)] shadow-sm backdrop-blur-sm"
+                  : "border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.4)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+              }`}
             >
               <MapPin size={18} className="text-brand-primary" />
               {secondaryCTA}

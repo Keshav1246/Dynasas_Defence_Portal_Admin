@@ -12,9 +12,8 @@ import TacticalMap from '../components/solutions/TacticalMap';
 import ScrollIndicator from '../components/layout/ScrollIndicator';
 
 // Import local assets
-import solutionsHeroImage from '../../src/assets/solutions/solutions-hero.png';
 import cniProtectionImg from '../../src/assets/solutions/cni-protection.png';
-import borderProtectionImg from '../../src/assets/solutions/border-protection.png';
+import borderProtectionImg from '../../src/assets/solutions/border-protection.jpg';
 import oilGasImg from '../../src/assets/solutions/oil&gas.jpg';
 import eriManagementImg from '../../src/assets/solutions/eri-management.jpg';
 
@@ -114,16 +113,16 @@ const SolutionsPage = () => {
       <Header siteData={siteData} />
 
       {/* 1. Premium Hero Background Section */}
-      <section 
+      <section
         className="relative flex flex-col justify-center overflow-hidden pt-[clamp(140px,10vw,180px)] pb-[clamp(64px,5vw,120px)]"
       >
 
-        <div 
+        <div
           className="relative z-10 mx-auto w-full px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center max-w-[1560px] gap-12 lg:gap-[clamp(48px,5vw,120px)]"
         >
 
           {/* Left Hero Content */}
-          <div 
+          <div
             className="relative z-20 w-full lg:basis-[620px] lg:max-w-[620px] lg:ml-[min(3vw,48px)]"
           >
             {/* Badge Row */}
@@ -146,7 +145,7 @@ const SolutionsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             >
-              <h1 
+              <h1
                 className="font-heading font-bold mb-6 leading-[1.1] text-brand-white tracking-tight drop-shadow-md text-[clamp(40px,8vw,70px)] lg:text-[clamp(48px,4.5vw,70px)]"
               >
                 {renderHeroTitle(DEFAULT_SOLUTIONS.hero.title)}
@@ -154,7 +153,7 @@ const SolutionsPage = () => {
 
               <div className="w-16 h-1 bg-brand-primary mb-8" />
 
-              <p 
+              <p
                 className="text-brand-white/90 leading-relaxed font-body drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] text-[clamp(16px,4vw,19px)] lg:text-[clamp(17px,1.2vw,19px)]"
               >
                 {DEFAULT_SOLUTIONS.hero.description}
@@ -163,7 +162,7 @@ const SolutionsPage = () => {
           </div>
 
           {/* Right Hero Content (Tactical Map) */}
-          <div 
+          <div
             className="relative z-0 w-full mt-12 lg:mt-0 flex justify-center lg:justify-end lg:basis-[860px] lg:max-w-[860px]"
           >
             <TacticalMap />

@@ -11,10 +11,10 @@ export const DEFAULT_SOLUTIONS = {
       title: 'CNI Protection',
       description: 'Critical Infrastructure Security is the primary goal for the overall homeland security mission. Dynasas is helping organizations to develop a comprehensive national plan to secure critical infrastructure and recommend "the measures necessary to protect the key resources and critical infrastructure of a country".',
       features: [
-        { title: 'Physical protection systems', description: '' },
-        { title: 'Deter', description: '' },
-        { title: 'Monitor', description: '' },
-        { title: 'Delay & Respond', description: '' }
+        { title: 'Intelligent Threat Detection & Assessment', description: '' },
+        { title: '24/7 Continuous Infrastructure Monitoring', description: '' },
+        { title: 'Emergency Response Coordination', description: '' },
+        { title: 'Security & Intelligence Analysis', description: '' }
       ],
       ctaText: 'Explore Solution',
       ctaLink: '/contact',

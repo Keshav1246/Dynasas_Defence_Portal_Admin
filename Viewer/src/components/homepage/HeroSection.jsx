@@ -75,9 +75,12 @@ const TypewriterWord = ({ defaultWord = "safer" }) => {
 
 const HeroSection = ({ data }) => {
     const [imgState, setImgState] = React.useState('preferred'); // 'preferred', 'fallback', 'error'
-    const [isLightMode, setIsLightMode] = React.useState(
-        () => document.documentElement.getAttribute('data-theme') === 'light'
-    );
+    const [isLightMode, setIsLightMode] = React.useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('theme') === 'light' || document.documentElement.getAttribute('data-theme') === 'light';
+        }
+        return false;
+    });
 
     React.useEffect(() => {
         const observer = new MutationObserver((mutations) => {
@@ -231,7 +234,11 @@ const HeroSection = ({ data }) => {
                     {data.secondaryCTA?.text && (
                         <Link
                             to={data.secondaryCTA.link}
-                            className="px-6 py-3 sm:px-8 sm:py-4 font-semibold uppercase tracking-wider text-xs sm:text-sm border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.4)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center w-full sm:w-auto"
+                            className={`px-6 py-3 sm:px-8 sm:py-4 font-semibold uppercase tracking-wider text-xs sm:text-sm border flex items-center justify-center w-full sm:w-auto transition-all duration-300 hover:-translate-y-0.5 ${
+                                isLightMode
+                                    ? "border-[rgba(0,0,0,0.15)] bg-[rgba(0,0,0,0.05)] text-[#1a1a1a] hover:bg-[rgba(0,0,0,0.1)] hover:border-[rgba(0,0,0,0.3)] shadow-sm backdrop-blur-sm"
+                                    : "border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.4)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                            }`}
                         >
                             {data.secondaryCTA.text}
                         </Link>

@@ -5,9 +5,14 @@ const RFSpectrumAnalyzer = () => {
   const spectrumCanvasRef = useRef(null);
   const waterfallCanvasRef = useRef(null);
 
-  const [theme, setTheme] = useState(
-    () => typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') || 'dark') : 'dark'
-  );
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
+      return document.documentElement.getAttribute('data-theme') || 'dark';
+    }
+    return 'dark';
+  });
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
